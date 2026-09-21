@@ -1,0 +1,459 @@
+/* ==========================================================================
+   layout.css — Sidebar · Topbar · Page Grid · Responsive · Print
+   Hotel & Resort Management System
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. App Shell
+   -------------------------------------------------------------------------- */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* --------------------------------------------------------------------------
+   2. Sidebar
+   -------------------------------------------------------------------------- */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: var(--primary-dark);
+  display: flex;
+  flex-direction: column;
+  z-index: 40;
+  transition: transform var(--t-slow) var(--ease);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Sidebar scrollbar */
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 4px; }
+
+/* Logo area */
+.sidebar-logo {
+  padding: var(--s6) var(--s5) var(--s5);
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  flex-shrink: 0;
+}
+.sidebar-logo .logo-mark {
+  width: 40px; height: 40px;
+  border-radius: var(--r-full);
+  border: 1.5px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--gold);
+}
+.sidebar-logo .logo-mark svg { width: 20px; height: 20px; }
+.sidebar-logo .logo-text { line-height: 1.2; }
+.sidebar-logo .logo-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: .95rem;
+  font-weight: 700;
+  color: #fff;
+}
+.sidebar-logo .logo-tagline {
+  font-size: .55rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 2px;
+}
+
+/* Nav section label */
+.nav-section-label {
+  font-size: .6rem;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.35);
+  padding: var(--s5) var(--s5) var(--s2);
+}
+
+/* Nav list */
+.nav-list { flex: 1; padding: var(--s3) 0; }
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) var(--s5);
+  margin: 2px var(--s2);
+  border-radius: var(--r-md);
+  color: rgba(255,255,255,.65);
+  font-size: .9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+  position: relative;
+  border: none;
+  background: none;
+  width: calc(100% - var(--s4));
+  text-align: left;
+  text-decoration: none;
+}
+.nav-item svg { width: 18px; height: 18px; flex-shrink: 0; transition: color var(--t-fast) var(--ease); }
+.nav-item:hover {
+  background: rgba(255,255,255,.08);
+  color: #fff;
+}
+
+/* Active nav item */
+.nav-item.active {
+  background: rgba(255,255,255,.12);
+  color: #fff;
+  font-weight: 600;
+}
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 24px;
+  background: var(--gold);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+}
+.nav-item.active svg { color: var(--gold); }
+
+/* Focus ring for keyboard nav */
+.nav-item:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Sidebar bottom section */
+.sidebar-bottom {
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding: var(--s4) var(--s5);
+  flex-shrink: 0;
+}
+.sidebar-profile {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3);
+  border-radius: var(--r-md);
+  margin-bottom: var(--s2);
+}
+.sidebar-profile .profile-name {
+  font-size: .875rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.2;
+}
+.sidebar-profile .profile-role {
+  font-size: .75rem;
+  color: rgba(255,255,255,.5);
+}
+.sidebar-profile .avatar {
+  background: rgba(255,255,255,.15);
+  color: #fff;
+  font-size: .8rem;
+}
+
+.btn-logout {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) var(--s3);
+  border-radius: var(--r-md);
+  color: rgba(255,255,255,.5);
+  font-size: .875rem;
+  background: none;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+  text-decoration: none;
+}
+.btn-logout svg { width: 16px; height: 16px; }
+.btn-logout:hover { background: rgba(255,255,255,.08); color: #fff; }
+
+/* --------------------------------------------------------------------------
+   3. Sidebar Overlay (mobile)
+   -------------------------------------------------------------------------- */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 39;
+  opacity: 0;
+  transition: opacity var(--t-base) var(--ease);
+}
+.sidebar-overlay.open { opacity: 1; }
+
+/* --------------------------------------------------------------------------
+   4. Top Bar
+   -------------------------------------------------------------------------- */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: var(--sidebar-w);
+  right: 0;
+  height: var(--topbar-h);
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+  padding: 0 var(--s6);
+  z-index: 30;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Hamburger (hidden on desktop) */
+.btn-hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 38px; height: 38px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
+  background: none;
+  color: var(--text);
+  flex-shrink: 0;
+}
+.btn-hamburger svg { width: 20px; height: 20px; }
+.btn-hamburger:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+
+/* Page title in topbar */
+.topbar-title { min-width: 0; }
+.topbar-title h1 {
+  font-size: 1.25rem;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
+  font-size: .75rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.breadcrumb a:hover { color: var(--primary); }
+.breadcrumb-sep { color: var(--border); }
+
+/* Global search */
+.topbar-search {
+  flex: 1;
+  max-width: 320px;
+}
+.topbar-search .input-wrap .input {
+  height: 38px;
+  font-size: .875rem;
+}
+
+/* Topbar right actions */
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* Notification bell */
+.notif-wrap { position: relative; }
+.btn-notif {
+  width: 38px; height: 38px;
+  border-radius: var(--r-md);
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  position: relative;
+  transition: all var(--t-fast) var(--ease);
+}
+.btn-notif svg { width: 18px; height: 18px; }
+.btn-notif:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-soft); }
+.notif-badge {
+  position: absolute;
+  top: -4px; right: -4px;
+  width: 18px; height: 18px;
+  background: var(--danger-text);
+  color: #fff;
+  font-size: .6rem;
+  font-weight: 700;
+  border-radius: var(--r-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--card);
+}
+
+/* Notification dropdown */
+.notif-dropdown {
+  width: 320px;
+  right: 0;
+}
+.notif-dropdown .notif-header {
+  padding: var(--s3) var(--s4);
+  font-weight: 600;
+  font-size: .875rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.notif-item {
+  padding: var(--s3) var(--s4);
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background var(--t-fast) var(--ease);
+}
+.notif-item:last-child { border-bottom: none; }
+.notif-item:hover { background: var(--primary-soft); }
+.notif-item p { font-size: .875rem; color: var(--text); margin: 0; }
+.notif-item .notif-time { font-size: .75rem; color: var(--muted); margin-top: 2px; }
+
+/* Admin avatar dropdown */
+.admin-avatar-wrap { position: relative; }
+.btn-admin-avatar {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: 4px var(--s2) 4px 4px;
+  border-radius: var(--r-md);
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  cursor: pointer;
+  transition: border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
+}
+.btn-admin-avatar:hover { border-color: var(--primary); background: var(--primary-soft); }
+.btn-admin-avatar .admin-name { font-size: .875rem; font-weight: 600; color: var(--text); }
+.btn-admin-avatar svg.chevron { width: 14px; height: 14px; color: var(--muted); }
+
+/* New Booking button */
+.btn-new-booking {
+  white-space: nowrap;
+}
+.btn-new-booking svg { width: 16px; height: 16px; }
+
+/* --------------------------------------------------------------------------
+   5. Main Content Area
+   -------------------------------------------------------------------------- */
+.main-content {
+  margin-left: var(--sidebar-w);
+  margin-top: var(--topbar-h);
+  min-height: calc(100vh - var(--topbar-h));
+  padding: var(--s6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s6);
+}
+
+/* Page header (title + gold line) */
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s4);
+  flex-wrap: wrap;
+}
+.page-header .page-title-block h1 { line-height: 1.15; }
+.page-header .page-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  flex-wrap: wrap;
+}
+
+/* --------------------------------------------------------------------------
+   6. Responsive — 992px breakpoint (sidebar goes off-canvas)
+   -------------------------------------------------------------------------- */
+@media (max-width: 992px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: var(--shadow-xl);
+  }
+  .sidebar-overlay { display: block; }
+
+  .topbar {
+    left: 0;
+  }
+  .btn-hamburger { display: flex; }
+
+  .main-content {
+    margin-left: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7. Responsive — 768px (tablet adjustments)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .topbar { padding: 0 var(--s4); gap: var(--s2); }
+  .topbar-search { display: none; } /* move search inside page on mobile */
+  .btn-new-booking .btn-text { display: none; }
+
+  .main-content { padding: var(--s4); gap: var(--s4); }
+
+  .page-header { flex-direction: column; }
+}
+
+/* --------------------------------------------------------------------------
+   8. Responsive — 480px (phone)
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+  :root { --s6: 20px; }
+  .topbar-actions .btn-new-booking { display: none; } /* show as FAB instead */
+}
+
+/* --------------------------------------------------------------------------
+   9. KPI Grid (Dashboard)
+   -------------------------------------------------------------------------- */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--s5);
+}
+
+/* --------------------------------------------------------------------------
+   10. Dashboard two-column layout
+   -------------------------------------------------------------------------- */
+.dash-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--s6);
+}
+@media (max-width: 1100px) {
+  .dash-grid { grid-template-columns: 1fr; }
+}
+
+/* --------------------------------------------------------------------------
+   11. Card grid for rooms / services
+   -------------------------------------------------------------------------- */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--s5);
+}
+
+/* --------------------------------------------------------------------------
+   12. Print global
+   -------------------------------------------------------------------------- */
+@media print {
+  .sidebar, .topbar, .no-print { display: none !important; }
+  .main-content { margin: 0; padding: 0; }
+  body { background: white; }
+}
