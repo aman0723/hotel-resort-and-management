@@ -1,18 +1,19 @@
 // ==========================================================================
 // FIREBASE PROJECT CONFIGURATION
-// Replace the placeholder values below with your own project's web config:
+// Web config of the "annanya-s-mini-project" Firebase project, from
 // Firebase Console -> Project settings -> General -> Your apps -> Web app.
 // These values identify the project; they are not secret. Access to data is
 // controlled by Firestore security rules (see firestore.rules).
 // ==========================================================================
 
 export const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyDpmMXcE8foWpuoGrPiLSCQ-44nsJuuTe0",
+    authDomain: "annanya-s-mini-project.firebaseapp.com",
+    projectId: "annanya-s-mini-project",
+    storageBucket: "annanya-s-mini-project.firebasestorage.app",
+    messagingSenderId: "75062446769",
+    appId: "1:75062446769:web:a5e61ad597177a4c1ff090",
+    measurementId: "G-RLKY43R2PT"
 };
 
 // Set to true to use the local Firebase Emulator Suite instead of the real
