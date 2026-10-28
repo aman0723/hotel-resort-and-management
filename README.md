@@ -106,7 +106,7 @@ The project is split into four modules. Each was started on its own branch and m
 
 | Module | Branch | Built by | Main files |
 |---|---|---|---|
-| **Admin** (front desk) | `feature/admin` | Krishna201i, Aman Mudgal (aman0723) | `admin*.html`, `js/admin/`, `css/admin.css` |
+| **Admin** (front desk) | `feature/admin` | Aman Mudgal (aman0723) | `admin*.html`, `js/admin/`, `css/admin.css` |
 | **Rooms** | `feature/rooms` | Aman Saraswat | `rooms.html`, `amenities.html`, `js/rooms.js`, `css/rooms.css` |
 | **Booking** | `feature/booking` | Amit Kumar | `booking.html`, `reservations.html`, `js/booking.js`, `css/booking.css` |
 | **Authentication, database and integration** | `feature/auth` | annanya1606 | `login.html`, `js/auth.js`, `js/firebase.js`, `js/db.js`, `firestore.rules`, shared design system |
