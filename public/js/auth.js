@@ -20,6 +20,7 @@ import {
     doc,
     getDoc,
     setDoc,
+    updateDoc,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { auth, db } from "./firebase.js";
@@ -109,6 +110,12 @@ export async function signUp(name, email, password) {
     return { user, profile };
 }
 
+// Changes the signed-in user's name in both Firebase Auth and their profile.
+export async function updateDisplayName(user, name) {
+    await updateProfile(user, { displayName: name });
+    await updateDoc(doc(db, "users", user.uid), { name });
+}
+
 export function resetPassword(email) {
     return sendPasswordResetEmail(auth, email);
 }
@@ -137,7 +144,7 @@ export function friendlyAuthError(error) {
 // --------------------------------------------------------------------------
 // Shared navigation widget (guest pages)
 // Signed out: a "Sign in" link. Signed in: one account button (initials and
-// first name) that opens a menu with My reservations, the staff dashboard
+// first name) that opens a menu with My reservations, the admin portal
 // for admins, and Log out.
 // --------------------------------------------------------------------------
 let closeOpenMenu = null;
@@ -227,12 +234,12 @@ export function renderAuthNav(container) {
         if (profile.role === "admin") {
             const role = document.createElement("span");
             role.className = "account-role";
-            role.textContent = "Staff";
+            role.textContent = "Admin";
             head.append(role);
         }
 
         menu.append(head, menuLink("reservations.html", "My reservations"));
-        if (profile.role === "admin") menu.append(menuLink("admin.html", "Staff dashboard"));
+        if (profile.role === "admin") menu.append(menuLink("admin.html", "Admin portal"));
 
         const out = document.createElement("button");
         out.type = "button";

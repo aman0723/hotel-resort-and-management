@@ -1335,3 +1335,449 @@ body {
     white-space: pre-wrap;
     overflow-wrap: anywhere;
 }
+
+/* ==========================================================================
+   ADMIN PORTAL PAGES (Dashboard, Rooms, Bookings, Messages, Account)
+   ========================================================================== */
+
+/* --- Sidebar: log out button and live counts ---------------------------- */
+.nav-button {
+    width: 100%;
+    background: none;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.nav-count {
+    margin-left: auto;
+    min-width: 22px;
+    padding: 2px 8px;
+    border-radius: var(--radius-pill);
+    background: var(--gold-400);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.nav-count[hidden] {
+    display: none;
+}
+
+/* Clickable cards / chip */
+a.kpi-card,
+a.admin-chip {
+    color: inherit;
+    text-decoration: none;
+}
+
+a.kpi-card:focus-visible,
+a.admin-chip:focus-visible,
+.room-tile:focus-visible {
+    outline: 2px solid var(--gold-400);
+    outline-offset: 3px;
+}
+
+/* --- Dashboard: needs attention ----------------------------------------- */
+.attention-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 28px;
+}
+
+.attention-grid .exclusive-card {
+    margin-bottom: 0;
+}
+
+.attention-card {
+    padding: 22px 22px 24px;
+}
+
+.attention-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.attention-head h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.55rem;
+    font-weight: 600;
+}
+
+.attention-head a {
+    color: var(--gold-500);
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.attention-head a:hover {
+    text-decoration: underline;
+}
+
+/* --- Rooms page --------------------------------------------------------- */
+button.room-tile {
+    width: 100%;
+    font: inherit;
+    color: inherit;
+}
+
+.room-tile-hint {
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rooms-visual-grid > .today-empty {
+    grid-column: 1 / -1;
+}
+
+.exclusive-table .type-name {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.exclusive-table .none-free {
+    color: var(--rose-text);
+    font-weight: 700;
+}
+
+/* --- Bookings table ----------------------------------------------------- */
+.cell-code {
+    font-weight: 800;
+    color: var(--gold-500);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.cell-strong {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.cell-sub {
+    margin-top: 2px;
+    color: var(--text-muted);
+    font-size: 0.74rem;
+}
+
+.cell-total {
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.cell-date {
+    white-space: nowrap;
+}
+
+.cell-actions {
+    white-space: nowrap;
+}
+
+.table-empty {
+    padding: 32px !important;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.status-chip.status-pending   { background: var(--amber-bg);   color: var(--amber-text); }
+.status-chip.status-confirmed { background: var(--emerald-bg); color: var(--emerald-text); }
+.status-chip.status-checkedout,
+.status-chip.status-cancelled { background: var(--bg-elevated); color: var(--text-muted); }
+
+/* --- Booking details modal ---------------------------------------------- */
+.receipt-head h4 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.receipt-head span:not(.status-chip) {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.receipt-grand-total span:last-child {
+    color: var(--gold-500);
+    font-weight: 800;
+}
+
+.walkin-total:empty {
+    display: none;
+}
+
+.walkin-total {
+    margin: 4px 0 8px;
+    padding: 12px 14px;
+    border-left: 3px solid var(--gold-400);
+    border-radius: 0 8px 8px 0;
+    background: var(--bg-elevated);
+    font-weight: 700;
+    font-size: 0.88rem;
+}
+
+/* --- Messages page ------------------------------------------------------ */
+.message-item.is-new {
+    border-left: 3px solid var(--gold-400);
+}
+
+.message-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.message-actions a {
+    text-decoration: none;
+}
+
+/* --- Account page ------------------------------------------------------- */
+.account-grid {
+    display: grid;
+    grid-template-columns: minmax(260px, 340px) 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.account-grid .exclusive-card {
+    margin-bottom: 0;
+}
+
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 24px;
+    text-align: center;
+}
+
+.profile-avatar {
+    display: grid;
+    place-items: center;
+    width: 84px;
+    height: 84px;
+    margin-bottom: 14px;
+    border-radius: 50%;
+    background: var(--gold-400);
+    color: #ffffff;
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.profile-card h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    line-height: 1.15;
+}
+
+.profile-card > p {
+    margin-top: 2px;
+    color: var(--text-muted);
+    overflow-wrap: anywhere;
+}
+
+.profile-role {
+    margin-top: 12px;
+    padding: 3px 12px;
+    border-radius: var(--radius-pill);
+    background: var(--gold-100);
+    color: var(--gold-600);
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.profile-facts {
+    width: 100%;
+    margin-top: 22px;
+    border-top: 1px solid var(--border-glass);
+    text-align: left;
+}
+
+.profile-facts > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-glass-subtle);
+    font-size: 0.85rem;
+}
+
+.profile-facts dt {
+    color: var(--text-muted);
+}
+
+.profile-facts dd {
+    font-weight: 600;
+    text-align: right;
+}
+
+.account-forms {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.account-card {
+    padding: 24px 28px;
+}
+
+.account-card h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+.account-card > p {
+    margin: 4px 0 16px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.account-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.account-form .field-group {
+    flex: 1 1 260px;
+    margin-bottom: 0;
+}
+
+.account-form .field-group label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+}
+
+.account-status:empty {
+    display: none;
+}
+
+.account-status {
+    margin-top: 12px;
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.account-status.success,
+.error-alert.is-success {
+    color: var(--emerald-text);
+}
+
+.account-status.error {
+    color: var(--rose-text);
+}
+
+.account-logout {
+    padding: 10px 20px;
+}
+
+@media (max-width: 1100px) {
+    .attention-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 860px) {
+    .account-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --- Small screens: slide-out sidebar ----------------------------------- */
+.sidebar-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    padding: 0 11px;
+    border: 1px solid var(--border-glass);
+    border-radius: 10px;
+    background: var(--bg-card);
+    cursor: pointer;
+}
+
+.sidebar-toggle span {
+    height: 2px;
+    border-radius: 2px;
+    background: var(--text-primary);
+}
+
+.sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    background: rgba(19, 25, 26, 0.35);
+}
+
+.sidebar-backdrop[hidden] {
+    display: none;
+}
+
+@media (max-width: 960px) {
+    .sidebar-toggle {
+        display: flex;
+    }
+
+    .sidebar {
+        z-index: 100;
+        transition: transform 0.25s ease;
+    }
+
+    .topbar {
+        gap: 10px;
+    }
+
+    .search-box {
+        flex: 1;
+        width: auto;
+        min-width: 0;
+    }
+}
+
+@media (max-width: 640px) {
+    .admin-meta,
+    .system-status-pill {
+        display: none;
+    }
+
+    .topbar {
+        padding: 0 14px;
+    }
+
+    .content-canvas {
+        padding: 16px;
+    }
+
+    .hero-actions {
+        width: 100%;
+    }
+
+    .hero-actions > button {
+        flex: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sidebar {
+        transition: none;
+    }
+}
