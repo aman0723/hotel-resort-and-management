@@ -2,10 +2,227 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=rooms.html">
-    <title>Palm Horizon Resort & Spa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palm Horizon Resort & Spa | Sea-View Rooms & Suites</title>
+    <meta name="description" content="Palm Horizon Resort & Spa: ten styles of rooms and suites by the sea. Book direct for an instant reservation reference.">
+    <link rel="stylesheet" href="css/home.css">
 </head>
-<body style="font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #0f172a; color: white;">
-    <p>Opening Palm Horizon Resort &amp; Spa... <a href="rooms.html" style="color: #60a5fa;">Click here if not redirected</a>.</p>
+<body>
+
+    <!-- ================================================================
+         HEADER / NAVIGATION
+         ================================================================ -->
+    <header class="site-header" id="siteHeader">
+        <div class="header-inner">
+            <a href="index.html" class="wordmark" aria-label="Palm Horizon Resort & Spa, home">
+                <span class="wordmark-name">Palm Horizon</span>
+                <span class="wordmark-sub">Resort &amp; Spa</span>
+            </a>
+
+            <button type="button" class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainNav">
+                <span></span><span></span><span></span>
+                <span class="visually-hidden">Menu</span>
+            </button>
+
+            <nav class="main-nav" id="mainNav" aria-label="Main">
+                <a href="rooms.html">Rooms &amp; Suites</a>
+                <a href="#facilities">Facilities</a>
+                <a href="#book-direct">Book Direct</a>
+                <a href="#about">About Us</a>
+                <a href="#contact">Contact Us</a>
+                <span class="auth-nav" id="authNav"></span>
+                <a href="booking.html" class="btn btn-brass nav-book">Book Now</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- ============================================================
+             HERO + BOOKING BAR
+             ============================================================ -->
+        <section class="hero" aria-label="Welcome">
+            <div class="hero-media">
+                <img src="images/room5.jpg" alt="Sea-view room at Palm Horizon with a balcony facing the water">
+                <div class="hero-copy">
+                    <p class="eyebrow">Resort &amp; Spa by the sea</p>
+                    <h1>Where the palms <em>meet</em> the horizon</h1>
+                </div>
+            </div>
+
+            <form class="booking-bar" id="bookingBar" novalidate>
+                <div class="bar-field">
+                    <label for="barCheckIn">Check-in</label>
+                    <input type="date" id="barCheckIn" required>
+                </div>
+                <div class="bar-field">
+                    <label for="barCheckOut">Check-out</label>
+                    <input type="date" id="barCheckOut" required>
+                </div>
+                <div class="bar-field bar-field-small">
+                    <label for="barGuests">Guests</label>
+                    <select id="barGuests">
+                        <option value="1">1 guest</option>
+                        <option value="2" selected>2 guests</option>
+                        <option value="3">3 guests</option>
+                        <option value="4">4 guests</option>
+                        <option value="5">5 guests</option>
+                    </select>
+                </div>
+                <div class="bar-field">
+                    <label for="barRoom">Room</label>
+                    <select id="barRoom">
+                        <option value="">Any room</option>
+                    </select>
+                </div>
+                <div class="bar-action">
+                    <button type="submit" class="btn btn-brass">Book Now</button>
+                    <a href="booking.html#myBookings" class="bar-link">Manage booking</a>
+                </div>
+                <p class="bar-error" id="barError" role="alert"></p>
+            </form>
+        </section>
+
+        <!-- ============================================================
+             INTRO
+             ============================================================ -->
+        <section class="intro" id="about">
+            <h2 class="section-title">Palm Horizon Resort &amp; Spa</h2>
+            <p class="intro-lead">Twelve rooms and suites on a quiet stretch of coast, from a cosy standard room to a five-guest presidential suite.</p>
+            <p class="intro-contact">
+                <a href="mailto:reservations@palmhorizon.example">reservations@palmhorizon.example</a>
+                <span aria-hidden="true">·</span>
+                <a href="tel:+919876500000">+91 98765 00000</a>
+            </p>
+            <a href="booking.html" class="btn btn-ink">Book Now</a>
+        </section>
+
+        <!-- ============================================================
+             OUR APPROACH
+             ============================================================ -->
+        <section class="approach">
+            <div class="approach-text">
+                <h2 class="section-title align-left">Our <em>approach</em></h2>
+                <p>We keep the resort small on purpose. With twelve keys, the front desk knows every guest by name, and your room is assigned by a person, not an algorithm. When you book online, our team confirms the request and matches you with the right room.</p>
+                <p>Every room has air conditioning and Wi-Fi. Many have a sea, pool or garden view. Families can take a two-bed room with a balcony, couples the honeymoon suite with its jacuzzi.</p>
+                <a href="rooms.html" class="text-link">Browse all rooms →</a>
+            </div>
+            <div class="approach-mosaic" aria-hidden="true">
+                <img src="images/room2.jpg" alt="" class="mosaic-tall">
+                <img src="images/room7.jpg" alt="">
+                <img src="images/room9.jpg" alt="">
+            </div>
+        </section>
+
+        <!-- ============================================================
+             ROOMS CAROUSEL
+             ============================================================ -->
+        <section class="rooms-showcase" aria-labelledby="roomsTitle">
+            <div class="showcase-intro">
+                <h2 class="section-title on-dark align-left" id="roomsTitle">Discover our <em>rooms</em> &amp; suites</h2>
+                <p>Ten room styles across three categories: Standard, Family and Luxury. Rates are per night; 5% tax is added when you book.</p>
+                <div class="carousel-controls">
+                    <button type="button" class="carousel-btn" id="prevRoom" aria-label="Previous rooms">‹</button>
+                    <button type="button" class="carousel-btn" id="nextRoom" aria-label="Next rooms">›</button>
+                </div>
+            </div>
+            <div class="room-track" id="roomTrack" tabindex="0" aria-label="Room styles">
+                <!-- Room cards are rendered from js/data.js -->
+            </div>
+        </section>
+
+        <!-- ============================================================
+             BOOK DIRECT
+             ============================================================ -->
+        <section class="book-direct" id="book-direct">
+            <h2 class="section-title">Why book <em>direct</em></h2>
+            <div class="direct-grid">
+                <article>
+                    <h3>Instant reference</h3>
+                    <p>You get a reservation code the moment you book, and it's saved to your account.</p>
+                </article>
+                <article>
+                    <h3>Track every stay</h3>
+                    <p>See each booking's status, from request to confirmed room, under "My Reservations".</p>
+                </article>
+                <article>
+                    <h3>Cancel freely</h3>
+                    <p>Change of plans? Cancel a pending request yourself, with no phone call needed.</p>
+                </article>
+            </div>
+            <div class="direct-actions">
+                <a href="booking.html" class="btn btn-ink">Book Now</a>
+                <a href="login.html?mode=signup" class="btn btn-outline">Create an account</a>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             FACILITIES
+             ============================================================ -->
+        <section class="facilities" id="facilities">
+            <h2 class="section-title">Facilities</h2>
+            <div class="facility-grid">
+                <article class="facility">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18c2 0 2-1.5 4.5-1.5S9.5 18 12 18s2.5-1.5 4.5-1.5S19 18 21 18M3 14c2 0 2-1.5 4.5-1.5S9.5 14 12 14s2.5-1.5 4.5-1.5S19 14 21 14M8 10V4M16 10V4M8 6h8"/></svg>
+                    <h3>Pool &amp; Spa</h3>
+                    <p>An outdoor pool, massage rooms and a steam room, open to all in-house guests.</p>
+                </article>
+                <article class="facility">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v8a2 2 0 0 0 2 2v8M5 3v5M9 3v5M17 21V3c-2 1-3 3-3 6s1 4 3 4"/></svg>
+                    <h3>Dining</h3>
+                    <p>Buffet breakfast every morning and an all-day multi-cuisine restaurant.</p>
+                </article>
+                <article class="facility">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
+                    <h3>Meetings &amp; Events</h3>
+                    <p>A banquet hall for up to 120 guests, with projector and sound system.</p>
+                </article>
+                <article class="facility">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M2 9a15 15 0 0 1 20 0"/><circle cx="12" cy="19.5" r="1"/></svg>
+                    <h3>Wi-Fi &amp; Front Desk</h3>
+                    <p>Free Wi-Fi in every room and a front desk that's staffed around the clock.</p>
+                </article>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================================================================
+         FOOTER
+         ================================================================ -->
+    <footer class="site-footer" id="contact">
+        <div class="footer-grid">
+            <div>
+                <p class="wordmark-name">Palm Horizon</p>
+                <p class="footer-tag">Resort &amp; Spa</p>
+                <address>
+                    Beach Road, Palm Horizon<br>
+                    <a href="mailto:reservations@palmhorizon.example">reservations@palmhorizon.example</a><br>
+                    <a href="tel:+919876500000">+91 98765 00000</a>
+                </address>
+            </div>
+            <div>
+                <h3>Stay</h3>
+                <a href="rooms.html">Rooms &amp; Suites</a>
+                <a href="booking.html">Book Now</a>
+                <a href="booking.html#myBookings">Manage booking</a>
+            </div>
+            <div>
+                <h3>Resort</h3>
+                <a href="#about">About Us</a>
+                <a href="#facilities">Facilities</a>
+                <a href="#book-direct">Book Direct</a>
+            </div>
+            <div>
+                <h3>Account</h3>
+                <a href="login.html">Sign in</a>
+                <a href="login.html?mode=signup">Create account</a>
+                <a href="admin.html">Staff dashboard</a>
+            </div>
+        </div>
+        <p class="footer-legal">© <span id="year">2026</span> Palm Horizon Resort &amp; Spa. A student hotel management project.</p>
+    </footer>
+
+    <script type="module" src="js/home.js"></script>
 </body>
 </html>
