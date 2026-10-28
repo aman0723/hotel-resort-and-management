@@ -6,6 +6,14 @@
 
 export const RESORT_NAME = "Palm Horizon Resort & Spa";
 
+// Public contact details shown on the site (home page and footer).
+// Leave a value empty ("") to hide it rather than show a placeholder.
+export const RESORT_CONTACT = {
+    email: "",
+    phone: "",     // e.g. "+91 98765 43210"
+    address: ""    // e.g. "Beach Road, Calangute, Goa 403516"
+};
+
 export const TAX_RATE = 0.05;
 
 // Room categories shown to guests.
@@ -38,6 +46,35 @@ export const DEFAULT_INVENTORY = [
     { roomNo: "303", typeId: "suite",        status: "available" },
     { roomNo: "304", typeId: "presidential", status: "available" }
 ];
+
+// Friendly names, groups and descriptions for the features listed in
+// ROOM_TYPES (keys must match the feature text exactly). Bed types are
+// shown on the room cards instead.
+export const AMENITY_INFO = {
+    "Sea View":           { group: "Views",       name: "Sea view",              text: "Wide windows that face the sea." },
+    "Pool View":          { group: "Views",       name: "Pool view",             text: "Looks out over the pool area." },
+    "Garden View":        { group: "Views",       name: "Garden view",           text: "Opens onto the garden side of the resort." },
+    "Romantic View":      { group: "Views",       name: "Private outlook",       text: "A quiet, private view, set up with couples in mind." },
+    "AC":                 { group: "Comfort",     name: "Air conditioning",      text: "Climate control you set yourself." },
+    "Balcony":            { group: "Comfort",     name: "Private balcony",       text: "Your own outdoor space attached to the room." },
+    "Jacuzzi":            { group: "Comfort",     name: "Jacuzzi",               text: "An in-room jacuzzi tub." },
+    "Luxury Living Area": { group: "Comfort",     name: "Separate living area",  text: "A lounge with seating, separate from the bedroom." },
+    "WiFi":               { group: "Work & play", name: "Wi-Fi",                 text: "Wireless internet in the room." },
+    "Work Desk":          { group: "Work & play", name: "Work desk",             text: "A proper desk and chair for working." },
+    "Smart TV":           { group: "Work & play", name: "Smart TV",              text: "A smart TV for streaming apps." },
+    "TV":                 { group: "Work & play", name: "Television",            text: "A TV in the room." },
+    "Breakfast":          { group: "Included",    name: "Breakfast included",    text: "Breakfast is part of the nightly rate." },
+    "Mini Bar":           { group: "Included",    name: "Mini bar",              text: "A mini bar in the room." }
+};
+
+// Features of a room type, without bed descriptions.
+export function roomAmenities(room) {
+    return room.features.split("•").map(f => f.trim()).filter(f => f && !/bed/i.test(f));
+}
+
+// Standard times, shown on booking details and the information pages.
+export const CHECK_IN_TIME = "12:00 PM";
+export const CHECK_OUT_TIME = "11:00 AM";
 
 export function getRoomType(id) {
     return ROOM_TYPES.find(t => t.id === id);

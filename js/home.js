@@ -1,11 +1,13 @@
 // ==========================================================================
 // HOME PAGE
-// Quick-booking bar and the rooms carousel (header/footer: site.js).
+// Resort facts, quick-booking bar, rooms carousel and amenities, all built
+// from js/data.js and live Firestore data (header/footer: site.js).
 // The booking bar hands its choices to booking.html as URL parameters.
 // ==========================================================================
 
-import { ROOM_TYPES, todayISO, formatINR } from "./data.js";
+import { ROOM_TYPES, DEFAULT_INVENTORY, AMENITY_INFO, roomAmenities, todayISO, formatINR } from "./data.js";
 import { initSite } from "./site.js";
+import { watchRooms } from "./db.js";
 
 initSite();
 
@@ -120,3 +122,68 @@ track.addEventListener("keydown", e => {
     if (e.key === "ArrowRight") { e.preventDefault(); scrollRooms(1); }
     if (e.key === "ArrowLeft") { e.preventDefault(); scrollRooms(-1); }
 });
+
+// --------------------------------------------------------------------------
+// Resort facts (calculated, plus live availability from Firestore)
+// --------------------------------------------------------------------------
+const introFacts = document.getElementById("introFacts");
+const lowestPrice = Math.min(...ROOM_TYPES.map(r => r.price));
+const largestRoom = Math.max(...ROOM_TYPES.map(r => r.capacity));
+
+function renderFacts(availableNow, totalRooms) {
+    const facts = [
+        [String(totalRooms), "rooms in total"],
+        [String(ROOM_TYPES.length), "room styles"],
+        [formatINR(lowestPrice), "lowest nightly rate"],
+        [`Up to ${largestRoom}`, "guests in one room"]
+    ];
+    if (availableNow !== null) facts.unshift([String(availableNow), "rooms free right now"]);
+
+    introFacts.replaceChildren(...facts.map(([value, label]) => {
+        const wrap = document.createElement("div");
+        const dd = document.createElement("dd");
+        dd.textContent = value;
+        const dt = document.createElement("dt");
+        dt.textContent = label;
+        wrap.append(dd, dt);
+        return wrap;
+    }));
+}
+
+renderFacts(null, DEFAULT_INVENTORY.length);
+
+watchRooms(rooms => {
+    if (!rooms.length) return;
+    renderFacts(rooms.filter(r => r.status === "available").length, rooms.length);
+}, error => console.warn("Live availability unavailable:", error.message));
+
+// --------------------------------------------------------------------------
+// Amenities: every feature listed in the room catalogue, with the rooms
+// that have it. Links open the rooms page filtered to that amenity.
+// --------------------------------------------------------------------------
+const amenities = new Map();
+ROOM_TYPES.forEach(room => {
+    roomAmenities(room).forEach(feature => {
+        if (!amenities.has(feature)) amenities.set(feature, []);
+        amenities.get(feature).push(room.name);
+    });
+});
+
+const amenityGrid = document.getElementById("amenityGrid");
+amenityGrid.replaceChildren(...[...amenities.entries()]
+    .sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]))
+    .map(([feature, rooms]) => {
+        const item = document.createElement("li");
+        const link = document.createElement("a");
+        link.href = `rooms.html?q=${encodeURIComponent(feature)}`;
+        link.className = "amenity";
+
+        const name = document.createElement("strong");
+        name.textContent = AMENITY_INFO[feature]?.name || feature;
+        const where = document.createElement("span");
+        where.textContent = rooms.join(", ");
+
+        link.append(name, where);
+        item.append(link);
+        return item;
+    }));

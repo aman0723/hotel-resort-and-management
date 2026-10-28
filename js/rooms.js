@@ -17,7 +17,12 @@ const notice = document.getElementById("notice");
 
 initSite();
 
-if (new URLSearchParams(location.search).get("denied")) {
+const pageParams = new URLSearchParams(location.search);
+
+// Prefill search from links such as rooms.html?q=Sea%20View (home amenities).
+if (pageParams.get("q")) searchInput.value = pageParams.get("q").slice(0, 60);
+
+if (pageParams.get("denied")) {
     notice.textContent = "The admin dashboard is only available to staff accounts.";
     notice.hidden = false;
 }
