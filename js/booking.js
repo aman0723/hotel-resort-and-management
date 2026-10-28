@@ -1,184 +1,163 @@
+// ==========================================================================
+// GUEST BOOKING PAGE
+// Signed-in guests submit booking requests (saved to Firestore as "Pending")
+// and can follow or cancel their own reservations.
+// ==========================================================================
+
+import { ROOM_TYPES, getRoomType, todayISO, countNights, priceStay, formatINR } from "./data.js";
+import { requireAuth, renderAuthNav } from "./auth.js";
+import { createBookingRequest, watchMyBookings, cancelBooking } from "./db.js";
 
 const bookingForm = document.getElementById("bookingForm");
 const bookingMessage = document.getElementById("bookingMessage");
+const priceEstimate = document.getElementById("priceEstimate");
+const myBookingsList = document.getElementById("myBookings");
+const submitButton = bookingForm.querySelector("button[type=submit]");
 
-// Sample room prices per night (in INR).
-const roomPrices = {
-    standard: 2500,
-    deluxe: 4000,
-    suite: 6500
-};
-
-const roomCapacity = {
-    standard: 2,
-    deluxe: 3,
-    suite: 5
-};
-
-// Get today's date in local time.
-function getTodayDate() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate()).padStart(2, "0");
-
-    return `${year}-${month}-${day}`;
-}
-
-// Set the earliest permitted check-in date.
+const fullNameInput = document.getElementById("fullName");
+const emailInput = document.getElementById("email");
+const phoneInput = document.getElementById("phone");
+const roomTypeSelect = document.getElementById("roomType");
 const checkInInput = document.getElementById("checkIn");
 const checkOutInput = document.getElementById("checkOut");
+const guestsInput = document.getElementById("guests");
+const requestInput = document.getElementById("request");
 
-checkInInput.min = getTodayDate();
-
-checkInInput.addEventListener("change", () => {
-    checkOutInput.min = checkInInput.value
-        ? checkInInput.value
-        : getTodayDate();
-
-    if (
-        checkOutInput.value &&
-        checkOutInput.value <= checkInInput.value
-    ) {
-        checkOutInput.value = "";
-    }
+// Populate room types from the shared catalogue.
+ROOM_TYPES.forEach(room => {
+    const option = document.createElement("option");
+    option.value = room.id;
+    option.textContent = `${room.name} — ${formatINR(room.price)}/night (up to ${room.capacity})`;
+    roomTypeSelect.append(option);
 });
 
-// Calculate the number of nights.
-function calculateNights(checkIn, checkOut) {
-    const start = new Date(`${checkIn}T00:00:00Z`);
-    const end = new Date(`${checkOut}T00:00:00Z`);
+// Preselect the room chosen on the rooms page (booking.html?type=deluxe).
+const preselected = new URLSearchParams(location.search).get("type");
+if (getRoomType(preselected)) roomTypeSelect.value = preselected;
 
-    return Math.round((end - start) / (1000 * 60 * 60 * 24));
+// Earliest permitted dates.
+checkInInput.min = todayISO();
+checkOutInput.min = todayISO(1);
+
+checkInInput.addEventListener("change", () => {
+    checkOutInput.min = checkInInput.value || todayISO(1);
+    if (checkOutInput.value && checkOutInput.value <= checkInInput.value) {
+        checkOutInput.value = "";
+    }
+    updateEstimate();
+});
+
+roomTypeSelect.addEventListener("change", () => {
+    const room = getRoomType(roomTypeSelect.value);
+    guestsInput.max = room ? room.capacity : 5;
+    updateEstimate();
+});
+checkOutInput.addEventListener("change", updateEstimate);
+guestsInput.max = getRoomType(roomTypeSelect.value)?.capacity ?? 5;
+
+function updateEstimate() {
+    const room = getRoomType(roomTypeSelect.value);
+    const nights = checkInInput.value && checkOutInput.value
+        ? countNights(checkInInput.value, checkOutInput.value)
+        : 0;
+
+    if (!room || nights <= 0) {
+        priceEstimate.textContent = "";
+        return;
+    }
+    const { subtotal, tax, total } = priceStay(room.id, nights);
+    priceEstimate.textContent =
+        `${nights} night(s) × ${formatINR(room.price)} = ${formatINR(subtotal)} + 5% tax ${formatINR(tax)} → Total ${formatINR(total)}`;
 }
 
-// Format amounts in Indian currency.
-function formatCurrency(amount) {
-    return new Intl.NumberFormat("en-IN", {
-        style: "currency",
-        currency: "INR",
-        maximumFractionDigits: 2
-    }).format(amount);
-}
+// --------------------------------------------------------------------------
+// Signed-in guest required
+// --------------------------------------------------------------------------
+renderAuthNav(document.getElementById("authNav"));
+const { user, profile } = await requireAuth();
 
-// Generate a booking reference.
-function generateBookingId() {
-    return "HTL" + Date.now().toString().slice(-8);
-}
+if (!fullNameInput.value) fullNameInput.value = profile.name || "";
+if (!emailInput.value) emailInput.value = user.email || "";
 
-// Handle the booking form submission.
-bookingForm.addEventListener("submit", (event) => {
+// --------------------------------------------------------------------------
+// Submit booking request
+// --------------------------------------------------------------------------
+bookingForm.addEventListener("submit", async event => {
     event.preventDefault();
 
-    const fullName = document.getElementById("fullName").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const phone = document.getElementById("phone").value.trim();
+    const fullName = fullNameInput.value.trim();
+    const email = emailInput.value.trim();
+    const phone = phoneInput.value.trim();
     const checkIn = checkInInput.value;
     const checkOut = checkOutInput.value;
-    const roomType = document.getElementById("roomType").value;
-    const guests = Number(document.getElementById("guests").value);
+    const typeId = roomTypeSelect.value;
+    const guests = Number(guestsInput.value);
+    const specialRequest = requestInput.value.trim();
 
     // Validate customer details.
     if (!fullName || !email || !phone) {
-        showMessage("Please fill in all customer details.", "error");
-        return;
+        return showMessage("Please fill in all customer details.", "error");
     }
-
+    if (!/^[A-Za-z\s.'-]{3,}$/.test(fullName)) {
+        return showMessage("Name must be at least 3 letters (A-Z only).", "error");
+    }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        showMessage("Please enter a valid email address.", "error");
-        return;
+        return showMessage("Please enter a valid email address.", "error");
     }
-
-    if (!/^[0-9]{10}$/.test(phone)) {
-        showMessage("Please enter a valid 10-digit phone number.", "error");
-        return;
+    if (!/^[6-9][0-9]{9}$/.test(phone)) {
+        return showMessage("Please enter a valid 10-digit mobile number.", "error");
     }
 
     // Validate dates.
     if (!checkIn || !checkOut) {
-        showMessage("Please select both check-in and check-out dates.", "error");
-        return;
+        return showMessage("Please select both check-in and check-out dates.", "error");
     }
-
-    if (checkIn < getTodayDate()) {
-        showMessage("Check-in date cannot be in the past.", "error");
-        return;
+    if (checkIn < todayISO()) {
+        return showMessage("Check-in date cannot be in the past.", "error");
     }
-
-    const nights = calculateNights(checkIn, checkOut);
-
+    const nights = countNights(checkIn, checkOut);
     if (nights <= 0) {
-        showMessage("Check-out must be after check-in.", "error");
-        return;
+        return showMessage("Check-out must be after check-in.", "error");
     }
 
     // Validate room selection and guest capacity.
-    if (!Object.prototype.hasOwnProperty.call(roomPrices, roomType)) {
-        showMessage("Please select a valid room type.", "error");
-        return;
+    const room = getRoomType(typeId);
+    if (!room) {
+        return showMessage("Please select a valid room type.", "error");
     }
-
-    if (
-        !Number.isInteger(guests) ||
-        guests < 1 ||
-        guests > roomCapacity[roomType]
-    ) {
-        showMessage(
-            `This room allows 1 to ${roomCapacity[roomType]} guests.`,
-            "error"
-        );
-        return;
+    if (!Number.isInteger(guests) || guests < 1 || guests > room.capacity) {
+        return showMessage(`The ${room.name} allows 1 to ${room.capacity} guests.`, "error");
     }
-
-    // Calculate the estimated booking cost.
-    const roomPrice = roomPrices[roomType];
-    const subtotal = roomPrice * nights;
-    const tax = subtotal * 0.05;
-    const totalAmount = subtotal + tax;
 
     const booking = {
-        bookingId: generateBookingId(),
-        fullName,
+        guestName: fullName,
         email,
         phone,
+        typeId,
         checkIn,
         checkOut,
-        roomType,
         guests,
         nights,
-        roomPrice,
-        subtotal,
-        tax,
-        totalAmount,
-        status: "Pending",
-        createdAt: new Date().toISOString()
+        ...priceStay(typeId, nights),
+        specialRequest
     };
 
-    // Save the booking in the browser.
-    // This is a demo, not a shared or server-side booking database.
+    submitButton.disabled = true;
+    showMessage("Submitting your booking...", "success");
+
     try {
-        const bookings = JSON.parse(
-            localStorage.getItem("hotelBookings") || "[]"
-        );
-
-        if (!Array.isArray(bookings)) {
-            throw new Error("Invalid booking data.");
-        }
-
-        bookings.push(booking);
-        localStorage.setItem("hotelBookings", JSON.stringify(bookings));
-
-        showBookingConfirmation(booking);
+        const saved = await createBookingRequest(user.uid, booking);
+        showBookingConfirmation(saved);
         bookingForm.reset();
-
-        checkInInput.min = getTodayDate();
-        checkOutInput.min = getTodayDate();
+        fullNameInput.value = fullName;
+        emailInput.value = email;
+        guestsInput.value = 1;
+        priceEstimate.textContent = "";
     } catch (error) {
-        showMessage(
-            "Unable to save this booking in your browser. Please try again.",
-            "error"
-        );
         console.error(error);
+        showMessage("Unable to save this booking. Please check your connection and try again.", "error");
+    } finally {
+        submitButton.disabled = false;
     }
 });
 
@@ -198,9 +177,9 @@ function showBookingConfirmation(booking) {
 
     const details = document.createElement("p");
     details.textContent =
-        `Reference: ${booking.bookingId} | ` +
-        `Guest: ${booking.fullName} | ` +
-        `Room: ${booking.roomType} | ` +
+        `Reference: ${booking.code} | ` +
+        `Guest: ${booking.guestName} | ` +
+        `Room: ${getRoomType(booking.typeId).name} | ` +
         `Nights: ${booking.nights}`;
 
     const dates = document.createElement("p");
@@ -209,9 +188,9 @@ function showBookingConfirmation(booking) {
 
     const price = document.createElement("p");
     price.textContent =
-        `Room charges: ${formatCurrency(booking.subtotal)} | ` +
-        `Estimated tax (5%): ${formatCurrency(booking.tax)} | ` +
-        `Total: ${formatCurrency(booking.totalAmount)}`;
+        `Room charges: ${formatINR(booking.subtotal)} | ` +
+        `Estimated tax (5%): ${formatINR(booking.tax)} | ` +
+        `Total: ${formatINR(booking.total)}`;
 
     const status = document.createElement("p");
     status.textContent =
@@ -219,3 +198,63 @@ function showBookingConfirmation(booking) {
 
     bookingMessage.append(heading, details, dates, price, status);
 }
+
+// --------------------------------------------------------------------------
+// My reservations (live)
+// --------------------------------------------------------------------------
+function renderMyBookings(bookings) {
+    if (!bookings.length) {
+        const empty = document.createElement("li");
+        empty.className = "my-bookings-empty";
+        empty.textContent = "You have no reservations yet.";
+        myBookingsList.replaceChildren(empty);
+        return;
+    }
+
+    myBookingsList.replaceChildren(...bookings.map(b => {
+        const item = document.createElement("li");
+        item.className = "my-booking";
+
+        const info = document.createElement("div");
+        const title = document.createElement("strong");
+        title.textContent = `${b.code} · ${getRoomType(b.typeId)?.name || b.typeId}`;
+        const meta = document.createElement("span");
+        meta.textContent =
+            `${b.checkIn} → ${b.checkOut} · ${formatINR(b.total)}` + (b.roomNo ? ` · Room #${b.roomNo}` : "");
+        info.append(title, meta);
+
+        const status = document.createElement("span");
+        status.className = `status-pill ${b.status.toLowerCase()}`;
+        status.textContent = b.status === "CheckedOut" ? "Checked out" : b.status;
+
+        item.append(info, status);
+
+        if (b.status === "Pending") {
+            const cancel = document.createElement("button");
+            cancel.type = "button";
+            cancel.className = "cancel-btn";
+            cancel.textContent = "Cancel";
+            cancel.addEventListener("click", async () => {
+                cancel.disabled = true;
+                try {
+                    await cancelBooking(b.id);
+                } catch (error) {
+                    console.error(error);
+                    cancel.disabled = false;
+                    showMessage("Could not cancel this booking. Please try again.", "error");
+                }
+            });
+            item.append(cancel);
+        }
+
+        return item;
+    }));
+}
+
+watchMyBookings(user.uid, renderMyBookings, error => {
+    console.error(error);
+    const failed = document.createElement("li");
+    failed.className = "my-bookings-empty";
+    failed.textContent = "Could not load your reservations.";
+    myBookingsList.replaceChildren(failed);
+});

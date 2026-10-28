@@ -6,7 +6,7 @@
     <title>Palm Horizon Resort & Spa | Executive Operations Dashboard</title>
     
     <!-- Custom Modern Stylesheet -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
 
@@ -70,13 +70,13 @@
 
             <div class="menu-category">Access Control</div>
             <ul class="nav-list">
-                <!-- 4. Authentication (Auth Member) -->
+                <!-- 4. Authentication: signs the admin out and returns to login.html -->
                 <li class="nav-item">
-                    <a href="login.html" class="nav-link">
+                    <a href="login.html" class="nav-link" id="logoutBtn">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
                         </svg>
-                        <span>Logout / Auth Login</span>
+                        <span>Log Out</span>
                     </a>
                 </li>
             </ul>
@@ -84,7 +84,7 @@
 
         <!-- Sidebar Footer Action -->
         <div class="sidebar-bottom">
-            <a href="booking.html" class="btn-open-portal">
+            <a href="rooms.html" class="btn-open-portal">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="10"/>
                     <line x1="2" y1="12" x2="22" y2="12"/>
@@ -115,14 +115,14 @@
             <div class="topbar-right">
                 <div class="system-status-pill">
                     <span class="pulse-dot"></span>
-                    <span id="liveDate">Operations Live & Synchronized</span>
+                    <span id="liveDate">Connecting to database...</span>
                 </div>
 
                 <!-- Admin Profile Card -->
                 <div class="admin-chip">
-                    <div class="admin-avatar">AD</div>
+                    <div class="admin-avatar" id="adminAvatar">AD</div>
                     <div class="admin-meta">
-                        <h4>Resort Administrator</h4>
+                        <h4 id="adminName">Resort Administrator</h4>
                         <p>Hotel Operations Control</p>
                     </div>
                 </div>
@@ -165,8 +165,8 @@
                 <div class="kpi-card blue">
                     <div class="kpi-detail">
                         <span>Total Room Inventory</span>
-                        <h3 id="statTotalRooms">12</h3>
-                        <div class="kpi-badge neutral">12 Active Units</div>
+                        <h3 id="statTotalRooms">–</h3>
+                        <div class="kpi-badge neutral" id="statUnitsBadge">Loading units</div>
                     </div>
                     <div class="kpi-icon-wrap">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -179,8 +179,8 @@
                 <div class="kpi-card rose">
                     <div class="kpi-detail">
                         <span>Occupied Suites</span>
-                        <h3 id="statOccupiedRooms">2</h3>
-                        <div class="kpi-badge danger" id="statOccupancyRate">17% Occupancy</div>
+                        <h3 id="statOccupiedRooms">–</h3>
+                        <div class="kpi-badge danger" id="statOccupancyRate">0% Occupancy</div>
                     </div>
                     <div class="kpi-icon-wrap">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -196,7 +196,7 @@
                 <div class="kpi-card emerald">
                     <div class="kpi-detail">
                         <span>Available for Check-In</span>
-                        <h3 id="statAvailableRooms">10</h3>
+                        <h3 id="statAvailableRooms">–</h3>
                         <div class="kpi-badge success">Ready for Booking</div>
                     </div>
                     <div class="kpi-icon-wrap">
@@ -211,8 +211,8 @@
                 <div class="kpi-card gold">
                     <div class="kpi-detail">
                         <span>Active Revenue</span>
-                        <h3 id="statTotalRevenue">₹43,000</h3>
-                        <div class="kpi-badge success">From Current Bookings</div>
+                        <h3 id="statTotalRevenue">–</h3>
+                        <div class="kpi-badge success">From In-House Guests</div>
                     </div>
                     <div class="kpi-icon-wrap">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -252,7 +252,7 @@
                 <div class="card-topline">
                     <div class="card-topline-left">
                         <h2>Active Guest Reservations</h2>
-                        <p id="bookingCountText">Displaying registered guest reservations</p>
+                        <p id="bookingCountText">Loading reservations...</p>
                     </div>
                 </div>
 
@@ -305,24 +305,13 @@
                         <div class="error-alert" id="phoneError"></div>
                     </div>
 
-                    <div class="field-split">
-                        <!-- Room Type -->
-                        <div class="field-group">
-                            <label for="roomType">Room Category <span class="required-dot">*</span></label>
-                            <select id="roomType" class="input-box">
-                                <option value="Deluxe Ocean View">Deluxe Ocean View (₹5,000/night)</option>
-                                <option value="Luxury Royal Suite">Luxury Royal Suite (₹7,000/night)</option>
-                                <option value="Private Beach Villa">Private Beach Villa (₹10,000/night)</option>
-                                <option value="Garden Villa">Garden Villa (₹4,500/night)</option>
-                            </select>
-                        </div>
-
-                        <!-- Room Number -->
-                        <div class="field-group">
-                            <label for="roomNumber">Room Number <span class="required-dot">*</span></label>
-                            <input type="text" id="roomNumber" class="input-box" placeholder="e.g. 101, 104, 202" maxlength="4">
-                            <div class="error-alert" id="roomError"></div>
-                        </div>
+                    <!-- Room (category and rate come from the room itself) -->
+                    <div class="field-group">
+                        <label for="roomNumber">Available Room <span class="required-dot">*</span></label>
+                        <select id="roomNumber" class="input-box">
+                            <option value="">Select an available room</option>
+                        </select>
+                        <div class="error-alert" id="roomError"></div>
                     </div>
 
                     <div class="field-split">
@@ -344,8 +333,8 @@
                     <div class="field-group">
                         <label for="paymentStatus">Payment Settlement</label>
                         <select id="paymentStatus" class="input-box">
-                            <option value="Confirmed">Full Payment Received (Confirmed)</option>
-                            <option value="Pending">Advance Only (Pending at Checkout)</option>
+                            <option value="Paid">Full Payment Received</option>
+                            <option value="Advance">Advance Only (Balance at Checkout)</option>
                         </select>
                     </div>
 
@@ -387,7 +376,7 @@
             </div>
             <div class="modal-content-pad">
                 <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 16px;">
-                    Enter the Booking ID (e.g. RES-101) or 10-digit Phone Number:
+                    Enter the Booking ID (e.g. RES-4F2A9C), guest name or 10-digit phone number:
                 </p>
                 <div class="field-group">
                     <input type="text" id="lookupInput" class="input-box" placeholder="Booking ID or Phone #">
@@ -400,6 +389,30 @@
         </div>
     </div>
 
+    <!-- ====================================================================
+         MODAL: ASSIGN ROOM TO ONLINE BOOKING REQUEST
+         ==================================================================== -->
+    <div class="modal-layer" id="assignModal">
+        <div class="modal-dialog" style="max-width: 460px;">
+            <div class="modal-head">
+                <h3>Assign Room &amp; Confirm</h3>
+                <button class="modal-dismiss" id="closeAssignBtn">&times;</button>
+            </div>
+            <div class="modal-content-pad">
+                <p id="assignSummary" style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 16px;"></p>
+                <div class="field-group">
+                    <label for="assignRoomSelect">Available Room</label>
+                    <select id="assignRoomSelect" class="input-box"></select>
+                    <div class="error-alert" id="assignError"></div>
+                </div>
+                <div class="modal-foot" style="margin-top: 14px;">
+                    <button type="button" class="btn-luxury-secondary" id="cancelAssignBtn">Cancel</button>
+                    <button type="button" class="btn-luxury-primary" id="confirmAssignBtn">Confirm Booking</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Floating Toast Notification -->
     <div class="floating-toast" id="toastMessage">
         <span id="toastIcon">✨</span>
@@ -407,6 +420,6 @@
     </div>
 
     <!-- Custom Script -->
-    <script src="script.js"></script>
+    <script type="module" src="js/admin.js"></script>
 </body>
 </html>

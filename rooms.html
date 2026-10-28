@@ -3,101 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hotel Rooms</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Rooms & Suites | Palm Horizon Resort & Spa</title>
+  <link rel="stylesheet" href="css/rooms.css">
 </head>
 <body>
 
+<nav class="site-nav">
+  <a href="rooms.html" class="site-brand">✦ Palm Horizon</a>
+  <div class="site-links">
+    <a href="rooms.html" class="active">Rooms</a>
+    <a href="booking.html">Book a Stay</a>
+    <span id="authNav" class="auth-nav"></span>
+  </div>
+</nav>
+
 <header>
-  <h1>Hotel & Resort Management</h1>
+  <h1>Palm Horizon Resort &amp; Spa</h1>
   <p>Choose Your Perfect Room</p>
 </header>
 
-<section class="rooms">
+<p class="notice" id="notice" hidden></p>
 
-  <div class="card">
-    <img src="images/room1.jpg" alt="">
-    <h2>Deluxe Room</h2>
-    <p>King Bed • AC • WiFi</p>
-    <h3>₹3,500/Night</h3>
-    <button>Book Now</button>
-  </div>
-
-  <div class="card">
-    <img src="images/room2.jpg" alt="">
-    <h2>Suite Room</h2>
-    <p>Pool View • Breakfast</p>
-    <h3>₹6,000/Night</h3>
-    <button>Book Now</button>
-  </div>
-
-  <div class="card">
-    <img src="images/room3.jpg" alt="">
-    <h2>Family Room</h2>
-    <p>2 Double Beds • Balcony</p>
-    <h3>₹5,000/Night</h3>
-    <button>Book Now</button>
-  </div>
-
-  <div class="card">
-    <img src="images/room4.jpg" alt="">
-    <h2>Executive Room</h2>
-    <p>Work Desk • Smart TV</p>
-    <h3>₹4,500/Night</h3>
-    <button>Book Now</button>
-  </div>
-
-  <div class="card">
-    <img src="images/room5.jpg" alt="">
-    <h2>Luxury Room</h2>
-    <p>Sea View • Mini Bar</p>
-    <h3>₹7,000/Night</h3>
-    <button>Book Now</button>
-  </div>
-
-  <div class="card">
-    <img src="images/room6.jpg" alt="">
-    <h2>Premium Room</h2>
-    <p>Queen Bed • AC</p>
-    <h3>₹4,000/Night</h3>
-    <button>Book Now</button>
-  </div>
-
-  <div class="card">
-    <img src="images/room7.jpg" alt="">
-    <h2>Honeymoon Suite</h2>
-    <p>Jacuzzi • Romantic View</p>
-    <h3>₹8,500/Night</h3>
-    <button>Book Now</button>
-  </div>
-
-  <div class="card">
-    <img src="images/room8.jpg" alt="">
-    <h2>Garden Room</h2>
-    <p>Garden View • WiFi</p>
-    <h3>₹3,800/Night</h3>
-    <button>Book Now</button>
-  </div>
-
-  <div class="card">
-    <img src="images/room9.jpg" alt="">
-    <h2>Presidential Suite</h2>
-    <p>Luxury Living Area</p>
-    <h3>₹12,000/Night</h3>
-    <button>Book Now</button>
-  </div>
-
-  <div class="card">
-    <img src="images/room10.jpg" alt="">
-    <h2>Standard Room</h2>
-    <p>Single Bed • TV</p>
-    <h3>₹2,500/Night</h3>
-    <button>Book Now</button>
-  </div>
-
+<section class="toolbar" aria-label="Filter rooms">
+  <input type="search" id="searchInput" placeholder="Search rooms..." aria-label="Search rooms">
+  <select id="categoryFilter" aria-label="Room category">
+    <option value="All">All categories</option>
+    <option value="Standard">Standard</option>
+    <option value="Luxury">Luxury</option>
+    <option value="Family">Family</option>
+  </select>
+  <select id="sortSelect" aria-label="Sort rooms">
+    <option value="">Sort: Default</option>
+    <option value="low">Price: Low to High</option>
+    <option value="high">Price: High to Low</option>
+  </select>
 </section>
 
-<script src="script.js"></script>
+<section class="rooms" id="roomList">
+  <!-- Room cards are rendered from js/data.js -->
+</section>
+
+<p class="empty-state" id="emptyState" hidden>No rooms match your search.</p>
+
+<script type="module" src="js/rooms.js"></script>
 
 </body>
 </html>
