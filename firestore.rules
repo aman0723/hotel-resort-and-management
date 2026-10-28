@@ -1,0 +1,96 @@
+rules_version = '2';
+
+// Firestore security rules for Palm Horizon Resort & Spa.
+// Deploy: Firebase Console -> Firestore Database -> Rules (paste this file),
+// or `firebase deploy --only firestore:rules` with the Firebase CLI.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // User profiles. Users can create their own profile only as "guest" and
+    // can never change their own role. Admins are promoted in the console.
+    match /users/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow create: if signedIn() && request.auth.uid == uid
+        && request.resource.data.role == 'guest';
+      allow update: if isAdmin()
+        || (signedIn() && request.auth.uid == uid
+            && request.resource.data.role == resource.data.role);
+      allow delete: if isAdmin();
+    }
+
+    // Physical room inventory: readable by anyone, managed by staff.
+    match /rooms/{roomNo} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Nightly rates. Keep in sync with ROOM_TYPES in js/data.js.
+    function roomRates() {
+      return {
+        'standard': 2500, 'deluxe': 3500, 'garden': 3800, 'premium': 4000,
+        'executive': 4500, 'family': 5000, 'suite': 6000, 'luxury': 7000,
+        'honeymoon': 8500, 'presidential': 12000
+      };
+    }
+
+    // Shape and pricing checks for a guest's online booking request, so the
+    // admin dashboard never receives malformed data or a tampered price.
+    function validGuestBooking(b) {
+      return b.keys().hasOnly(['code', 'uid', 'guestName', 'email', 'phone', 'typeId',
+                               'roomNo', 'checkIn', 'checkOut', 'guests', 'nights',
+                               'rate', 'subtotal', 'tax', 'total', 'status',
+                               'payment', 'source', 'specialRequest', 'createdAt'])
+        && b.guestName is string && b.guestName.size() >= 3 && b.guestName.size() <= 80
+        && b.email is string && b.email.size() <= 120
+        && b.phone is string && b.phone.matches('^[0-9]{10}$')
+        && b.code is string && b.code.size() <= 20
+        && b.specialRequest is string && b.specialRequest.size() <= 500
+        && b.checkIn is string && b.checkIn.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && b.checkOut is string && b.checkOut.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && b.checkOut > b.checkIn
+        && b.guests is int && b.guests >= 1 && b.guests <= 5
+        && b.nights is int && b.nights >= 1 && b.nights <= 60
+        && b.typeId in roomRates()
+        && b.rate == roomRates()[b.typeId]
+        && b.subtotal == b.rate * b.nights
+        && b.tax == b.subtotal / 20
+        && b.total == b.subtotal + b.tax
+        && b.status == 'Pending'
+        && b.payment == 'Unpaid'
+        && b.source == 'online'
+        && b.roomNo == null
+        && b.createdAt == request.time;
+    }
+
+    match /bookings/{bookingId} {
+      allow read: if isAdmin()
+        || (signedIn() && resource.data.uid == request.auth.uid);
+
+      // Guests may only file pending requests for themselves, without a room.
+      allow create: if isAdmin()
+        || (signedIn()
+            && request.resource.data.uid == request.auth.uid
+            && validGuestBooking(request.resource.data));
+
+      // Guests may cancel their own pending request; staff may do anything.
+      allow update: if isAdmin()
+        || (signedIn()
+            && resource.data.uid == request.auth.uid
+            && resource.data.status == 'Pending'
+            && request.resource.data.status == 'Cancelled'
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']));
+
+      allow delete: if isAdmin();
+    }
+  }
+}

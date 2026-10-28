@@ -1,0 +1,187 @@
+/* ==========================================================================
+   PALM HORIZON — BOOKING PAGE
+   Shared tokens, header, footer, buttons, fields and messages live in
+   site.css.
+   ========================================================================== */
+
+.booking-layout {
+    width: var(--page);
+    margin: 40px auto 0;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 32px;
+    align-items: start;
+}
+
+.card-title {
+    font-family: var(--display);
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+/* --- Form card ----------------------------------------------------------- */
+.booking-card {
+    padding: clamp(24px, 4vw, 40px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+}
+
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin: 24px 0 20px;
+}
+
+.optional {
+    color: var(--ink-soft);
+    font-weight: 500;
+}
+
+/* --- Summary card -------------------------------------------------------- */
+.summary-card {
+    position: sticky;
+    top: 100px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--mist);
+}
+
+.summary-media {
+    aspect-ratio: 16 / 10;
+    background: var(--night);
+}
+
+.summary-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.summary-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 24px;
+}
+
+.room-card-category {
+    color: var(--brass);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.summary-features {
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+}
+
+.price-estimate {
+    padding: 14px 16px;
+    border-left: 3px solid var(--brass);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    background: var(--paper);
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+.price-estimate:empty {
+    display: none;
+}
+
+.summary-notes {
+    margin-top: 8px;
+    padding-left: 18px;
+    color: var(--ink-soft);
+    font-size: 0.88rem;
+}
+
+.summary-notes li + li {
+    margin-top: 4px;
+}
+
+.summary-notes li::marker {
+    color: var(--brass);
+}
+
+/* --- My reservations ----------------------------------------------------- */
+.my-bookings {
+    width: var(--page);
+    margin: clamp(56px, 7vw, 88px) auto 0;
+    scroll-margin-top: 100px;
+}
+
+.my-bookings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+    list-style: none;
+}
+
+.my-bookings-empty {
+    padding: 20px;
+    border-radius: var(--radius);
+    background: var(--mist);
+    color: var(--ink-soft);
+}
+
+.my-booking {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    padding: 18px 20px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+}
+
+.my-booking > div {
+    flex: 1 1 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.my-booking strong {
+    font-family: var(--display);
+    font-size: 1.35rem;
+    font-weight: 600;
+}
+
+.my-booking > div span {
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+}
+
+.cancel-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--error);
+    border-radius: 8px;
+    background: none;
+    color: var(--error);
+    font: 700 0.8rem var(--body);
+    cursor: pointer;
+}
+
+.cancel-btn:hover {
+    background: var(--error-bg);
+}
+
+.cancel-btn:disabled {
+    opacity: 0.6;
+}
+
+@media (max-width: 900px) {
+    .booking-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-card {
+        position: static;
+        order: -1;
+    }
+}
