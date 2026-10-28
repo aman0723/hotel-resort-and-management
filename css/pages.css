@@ -1,0 +1,708 @@
+/* ==========================================================================
+   PALM HORIZON — INFORMATION PAGES
+   About, Amenities, Book Direct, Contact and My Reservations.
+   Shared tokens, header, footer, buttons, fields and messages live in
+   site.css.
+   ========================================================================== */
+
+.info-section {
+    width: var(--page);
+    margin: clamp(48px, 6vw, 80px) auto 0;
+}
+
+.info-section > p:not([class]),
+.info-section .split > div > p {
+    color: var(--ink-soft);
+}
+
+.info-section a:not(.btn):not(.text-link) {
+    color: var(--ink);
+    font-weight: 700;
+}
+
+.info-section.split {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: clamp(28px, 5vw, 64px);
+    align-items: start;
+}
+
+.info-section.split p + p,
+.info-section.split .section-title + p {
+    margin-top: 16px;
+}
+
+.info-section.split p {
+    color: var(--ink-soft);
+}
+
+.section-lead {
+    max-width: 720px;
+    margin-top: 12px;
+    color: var(--ink-soft);
+}
+
+.card-title {
+    font-family: var(--display);
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+.optional {
+    color: var(--ink-soft);
+    font-weight: 500;
+}
+
+/* --- Fact list (About) --------------------------------------------------- */
+.fact-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.fact-list > div {
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 18px 20px;
+    border-radius: var(--radius);
+    background: var(--mist);
+}
+
+.fact-list dd {
+    font-family: var(--display);
+    font-size: 1.9rem;
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+.fact-list dt {
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* --- Floor plan (About) -------------------------------------------------- */
+.floor-plan {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 28px;
+}
+
+.floor {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 16px;
+    align-items: center;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+}
+
+.floor h3 {
+    font-family: var(--display);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.floor ul {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    list-style: none;
+}
+
+.floor a {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    background: var(--mist);
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.floor a:hover {
+    background: #e7ebe9;
+}
+
+.floor strong {
+    color: var(--brass);
+    font-size: 0.85rem;
+}
+
+.floor span {
+    font-family: var(--display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.floor small {
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+}
+
+/* --- Value cards --------------------------------------------------------- */
+.value-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 28px;
+}
+
+.info-section > .value-grid:first-child {
+    margin-top: 0;
+}
+
+.value-grid article {
+    padding: 28px;
+    border-top: 2px solid var(--brass);
+    border-radius: 0 0 var(--radius) var(--radius);
+    background: var(--mist);
+}
+
+.value-grid h3 {
+    font-family: var(--display);
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 1.15;
+}
+
+.value-grid p {
+    margin-top: 8px;
+    color: var(--ink-soft);
+}
+
+/* --- Team (About) -------------------------------------------------------- */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    margin-top: 24px;
+    list-style: none;
+}
+
+.team-grid li {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 18px 20px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+}
+
+.team-grid strong {
+    font-family: var(--display);
+    font-size: 1.35rem;
+    font-weight: 600;
+}
+
+.team-grid span {
+    color: var(--ink-soft);
+    font-size: 0.88rem;
+}
+
+/* --- Call-to-action band ------------------------------------------------- */
+.cta-band {
+    width: var(--page);
+    margin: clamp(56px, 7vw, 88px) auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: clamp(28px, 4vw, 48px);
+    border-radius: var(--radius-lg);
+    background: var(--night);
+    color: #fff;
+}
+
+.cta-band h2 {
+    font-family: var(--display);
+    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+    font-weight: 500;
+    line-height: 1.15;
+}
+
+.cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* --- Amenities ----------------------------------------------------------- */
+.amenity-group {
+    margin-top: 36px;
+}
+
+.group-title {
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+    color: var(--brass);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.amenity-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+    margin-top: 18px;
+}
+
+.amenity-card {
+    padding: 22px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    scroll-margin-top: 100px;
+}
+
+.amenity-card h3 {
+    font-family: var(--display);
+    font-size: 1.55rem;
+    font-weight: 600;
+    line-height: 1.15;
+}
+
+.amenity-card p {
+    margin: 4px 0 12px;
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+}
+
+.amenity-card ul {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    list-style: none;
+}
+
+.amenity-card ul a {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid var(--brass-light);
+}
+
+.amenity-card ul a:hover {
+    color: var(--brass);
+}
+
+.table-wrap {
+    margin-top: 24px;
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+}
+
+.compare-table {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: collapse;
+}
+
+.compare-table th,
+.compare-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    vertical-align: middle;
+}
+
+.compare-table thead th {
+    background: var(--mist);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.compare-table tbody tr:last-child > * {
+    border-bottom: 0;
+}
+
+.compare-table tbody th {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--display);
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.compare-table img {
+    width: 64px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.compare-table td {
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+}
+
+.compare-table .btn {
+    padding: 8px 16px;
+}
+
+/* --- Steps (Book Direct) ------------------------------------------------- */
+.steps {
+    display: grid;
+    gap: 14px;
+    margin-top: 28px;
+    list-style: none;
+    counter-reset: step;
+}
+
+.steps li {
+    position: relative;
+    padding: 20px 24px 20px 76px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    counter-increment: step;
+}
+
+.steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 22px;
+    top: 18px;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: #fff;
+    font-weight: 700;
+}
+
+.steps h3 {
+    font-family: var(--display);
+    font-size: 1.45rem;
+    font-weight: 600;
+}
+
+.steps p {
+    color: var(--ink-soft);
+}
+
+.price-example {
+    padding: 28px;
+    border-radius: var(--radius-lg);
+    background: var(--mist);
+}
+
+.price-example .eyebrow {
+    color: var(--brass);
+}
+
+.price-example dl {
+    margin-top: 12px;
+}
+
+.price-example dl > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.price-example dl > div.total {
+    border-bottom: 0;
+    font-weight: 700;
+    font-size: 1.15rem;
+}
+
+.price-example dt {
+    color: var(--ink-soft);
+}
+
+.price-example .total dt {
+    color: var(--ink);
+}
+
+/* --- Contact ------------------------------------------------------------- */
+.contact-layout {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 32px;
+    align-items: start;
+}
+
+.form-card {
+    padding: clamp(24px, 4vw, 40px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+}
+
+.stack-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 22px 0 18px;
+}
+
+.side-card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 28px;
+    border-radius: var(--radius-lg);
+    background: var(--mist);
+}
+
+.side-card h3 {
+    margin-top: 6px;
+    font-family: var(--display);
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.side-card p {
+    color: var(--ink-soft);
+}
+
+.side-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-weight: 600;
+}
+
+.side-contact[hidden] {
+    display: none;
+}
+
+.side-facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.side-facts > div {
+    padding: 14px;
+    border-radius: var(--radius);
+    background: var(--paper);
+}
+
+.side-facts dt {
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.side-facts dd {
+    font-family: var(--display);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.faq {
+    margin-top: 24px;
+    border-top: 1px solid var(--line);
+}
+
+.faq details {
+    border-bottom: 1px solid var(--line);
+}
+
+.faq summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 4px;
+    font-family: var(--display);
+    font-size: 1.35rem;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+}
+
+.faq summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq summary::after {
+    content: "+";
+    color: var(--brass);
+    font-family: var(--body);
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+.faq details[open] summary::after {
+    content: "–";
+}
+
+.faq details p {
+    max-width: 760px;
+    padding: 0 4px 18px;
+    color: var(--ink-soft);
+}
+
+/* --- My reservations ----------------------------------------------------- */
+.reservations-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.reservations-head .section-lead {
+    margin-top: 0;
+}
+
+.reservations-head + .message:not(:empty) {
+    margin-top: 16px;
+}
+
+.reservation-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 24px;
+    list-style: none;
+}
+
+.reservation {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.reservation > img {
+    width: 100%;
+    height: 100%;
+    min-height: 180px;
+    object-fit: cover;
+}
+
+.reservation-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 22px 24px;
+}
+
+.reservation-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.reservation-top h2 {
+    font-family: var(--display);
+    font-size: 1.8rem;
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+.reservation-note {
+    color: var(--ink-soft);
+}
+
+.reservation-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 10px 20px;
+}
+
+.reservation-details dt {
+    color: var(--ink-soft);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.reservation-details dd {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.reservation-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.reservation-empty {
+    padding: 28px;
+    border-radius: var(--radius-lg);
+    background: var(--mist);
+    color: var(--ink-soft);
+}
+
+.reservation-empty a {
+    color: var(--ink);
+    font-weight: 700;
+}
+
+.cancel-btn {
+    padding: 9px 18px;
+    border: 1px solid var(--error);
+    border-radius: 8px;
+    background: none;
+    color: var(--error);
+    font: 700 0.82rem var(--body);
+    cursor: pointer;
+}
+
+.cancel-btn:hover {
+    background: var(--error-bg);
+}
+
+.cancel-btn:disabled {
+    opacity: 0.6;
+}
+
+/* --- Responsive ---------------------------------------------------------- */
+@media (max-width: 960px) {
+    .info-section.split,
+    .contact-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .value-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .floor {
+        grid-template-columns: 1fr;
+    }
+
+    .floor ul {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .reservation {
+        grid-template-columns: 1fr;
+    }
+
+    .reservation > img {
+        min-height: 0;
+        aspect-ratio: 16 / 9;
+    }
+}
+
+@media (max-width: 420px) {
+    .floor ul,
+    .fact-list,
+    .side-facts {
+        grid-template-columns: 1fr;
+    }
+}

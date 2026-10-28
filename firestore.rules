@@ -72,6 +72,28 @@ service cloud.firestore {
         && b.createdAt == request.time;
     }
 
+    // Contact form: anyone may send one well-formed message; staff read and
+    // mark them handled from the dashboard.
+    function validMessage(m) {
+      return m.keys().hasOnly(['name', 'email', 'phone', 'topic', 'bookingCode',
+                               'message', 'status', 'uid', 'createdAt'])
+        && m.name is string && m.name.size() >= 2 && m.name.size() <= 80
+        && m.email is string && m.email.size() <= 120 && m.email.matches('^[^@ ]+@[^@ ]+[.][^@ ]+$')
+        && m.phone is string && m.phone.size() <= 15
+        && m.topic in ['Booking question', 'Change or cancel a booking',
+                       'Group or event enquiry', 'Feedback', 'Other']
+        && m.bookingCode is string && m.bookingCode.size() <= 20
+        && m.message is string && m.message.size() >= 10 && m.message.size() <= 2000
+        && m.status == 'New'
+        && m.createdAt == request.time
+        && (m.uid == null || (signedIn() && m.uid == request.auth.uid));
+    }
+
+    match /messages/{messageId} {
+      allow create: if validMessage(request.resource.data);
+      allow read, update, delete: if isAdmin();
+    }
+
     match /bookings/{bookingId} {
       allow read: if isAdmin()
         || (signedIn() && resource.data.uid == request.auth.uid);
