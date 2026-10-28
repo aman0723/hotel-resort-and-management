@@ -1,93 +1,281 @@
 # Palm Horizon Resort & Spa — Hotel & Resort Management System
 
-A web-based hotel and resort management system. Guests browse rooms, create an account and request bookings online; front-desk staff manage the live room inventory, confirm requests, take walk-in bookings and check guests out from the admin portal.
+A web application for running a small hotel or resort. **Guests** browse rooms, create an account, request bookings and track them online. **Front-desk staff** use the **Admin portal** to see today's arrivals and departures, assign rooms to booking requests, take walk-in bookings, check guests out, manage housekeeping and answer messages.
 
-Built with plain **HTML, CSS and JavaScript** (no framework, no build step) and **Firebase** for authentication and the database.
+**Live site:** https://palm-horizon-resort.onrender.com
+
+Built with plain **HTML, CSS and JavaScript** (no framework, no build step), **Firebase Authentication** for sign-in and **Cloud Firestore** as the real-time database, and hosted on **Render**.
+
+![Home page](docs/screenshots/home.jpg)
+
+---
+
+## Contents
+
+1. [About the project](#about-the-project)
+2. [Features](#features)
+3. [Screenshots](#screenshots)
+4. [Modules and team](#modules-and-team)
+5. [Tech stack](#tech-stack)
+6. [How it works](#how-it-works)
+7. [Database design](#database-design)
+8. [Security](#security)
+9. [Project structure](#project-structure)
+10. [Getting started](#getting-started)
+11. [Deployment](#deployment)
+12. [Configuration](#configuration)
+13. [Testing](#testing)
+14. [Branches and workflow](#branches-and-workflow)
+15. [Limitations and future scope](#limitations-and-future-scope)
+
+---
+
+## About the project
+
+**Problem.** Small hotels and resorts often take bookings by phone and track rooms on paper or spreadsheets. Guests can't see what's available or check the status of a request, and staff have no single view of who is arriving, which rooms are free and which need cleaning.
+
+**Solution.** One website with two sides:
+
+- **Guest website:** room catalogue with live availability, online booking with clear pricing, a personal "My reservations" page, and a contact form.
+- **Admin portal:** a front-desk console that updates live as guests book, so staff always see the current state of every room and reservation.
+
+**Objectives**
+
+- Let guests find a room and request a booking in a few minutes, with the full price shown up front.
+- Give staff a live view of rooms, bookings and messages, and make every front-desk task (assign, walk-in, check-out, housekeeping) a one- or two-click action.
+- Keep data safe: guests see only their own bookings, prices can't be tampered with, and only admins can run the front desk.
+- Run on free tiers (Firebase Spark plan and a Render static site) with no server to maintain.
 
 ---
 
 ## Features
 
-| Page | Who | What it does |
-|---|---|---|
-| `index.html` | Everyone | Home page: hero with quick-booking bar (dates, guests, room → booking page), live availability, rooms carousel, amenities. Layout inspired by [TGI Hotels](https://www.tgihotels.com/) |
-| `rooms.html` | Everyone | Room catalogue with search, category filter, price sort and live "rooms available now" badges |
-| `login.html` | Everyone | Sign in, create account, reset password (Firebase Authentication) |
-| `amenities.html` | Everyone | Every amenity with the rooms that have it, plus a comparison table of all rooms |
-| `book-direct.html` | Everyone | Benefits of booking direct, the booking process step by step, and how prices are calculated |
-| `about.html` | Everyone | The resort, every room floor by floor, how bookings are handled, and the project team |
-| `contact.html` | Everyone | Contact form (saved to Firestore, answered from the dashboard) and booking FAQs |
-| `booking.html` | Signed-in guests | Book a stay with validation, a live summary card and price estimate (5% tax) |
-| `reservations.html` | Signed-in guests | The guest's bookings with status, room, dates and total; cancel pending requests |
-| `admin.html` | Admins only | **Admin portal: Dashboard** with today's arrivals and departures, key numbers, and requests, rooms and messages needing attention |
-| `admin-rooms.html` | Admins only | Live room grid with filters and housekeeping (click to mark ready or book a walk-in), and rooms by type |
-| `admin-bookings.html` | Admins only | Every booking in tabs (requests, in house, history, all), search, assign room, details, check-out, cancel |
-| `admin-messages.html` | Admins only | Contact-form messages: reply by email, mark handled |
-| `admin-account.html` | Admins only | Your profile, change display name, password reset email, log out |
+### Guest website
 
-**Booking lifecycle**
+| Page | What it does |
+|---|---|
+| **Home** (`index.html`) | Hero with a quick-booking bar (dates, guests, room), live "rooms free right now", rooms carousel, amenities |
+| **Rooms & Suites** (`rooms.html`) | All 10 room styles with search, category filter, price sort and live availability badges |
+| **Amenities** (`amenities.html`) | Every amenity, the rooms that have it, and a comparison table of all rooms |
+| **Book Direct** (`book-direct.html`) | Booking benefits, the 5-step booking process and a worked price example |
+| **About Us** (`about.html`) | The resort, every room floor by floor, how bookings are handled, and the team |
+| **Contact Us** (`contact.html`) | Contact form (saved to the database and answered by staff) and booking FAQs |
+| **Sign in / Create account** (`login.html`) | Email and password sign-in, sign-up and password reset |
+| **Book your stay** (`booking.html`) | Booking form with validation, a live summary card and price estimate (5% tax) |
+| **My reservations** (`reservations.html`) | The guest's bookings with status, room, dates and total; cancel pending requests |
+
+Signed-in users get an **account menu** in the header (My reservations, Admin portal for admins, Log out).
+
+### Admin portal (admins only)
+
+| Page | What it does |
+|---|---|
+| **Dashboard** (`admin.html`) | Today's date, arrivals and departures, key numbers (requests waiting, occupancy, rooms available, revenue in house), and lists of requests, rooms being cleaned and new messages |
+| **Rooms** (`admin-rooms.html`) | Live room grid with filters. Click an occupied room for its guest, a room being cleaned to mark it ready, or a free room to start a walk-in. Plus a "rooms by type" table |
+| **Bookings** (`admin-bookings.html`) | Every booking in tabs (Requests, In house, History, All) with search, assign room, details, check-out and cancel |
+| **Messages** (`admin-messages.html`) | Contact-form messages: reply by email, mark as handled |
+| **Account** (`admin-account.html`) | Profile, change display name, password reset email, log out |
+
+The sidebar shows live counts for requests waiting and new messages. The top-bar search finds bookings from any page. On phones the sidebar opens from a menu button.
+
+---
+
+## Screenshots
+
+| Rooms & Suites | Sign in |
+|---|---|
+| ![Rooms page](docs/screenshots/rooms.jpg) | ![Sign in page](docs/screenshots/login.jpg) |
+
+| Book your stay | My reservations |
+|---|---|
+| ![Booking page](docs/screenshots/booking.jpg) | ![My reservations](docs/screenshots/reservations.jpg) |
+
+| Admin portal: Dashboard | Admin portal: Rooms |
+|---|---|
+| ![Admin dashboard](docs/screenshots/admin-dashboard.jpg) | ![Admin rooms](docs/screenshots/admin-rooms.jpg) |
+
+| Admin portal: Bookings | Phone |
+|---|---|
+| ![Admin bookings](docs/screenshots/admin-bookings.jpg) | ![Home page on a phone](docs/screenshots/mobile-home.jpg) |
+
+---
+
+## Modules and team
+
+The project is split into four modules. Each was started on its own branch and merged into `main`.
+
+| Module | Branch | Built by | Main files |
+|---|---|---|---|
+| **Admin** (front desk) | `feature/admin` | Krishna201i, Aman Mudgal (aman0723) | `admin*.html`, `js/admin/`, `css/admin.css` |
+| **Rooms** | `feature/rooms` | Aman Saraswat | `rooms.html`, `amenities.html`, `js/rooms.js`, `css/rooms.css` |
+| **Booking** | `feature/booking` | Amit Kumar | `booking.html`, `reservations.html`, `js/booking.js`, `css/booking.css` |
+| **Authentication, database and integration** | `feature/auth` | annanya1606 | `login.html`, `js/auth.js`, `js/firebase.js`, `js/db.js`, `firestore.rules`, shared design system |
+
+---
+
+## Tech stack
+
+| Layer | Technology |
+|---|---|
+| Front end | HTML5, CSS3, JavaScript (ES modules), no framework or build step |
+| Fonts | Cormorant Garamond (headings) and Manrope (text) from Google Fonts |
+| Authentication | Firebase Authentication (email and password) |
+| Database | Cloud Firestore (real-time listeners, transactions, security rules) |
+| Firebase SDK | v10.12.2, loaded from Google's CDN |
+| Hosting | Render Static Site (auto-deploys from `main`); Firebase Hosting also supported |
+| Local development | `serve` (static server) and the Firebase Emulator Suite |
+
+---
+
+## How it works
+
+### Architecture
+
+```
+            ┌──────────────────────────┐
+ Browser ── │  Render static site       │   serves public/ (HTML, CSS, JS, images)
+            └──────────────────────────┘
+    │
+    │  Firebase JS SDK (in the browser)
+    ├──────────► Firebase Authentication   sign in / sign up / password reset
+    └──────────► Cloud Firestore           users, rooms, bookings, messages
+                   └─ firestore.rules      who can read and write what
+```
+
+There is no custom server. Pages talk to Firebase directly, and the security rules in `firestore.rules` decide what each user may do.
+
+### User roles
+
+- **Guest:** every new account. Can book rooms, see and cancel their own pending requests, and send messages.
+- **Admin:** set by changing the user's `role` to `admin` in Firestore. Can open the Admin portal and manage all rooms, bookings and messages.
+
+### Booking lifecycle
 
 ```
 Guest books online ──► Pending ──(admin assigns a room)──► Confirmed ──(check-out)──► CheckedOut
-                         │                                     ▲                         room → cleaning
-                         └──► Cancelled (guest or admin)       │                         (click tile → available)
+                         │                                     ▲                    room → cleaning
+                         └──► Cancelled (guest or admin)       │                    (mark ready → available)
 Admin walk-in booking ─────────────────────────────────────────┘
 ```
 
-**Security** — enforced in `firestore.rules`, not just in the browser:
+**Price** = nightly rate × nights, plus 5% tax. The same calculation is used on the booking page, in the admin portal and in the security rules.
 
-- Guests can only read their own bookings and can only create `Pending` requests for themselves.
-- Prices are checked server-side, so a guest can't change the amount they're charged.
-- Nobody can make themselves an admin; roles are changed only in the Firebase Console.
-- Only admins can change rooms, confirm or check out bookings, or see other guests' data.
-- Room assignment uses Firestore transactions, so the same room can never be given to two guests.
+---
+
+## Database design
+
+Cloud Firestore, four collections:
+
+### `users/{uid}`
+
+| Field | Type | Notes |
+|---|---|---|
+| `name` | string | Display name |
+| `email` | string | Sign-in email |
+| `role` | string | `guest` or `admin` |
+| `createdAt` | timestamp | Set on sign-up |
+
+### `rooms/{roomNo}`
+
+| Field | Type | Notes |
+|---|---|---|
+| `roomNo` | string | `"101"` … `"304"` (first digit is the floor) |
+| `typeId` | string | One of the 10 room styles in `public/js/data.js` |
+| `status` | string | `available`, `occupied` or `cleaning` |
+
+The 12 rooms are created automatically the first time an admin opens the portal.
+
+### `bookings/{id}`
+
+| Field | Type | Notes |
+|---|---|---|
+| `code` | string | Booking reference, e.g. `RES-4F2A9C` |
+| `uid` | string | The guest's (or admin's, for walk-ins) user ID |
+| `guestName`, `email`, `phone` | string | Guest details |
+| `typeId` | string | Room style requested |
+| `roomNo` | string or null | Assigned room; `null` while pending |
+| `checkIn`, `checkOut` | string | `YYYY-MM-DD` |
+| `guests`, `nights` | number | |
+| `rate`, `subtotal`, `tax`, `total` | number | Price breakdown in ₹ |
+| `status` | string | `Pending`, `Confirmed`, `CheckedOut` or `Cancelled` |
+| `payment` | string | `Unpaid`, `Advance` or `Paid` |
+| `source` | string | `online` or `walk-in` |
+| `specialRequest` | string | Optional note from the guest |
+| `createdAt` | timestamp | |
+
+### `messages/{id}`
+
+| Field | Type | Notes |
+|---|---|---|
+| `name`, `email`, `phone` | string | Sender details (phone optional) |
+| `topic` | string | One of 5 topics |
+| `bookingCode` | string | Optional booking reference |
+| `message` | string | 10–2000 characters |
+| `status` | string | `New` or `Handled` |
+| `uid` | string or null | Set if the sender was signed in |
+| `createdAt` | timestamp | |
+
+---
+
+## Security
+
+All access is enforced by **`firestore.rules`** on Firebase's servers, not just in the browser:
+
+- Guests can read only **their own** bookings and profile.
+- Guests can create only **pending** requests for themselves, and the rules **recalculate the price**, so a tampered total is rejected.
+- Guests can cancel only their own **pending** request, and change nothing else.
+- **Nobody can make themselves an admin**; roles change only in the Firebase Console.
+- Only admins can change rooms, confirm, check out or cancel any booking, and read messages.
+- Anyone can send a contact message, but every field is validated (length, format, allowed topics).
+- Room assignment and walk-ins use **Firestore transactions**, so two staff members can never give out the same room.
+- All user-entered text is escaped before it's shown, so it can't inject HTML.
 
 ---
 
 ## Project structure
 
 ```
-├── public/                     The website: everything here is published
-│   ├── index.html              Home page
-│   ├── rooms.html              Room catalogue
+hotel-resort-and-management/
+├── public/                     The website (everything here is published)
+│   ├── index.html              Home
+│   ├── rooms.html              Rooms & Suites
 │   ├── amenities.html          Amenities and room comparison
 │   ├── book-direct.html        Booking benefits, process and pricing
 │   ├── about.html              About the resort and team
 │   ├── contact.html            Contact form and FAQs
 │   ├── login.html              Sign in / create account
-│   ├── booking.html            Guest booking page (sign-in required)
+│   ├── booking.html            Book your stay (sign-in required)
 │   ├── reservations.html       My reservations (sign-in required)
-│   ├── admin*.html             Admin portal: dashboard, rooms, bookings, messages, account
+│   ├── admin.html              Admin portal: Dashboard
+│   ├── admin-rooms.html        Admin portal: Rooms
+│   ├── admin-bookings.html     Admin portal: Bookings
+│   ├── admin-messages.html     Admin portal: Messages
+│   ├── admin-account.html      Admin portal: Account
 │   ├── css/
-│   │   ├── site.css            Shared design system: colours, fonts, header, footer, buttons, fields
-│   │   ├── home.css · rooms.css · pages.css · auth.css · booking.css · admin.css
+│   │   ├── site.css            Shared design system (colours, fonts, header, footer, buttons, fields)
+│   │   ├── home.css · rooms.css · pages.css · auth.css · booking.css
+│   │   └── admin.css           Admin portal
 │   ├── js/
-│   │   ├── firebase-config.js  ← your Firebase project keys go here
-│   │   ├── firebase.js         Firebase initialisation (app, auth, db)
-│   │   ├── auth.js             Sign in/up/out, user roles, page guards, account menu
-│   │   ├── db.js               All Firestore reads/writes (rooms, bookings, messages)
+│   │   ├── firebase-config.js  Firebase project settings
+│   │   ├── firebase.js         Firebase initialisation (auth, db)
+│   │   ├── auth.js             Sign in/up/out, roles, page guards, account menu
+│   │   ├── db.js               All Firestore reads and writes
 │   │   ├── data.js             Room catalogue, prices, inventory, amenities, contact details
-│   │   ├── site.js             Shared header/menu/footer behaviour (every guest page)
-│   │   ├── one script per guest page: home.js, rooms.js, booking.js, …
-│   │   └── admin/              Admin portal: shell.js (shared), modals.js, one script per page
+│   │   ├── site.js             Shared header, menu and footer behaviour
+│   │   ├── home.js · rooms.js · amenities.js · book-direct.js · about.js
+│   │   ├── contact.js · login.js · booking.js · reservations.js
+│   │   └── admin/
+│   │       ├── shell.js        Admin login check, top bar, live data, sidebar counts
+│   │       ├── modals.js       Walk-in, booking details, assign room, find booking
+│   │       └── dashboard.js · rooms.js · bookings.js · messages.js · account.js
 │   └── images/                 Room photos
+├── docs/screenshots/           Screenshots used in this README
 ├── firestore.rules             Database security rules
-├── firebase.json               Firebase Hosting / emulator config
-├── render.yaml                 Render deployment config
-├── serve.json                  Local dev server setting (used by npm start)
-└── package.json                npm scripts (start, emulators, deploy)
+├── firebase.json               Firebase Hosting and emulator settings
+├── render.yaml                 Render deployment settings
+├── serve.json                  Local server setting (used by npm start)
+└── package.json                npm scripts: start, emulators, deploy
 ```
-
-### Database (Cloud Firestore)
-
-| Collection | Document ID | Fields |
-|---|---|---|
-| `users` | Auth UID | `name`, `email`, `role` (`guest` \| `admin`), `createdAt` |
-| `rooms` | Room number (`"101"`) | `roomNo`, `typeId`, `status` (`available` \| `occupied` \| `cleaning`) |
-| `bookings` | auto ID | `code` (e.g. `RES-4F2A9C`), `uid`, `guestName`, `email`, `phone`, `typeId`, `roomNo`, `checkIn`, `checkOut`, `guests`, `nights`, `rate`, `subtotal`, `tax`, `total`, `status`, `payment`, `source` (`online` \| `walk-in`), `specialRequest`, `createdAt` |
-| `messages` | auto ID | `name`, `email`, `phone`, `topic`, `bookingCode`, `message`, `status` (`New` \| `Handled`), `uid`, `createdAt` |
-
-The `rooms` collection fills itself with 12 default units (from `DEFAULT_INVENTORY` in `public/js/data.js`) the first time an admin opens the dashboard.
 
 ---
 
@@ -95,98 +283,125 @@ The `rooms` collection fills itself with 12 default units (from `DEFAULT_INVENTO
 
 ### Requirements
 
-- [Node.js](https://nodejs.org) 18 or newer (used only to run a local web server and the Firebase tools)
-- A Google account for Firebase, **or** Java 11+ to use the local emulators instead (see below)
+- [Node.js](https://nodejs.org) 18 or newer (only for the local web server and Firebase tools)
+- [Git](https://git-scm.com)
+- Java 11 or newer, only if you want to use the local Firebase emulators
 
-> The pages use JavaScript modules, so they **must be opened through a web server**. Double-clicking an `.html` file (`file://`) will not work. VS Code's *Live Server* extension also works.
+> The pages use JavaScript modules, so open them **through a web server** (`npm start` or VS Code's *Live Server*). Double-clicking an `.html` file won't work.
 
-### Option A — Connect to a real Firebase project
+### Run it locally
 
-1. **Create the project.** Go to [console.firebase.google.com](https://console.firebase.google.com), click **Add project** and follow the steps (Analytics is optional).
-2. **Turn on login.** Go to **Build → Authentication → Get started → Sign-in method** and enable **Email/Password**.
-3. **Create the database.** Go to **Build → Firestore Database → Create database**, choose a location and start in **production mode**.
-4. **Add the security rules.** In **Firestore → Rules**, replace the contents with [`firestore.rules`](firestore.rules) and click **Publish**.
-5. **Get the web config.** In **Project settings → General → Your apps**, click the **Web (`</>`)** icon, register the app and copy the `firebaseConfig` values into [`public/js/firebase-config.js`](public/js/firebase-config.js).
-6. **Run the site:**
-   ```bash
-   npm start
-   ```
-   Then open <http://localhost:5000>.
+```bash
+git clone https://github.com/aman0723/hotel-resort-and-management.git
+cd hotel-resort-and-management
+npm start
+```
 
-### Option B — Local emulators (no Firebase account needed)
+Open http://localhost:5000. This uses the shared Firebase project configured in `public/js/firebase-config.js`.
 
-Good for development and demos. All data is local and is wiped when the emulators stop.
+### Use your own Firebase project
+
+1. At [console.firebase.google.com](https://console.firebase.google.com) click **Add project**.
+2. **Build → Authentication → Get started → Sign-in method:** enable **Email/Password**.
+3. **Build → Firestore Database → Create database** (production mode).
+4. **Firestore → Rules:** paste the contents of `firestore.rules` and click **Publish**.
+5. **Project settings → General → Your apps → Web (`</>`):** register an app and copy its `firebaseConfig` values into `public/js/firebase-config.js`.
+
+### Use the local emulators (no Firebase account needed)
 
 1. In `public/js/firebase-config.js` set `export const useEmulators = true;`
-2. In one terminal run `npm run emulators` (needs Java 11+). The emulator UI is at <http://localhost:4000>.
-3. In a second terminal run `npm start`, then open <http://localhost:5000>.
+2. Run `npm run emulators` (needs Java). The emulator dashboard is at http://localhost:4000.
+3. In a second terminal run `npm start` and open http://localhost:5000.
 
 > Set `useEmulators` back to `false` before committing.
 
-### Creating the first admin account
+### Create the first admin
 
-Every new account is a **guest**. To make a staff member an admin:
-
-1. Sign up on `login.html` with the staff email.
-2. In the Firebase Console (or emulator UI at <http://localhost:4000/firestore>), open **Firestore → `users` → that user's document**.
-3. Change the `role` field from `guest` to `admin`.
-4. Sign in again. Admins are sent to the admin portal (`admin.html`). Signed-in admins can also open it from the account menu → **Admin portal**.
+1. Sign up on `login.html` with the staff member's email.
+2. In the Firebase Console open **Firestore → `users` →** that user's document.
+3. Change `role` from `guest` to `admin`.
+4. Log out and sign in again. Admins go straight to the **Admin portal** (`admin.html`), which is also linked from the account menu.
 
 ---
 
-## Deploying on Render (live site)
+## Deployment
 
-The site is deployed as a free **Render Static Site** using the Blueprint in [`render.yaml`](render.yaml). Render publishes only the `public/` folder, so README, rules and npm files aren't published. There is no build step.
+### Render (live site)
 
-**First-time setup**
+The site is a free **Render Static Site** that publishes the `public/` folder. Settings (also in `render.yaml`):
 
-1. Sign in at [dashboard.render.com](https://dashboard.render.com) with GitHub. The repository owner must allow Render's GitHub app to access `hotel-resort-and-management`.
-2. Click **New → Blueprint** and select this repository.
-3. Click **Apply**. Render builds the site and gives it a URL like `https://palm-horizon-resort.onrender.com`.
-4. In the Firebase Console, open **Authentication → Settings → Authorized domains**, click **Add domain** and add your `onrender.com` domain (without `https://`).
+| Setting | Value |
+|---|---|
+| Branch | `main` |
+| Build command | `echo "Static site, no build step"` |
+| Publish directory | `public` |
 
-After that, every push to `main` redeploys automatically.
+Every push to `main` redeploys automatically. After a deploy, press **Ctrl + Shift + R** to make sure your browser isn't showing a cached version.
 
-> If you restricted the Firebase API key in Google Cloud Console (**APIs & Services → Credentials**), add `https://<your-site>.onrender.com/*` to its allowed websites too.
+**After creating a new Render site**, add its domain (e.g. `palm-horizon-resort.onrender.com`) in **Firebase Console → Authentication → Settings → Authorized domains**.
 
-## Deploying (Firebase Hosting, alternative)
+**After changing `firestore.rules`**, publish them again in **Firebase Console → Firestore → Rules**. Render doesn't do this.
+
+### Firebase Hosting (alternative)
 
 ```bash
 npx firebase-tools login
 npx firebase-tools use --add      # pick your project
-npm run deploy                    # uploads the site + firestore.rules
+npm run deploy                    # uploads public/ and firestore.rules
 ```
 
-The site will be live at `https://<your-project-id>.web.app`.
+---
+
+## Configuration
+
+| What | Where |
+|---|---|
+| Firebase project settings | `public/js/firebase-config.js` |
+| Resort phone, email and address (hidden while empty) | `RESORT_CONTACT` in `public/js/data.js` |
+| Room styles, prices, capacities, photos | `ROOM_TYPES` in `public/js/data.js` |
+| Room numbers and their styles | `DEFAULT_INVENTORY` in `public/js/data.js` |
+| Amenity names and descriptions | `AMENITY_INFO` in `public/js/data.js` |
+| Check-in and check-out times | `CHECK_IN_TIME`, `CHECK_OUT_TIME` in `public/js/data.js` |
+
+> **Changing a price?** Update both `ROOM_TYPES` in `data.js` **and** the `roomRates()` map in `firestore.rules`, then publish the rules. The rules check prices on the server, so guest bookings are rejected until both match.
 
 ---
 
-## Design system
+## Testing
 
-Every guest page loads **`public/css/site.css`** first, then its own page stylesheet. It defines the colour and font tokens (Cormorant Garamond for headings, Manrope for text, brass gold `#b8913f`), buttons, form fields, messages, the header and the footer. The header and footer markup is identical on every page, so change it everywhere at once. The admin portal has its own layout (sidebar and panels, shared by all five admin pages) but uses the same light colours, fonts and gold.
+Each feature was tested end to end in a browser against the Firebase emulators, at desktop and phone (390 px) widths:
 
-## Contact details
-
-The phone number, email and address shown on the site come from `RESORT_CONTACT` in **`public/js/data.js`**. Any value left empty is hidden, so the site never shows placeholder details. Fill them in once and they appear on the home page, the Contact page and every footer.
-
-## Changing rooms or prices
-
-Room types, prices, capacities and the room inventory all live in **`public/js/data.js`**. If you change a price, also update the matching `roomRates()` map in **`firestore.rules`**. The rules check prices on the server, and guest bookings at the new price will be rejected until both files match.
+- **Guest:** browse, filter and sort rooms; book from the home-page bar and the rooms page; validation errors; price and summary; My reservations; cancel a pending request; contact form while signed out.
+- **Security:** direct database writes as a guest with a fake price, self-confirmation, another user's ID, self-promotion to admin, reading all bookings and editing rooms are all **denied** by the rules.
+- **Admin:** room inventory created on first open; assign a room (requested style preselected); walk-in with live total; check-out → cleaning → mark ready; double-booking a room is blocked by the transaction; messages marked handled; display name change; top-bar search; sidebar counts.
+- **Layout:** no horizontal scrolling on any page at phone width; keyboard navigation of the account menu and admin sidebar.
 
 ---
 
-## Team
+## Branches and workflow
 
-| Module | Contributor | Original branch |
-|---|---|---|
-| Admin dashboard | Krishna201i, Aman Mudgal, annanya1606 | `feature/admin` |
-| Rooms & suites | Aman Saraswat | `feature/rooms` |
-| Customer booking | Amit Kumar | `feature/booking` |
-| Authentication, database & integration | annanya1606 | `integration/firebase-auth` |
+The repository keeps five branches:
 
-## Tech stack
+| Branch | Purpose |
+|---|---|
+| `main` | Live code. Render deploys from it |
+| `feature/admin` | Admin module |
+| `feature/rooms` | Rooms module |
+| `feature/booking` | Booking module |
+| `feature/auth` | Authentication, database and integration |
 
-- HTML5, CSS3, vanilla JavaScript (ES modules)
-- Firebase Authentication (email + password)
-- Cloud Firestore (real-time listeners, transactions, security rules)
-- Firebase Hosting (optional)
+Changes go to a feature branch and reach `main` through a pull request.
+
+---
+
+## Limitations and future scope
+
+- **Availability is "right now", not by date.** Rooms are occupied or free today; future dates aren't blocked yet. A next step is date-range availability so guests only see rooms free for their exact dates.
+- **No online payment.** Payment is recorded by staff (`Paid`, `Advance`, `Unpaid`). Razorpay or Stripe could be added.
+- **No automatic emails.** Guests see status changes on My reservations but aren't emailed. Firebase Cloud Functions could send confirmations.
+- **Contact details** are hidden until real ones are added to `RESORT_CONTACT`.
+- **Reports** (occupancy and revenue over time) and **multiple staff roles** (e.g. housekeeping vs. front desk) would be natural additions to the Admin portal.
+
+---
+
+*Palm Horizon Resort & Spa is a student hotel and resort management project.*
