@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palm Horizon Resort & Spa | Executive Operations Dashboard</title>
+    
+    <!-- Custom Modern Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ====================================================================
+         EXCLUSIVE SIDEBAR NAVIGATION (4 GROUP MODULES)
+         ==================================================================== -->
+    <aside class="sidebar">
+        <!-- Luxury Brand Header -->
+        <div class="sidebar-header">
+            <div class="resort-emblem">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 21h18M3 7v14M21 7v14M6 11h4M6 15h4M14 11h4M14 15h4M9 3l3-2 3 2v4H9V3z"/>
+                </svg>
+            </div>
+            <div class="brand-details">
+                <h2>Palm Horizon</h2>
+                <span>Resort & Spa Admin</span>
+            </div>
+        </div>
+
+        <!-- Navigation Menu -->
+        <div class="sidebar-content">
+            <div class="menu-category">Management Portal</div>
+            <ul class="nav-list">
+                <!-- 1. Admin Dashboard (Active) -->
+                <li class="nav-item">
+                    <a href="admin.html" class="nav-link active">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="3" y="3" width="7" height="9" rx="1"/>
+                            <rect x="14" y="3" width="7" height="5" rx="1"/>
+                            <rect x="14" y="12" width="7" height="9" rx="1"/>
+                            <rect x="3" y="16" width="7" height="5" rx="1"/>
+                        </svg>
+                        <span>Admin Dashboard</span>
+                    </a>
+                </li>
+
+                <!-- 2. Rooms Page (Room Member) -->
+                <li class="nav-item">
+                    <a href="rooms.html" class="nav-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9"/>
+                        </svg>
+                        <span>Rooms & Suites</span>
+                    </a>
+                </li>
+
+                <!-- 3. Customer Booking (Booking Member) -->
+                <li class="nav-item">
+                    <a href="booking.html" class="nav-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                        <span>Customer Booking</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="menu-category">Access Control</div>
+            <ul class="nav-list">
+                <!-- 4. Authentication (Auth Member) -->
+                <li class="nav-item">
+                    <a href="login.html" class="nav-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
+                        </svg>
+                        <span>Logout / Auth Login</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Sidebar Footer Action -->
+        <div class="sidebar-bottom">
+            <a href="booking.html" class="btn-open-portal">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="2" y1="12" x2="22" y2="12"/>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+                <span>Preview Guest Portal</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- ====================================================================
+         MAIN VIEW CANVAS
+         ==================================================================== -->
+    <div class="main-wrapper">
+
+        <!-- Top Header Navigation -->
+        <header class="topbar">
+            <!-- Search Bar with SVG Icon -->
+            <div class="search-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input type="text" id="searchInput" placeholder="Search by Guest Name, Room #, or Booking ID...">
+            </div>
+
+            <!-- Topbar Right Badges -->
+            <div class="topbar-right">
+                <div class="system-status-pill">
+                    <span class="pulse-dot"></span>
+                    <span id="liveDate">Operations Live & Synchronized</span>
+                </div>
+
+                <!-- Admin Profile Card -->
+                <div class="admin-chip">
+                    <div class="admin-avatar">AD</div>
+                    <div class="admin-meta">
+                        <h4>Resort Administrator</h4>
+                        <p>Hotel Operations Control</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Body Area -->
+        <main class="content-canvas">
+
+            <!-- Hero Title & Actions -->
+            <div class="dashboard-hero">
+                <div class="hero-text">
+                    <div class="hero-tag-badge"><span>✦</span> 5-STAR RESORT OPERATIONS CONTROL CONSOLE</div>
+                    <h1>Executive Operations Overview</h1>
+                    <p>Live inventory monitoring, guest reservations, and front-desk check-in management.</p>
+                </div>
+                <div class="hero-actions">
+                    <button class="btn-luxury-secondary" id="openLookupModalBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                        <span>Find Reservation</span>
+                    </button>
+                    <button class="btn-luxury-primary" id="openModalBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        <span>New Walk-in Booking</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ================================================================
+                 EXCLUSIVE KPI METRICS CARDS (Dynamic Calculation)
+                 ================================================================ -->
+            <section class="kpi-grid">
+                <!-- Card 1: Total Rooms -->
+                <div class="kpi-card blue">
+                    <div class="kpi-detail">
+                        <span>Total Room Inventory</span>
+                        <h3 id="statTotalRooms">12</h3>
+                        <div class="kpi-badge neutral">12 Active Units</div>
+                    </div>
+                    <div class="kpi-icon-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 21h18M3 7v14M21 7v14M6 11h4M6 15h4M14 11h4M14 15h4M9 3l3-2 3 2v4H9V3z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Card 2: Occupied Rooms -->
+                <div class="kpi-card rose">
+                    <div class="kpi-detail">
+                        <span>Occupied Suites</span>
+                        <h3 id="statOccupiedRooms">2</h3>
+                        <div class="kpi-badge danger" id="statOccupancyRate">17% Occupancy</div>
+                    </div>
+                    <div class="kpi-icon-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="8.5" cy="7" r="4"/>
+                            <line x1="18" y1="8" x2="23" y2="13"/>
+                            <line x1="23" y1="8" x2="18" y2="13"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Card 3: Available Rooms -->
+                <div class="kpi-card emerald">
+                    <div class="kpi-detail">
+                        <span>Available for Check-In</span>
+                        <h3 id="statAvailableRooms">10</h3>
+                        <div class="kpi-badge success">Ready for Booking</div>
+                    </div>
+                    <div class="kpi-icon-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Card 4: Total Revenue -->
+                <div class="kpi-card gold">
+                    <div class="kpi-detail">
+                        <span>Active Revenue</span>
+                        <h3 id="statTotalRevenue">₹43,000</h3>
+                        <div class="kpi-badge success">From Current Bookings</div>
+                    </div>
+                    <div class="kpi-icon-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="1" x2="12" y2="23"/>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================================================================
+                 EXCLUSIVE ROOM STATUS VISUALIZER
+                 ================================================================ -->
+            <section class="exclusive-card">
+                <div class="card-topline">
+                    <div class="card-topline-left">
+                        <h2>Live Room Inventory Grid</h2>
+                        <p>Real-time visual floor occupancy, cleaning status, and availability.</p>
+                    </div>
+                    <div class="filter-pill-group">
+                        <button class="filter-btn active" data-filter="all">All Units</button>
+                        <button class="filter-btn" data-filter="available">Available (🟢)</button>
+                        <button class="filter-btn" data-filter="occupied">Occupied (🔴)</button>
+                        <button class="filter-btn" data-filter="cleaning">Cleaning (🟡)</button>
+                    </div>
+                </div>
+
+                <div class="rooms-visual-grid" id="roomGrid">
+                    <!-- Dynamic Tiles Injected via JS -->
+                </div>
+            </section>
+
+            <!-- ================================================================
+                 RECENT GUEST RESERVATIONS TABLE
+                 ================================================================ -->
+            <section class="exclusive-card">
+                <div class="card-topline">
+                    <div class="card-topline-left">
+                        <h2>Active Guest Reservations</h2>
+                        <p id="bookingCountText">Displaying registered guest reservations</p>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table class="exclusive-table" id="bookingsTable">
+                        <thead>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Guest Profile</th>
+                                <th>Assigned Room</th>
+                                <th>Check-In</th>
+                                <th>Check-Out</th>
+                                <th>Total Bill</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookingsTableBody">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ====================================================================
+         MODAL: NEW WALK-IN RESERVATION (STRICT VALIDATIONS)
+         ==================================================================== -->
+    <div class="modal-layer" id="bookingModal">
+        <div class="modal-dialog">
+            <div class="modal-head">
+                <h3>New Walk-In Reservation</h3>
+                <button class="modal-dismiss" id="closeModalBtn">&times;</button>
+            </div>
+            <form id="newBookingForm" novalidate>
+                <div class="modal-content-pad">
+                    <!-- Guest Name -->
+                    <div class="field-group">
+                        <label for="guestName">Guest Full Name <span class="required-dot">*</span></label>
+                        <input type="text" id="guestName" class="input-box" placeholder="e.g. Rahul Sharma">
+                        <div class="error-alert" id="nameError"></div>
+                    </div>
+
+                    <!-- Contact Phone -->
+                    <div class="field-group">
+                        <label for="guestPhone">Mobile Phone (10 Digits) <span class="required-dot">*</span></label>
+                        <input type="text" id="guestPhone" class="input-box" placeholder="e.g. 9876543210" maxlength="10">
+                        <div class="error-alert" id="phoneError"></div>
+                    </div>
+
+                    <div class="field-split">
+                        <!-- Room Type -->
+                        <div class="field-group">
+                            <label for="roomType">Room Category <span class="required-dot">*</span></label>
+                            <select id="roomType" class="input-box">
+                                <option value="Deluxe Ocean View">Deluxe Ocean View (₹5,000/night)</option>
+                                <option value="Luxury Royal Suite">Luxury Royal Suite (₹7,000/night)</option>
+                                <option value="Private Beach Villa">Private Beach Villa (₹10,000/night)</option>
+                                <option value="Garden Villa">Garden Villa (₹4,500/night)</option>
+                            </select>
+                        </div>
+
+                        <!-- Room Number -->
+                        <div class="field-group">
+                            <label for="roomNumber">Room Number <span class="required-dot">*</span></label>
+                            <input type="text" id="roomNumber" class="input-box" placeholder="e.g. 101, 104, 202" maxlength="4">
+                            <div class="error-alert" id="roomError"></div>
+                        </div>
+                    </div>
+
+                    <div class="field-split">
+                        <!-- Check-In -->
+                        <div class="field-group">
+                            <label for="checkInDate">Check-In Date <span class="required-dot">*</span></label>
+                            <input type="date" id="checkInDate" class="input-box">
+                            <div class="error-alert" id="checkInError"></div>
+                        </div>
+
+                        <!-- Check-Out -->
+                        <div class="field-group">
+                            <label for="checkOutDate">Check-Out Date <span class="required-dot">*</span></label>
+                            <input type="date" id="checkOutDate" class="input-box">
+                            <div class="error-alert" id="checkOutError"></div>
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="paymentStatus">Payment Settlement</label>
+                        <select id="paymentStatus" class="input-box">
+                            <option value="Confirmed">Full Payment Received (Confirmed)</option>
+                            <option value="Pending">Advance Only (Pending at Checkout)</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-foot">
+                        <button type="button" class="btn-luxury-secondary" id="cancelModalBtn">Cancel</button>
+                        <button type="submit" class="btn-luxury-primary">Confirm Reservation</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ====================================================================
+         MODAL: RESERVATION PASS / RECEIPT
+         ==================================================================== -->
+    <div class="modal-layer" id="viewDetailsModal">
+        <div class="modal-dialog">
+            <div class="modal-head">
+                <h3>Resort Booking Confirmation</h3>
+                <button class="modal-dismiss" id="closeDetailsModalBtn">&times;</button>
+            </div>
+            <div class="modal-content-pad" id="receiptContent">
+                <!-- Dynamically populated via JS -->
+            </div>
+            <div class="modal-foot" style="padding: 0 28px 24px;">
+                <button type="button" class="btn-luxury-secondary" id="closeDetailsFooterBtn">Close Pass</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====================================================================
+         MODAL: FIND RESERVATION
+         ==================================================================== -->
+    <div class="modal-layer" id="lookupModal">
+        <div class="modal-dialog" style="max-width: 460px;">
+            <div class="modal-head">
+                <h3>Search Guest Booking</h3>
+                <button class="modal-dismiss" id="closeLookupBtn">&times;</button>
+            </div>
+            <div class="modal-content-pad">
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 16px;">
+                    Enter the Booking ID (e.g. RES-101) or 10-digit Phone Number:
+                </p>
+                <div class="field-group">
+                    <input type="text" id="lookupInput" class="input-box" placeholder="Booking ID or Phone #">
+                    <div class="error-alert" id="lookupError"></div>
+                </div>
+                <div class="modal-foot" style="margin-top: 14px;">
+                    <button type="button" class="btn-luxury-primary" id="searchBookingBtn">Find Booking</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Toast Notification -->
+    <div class="floating-toast" id="toastMessage">
+        <span id="toastIcon">✨</span>
+        <span id="toastText">Action completed successfully!</span>
+    </div>
+
+    <!-- Custom Script -->
+    <script src="script.js"></script>
+</body>
+</html>
