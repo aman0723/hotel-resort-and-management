@@ -107,72 +107,15 @@
     color: var(--brass);
 }
 
-/* --- My reservations ----------------------------------------------------- */
-.my-bookings {
+.booking-footnote {
     width: var(--page);
-    margin: clamp(56px, 7vw, 88px) auto 0;
-    scroll-margin-top: 100px;
-}
-
-.my-bookings-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 24px;
-    list-style: none;
-}
-
-.my-bookings-empty {
-    padding: 20px;
-    border-radius: var(--radius);
-    background: var(--mist);
+    margin: 32px auto 0;
     color: var(--ink-soft);
 }
 
-.my-booking {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px 20px;
-    padding: 18px 20px;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-}
-
-.my-booking > div {
-    flex: 1 1 260px;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.my-booking strong {
-    font-family: var(--display);
-    font-size: 1.35rem;
-    font-weight: 600;
-}
-
-.my-booking > div span {
-    color: var(--ink-soft);
-    font-size: 0.9rem;
-}
-
-.cancel-btn {
-    padding: 8px 16px;
-    border: 1px solid var(--error);
-    border-radius: 8px;
-    background: none;
-    color: var(--error);
-    font: 700 0.8rem var(--body);
-    cursor: pointer;
-}
-
-.cancel-btn:hover {
-    background: var(--error-bg);
-}
-
-.cancel-btn:disabled {
-    opacity: 0.6;
+.booking-footnote a {
+    color: var(--ink);
+    font-weight: 700;
 }
 
 @media (max-width: 900px) {

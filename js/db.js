@@ -3,6 +3,8 @@
 //
 // Collections
 //   rooms/{roomNo}  { roomNo, typeId, status: "available" | "occupied" | "cleaning" }
+//   messages/{id}   { name, email, phone, topic, bookingCode, message,
+//                     status: "New" | "Handled", uid, createdAt }
 //   bookings/{id}   { code, uid, guestName, email, phone, typeId, roomNo,
 //                     checkIn, checkOut, guests, nights, rate, subtotal, tax,
 //                     total, status, payment, source, specialRequest, createdAt }
@@ -33,6 +35,7 @@ import { DEFAULT_INVENTORY } from "./data.js";
 
 const roomsCol = collection(db, "rooms");
 const bookingsCol = collection(db, "bookings");
+const messagesCol = collection(db, "messages");
 
 // Short human-friendly reference derived from the unique document id.
 function bookingCode(id) {
@@ -156,4 +159,33 @@ export function watchMyBookings(uid, callback, onError) {
         list.sort((a, b) => time(b) - time(a));
         callback(list);
     }, onError);
+}
+
+// --------------------------------------------------------------------------
+// Contact messages
+// --------------------------------------------------------------------------
+export const MESSAGE_TOPICS = [
+    "Booking question",
+    "Change or cancel a booking",
+    "Group or event enquiry",
+    "Feedback",
+    "Other"
+];
+
+// Anyone can send a message (signed in or not); only staff can read them.
+export function sendContactMessage(message, uid = null) {
+    return setDoc(doc(messagesCol), {
+        ...message,
+        uid,
+        status: "New",
+        createdAt: serverTimestamp()
+    });
+}
+
+export function watchMessages(callback, onError) {
+    return onSnapshot(query(messagesCol, orderBy("createdAt", "desc")), snap => callback(snapshotToList(snap)), onError);
+}
+
+export function setMessageStatus(messageId, status) {
+    return updateDoc(doc(messagesCol, messageId), { status });
 }

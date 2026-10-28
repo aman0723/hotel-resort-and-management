@@ -488,10 +488,17 @@ button.nav-auth-link {
     text-transform: uppercase;
 }
 
-.footer-grid address {
+.footer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
     margin-top: 18px;
     font-style: normal;
     font-size: 0.92rem;
+}
+
+.footer-contact[hidden] {
+    display: none;
 }
 
 .footer-grid h3 {

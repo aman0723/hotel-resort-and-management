@@ -24,10 +24,10 @@
 
             <nav class="main-nav" id="mainNav" aria-label="Main">
                 <a href="rooms.html">Rooms &amp; Suites</a>
-                <a href="index.html#facilities">Facilities</a>
-                <a href="index.html#book-direct">Book Direct</a>
-                <a href="index.html#about">About Us</a>
-                <a href="#contact">Contact Us</a>
+                <a href="amenities.html">Amenities</a>
+                <a href="book-direct.html">Book Direct</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact Us</a>
                 <span class="auth-nav" id="authNav"></span>
                 <a href="booking.html" class="btn btn-brass nav-book">Book Now</a>
             </nav>
@@ -75,7 +75,7 @@
                 </div>
                 <div class="bar-action">
                     <button type="submit" class="btn btn-brass">Book Now</button>
-                    <a href="booking.html#myBookings" class="bar-link">Manage booking</a>
+                    <a href="reservations.html" class="bar-link">Manage booking</a>
                 </div>
                 <p class="bar-error" id="barError" role="alert"></p>
             </form>
@@ -86,13 +86,14 @@
              ============================================================ -->
         <section class="intro" id="about">
             <h2 class="section-title">Palm Horizon Resort &amp; Spa</h2>
-            <p class="intro-lead">Twelve rooms and suites on a quiet stretch of coast, from a cosy standard room to a five-guest presidential suite.</p>
-            <p class="intro-contact">
-                <a href="mailto:reservations@palmhorizon.example">reservations@palmhorizon.example</a>
-                <span aria-hidden="true">·</span>
-                <a href="tel:+919876500000">+91 98765 00000</a>
-            </p>
-            <a href="booking.html" class="btn btn-ink">Book Now</a>
+            <p class="intro-lead">A small resort where every booking is checked by a person at the front desk.</p>
+            <!-- Figures are calculated from js/data.js and live Firestore data -->
+            <dl class="intro-facts" id="introFacts"></dl>
+            <p class="intro-contact" data-contact-list hidden></p>
+            <div class="intro-actions">
+                <a href="booking.html" class="btn btn-ink">Book Now</a>
+                <a href="about.html" class="btn btn-outline">About the resort</a>
+            </div>
         </section>
 
         <!-- ============================================================
@@ -100,10 +101,10 @@
              ============================================================ -->
         <section class="approach">
             <div class="approach-text">
-                <h2 class="section-title align-left">Our <em>approach</em></h2>
-                <p>We keep the resort small on purpose. With twelve keys, the front desk knows every guest by name, and your room is assigned by a person, not an algorithm. When you book online, our team confirms the request and matches you with the right room.</p>
-                <p>Every room has air conditioning and Wi-Fi. Many have a sea, pool or garden view. Families can take a two-bed room with a balcony, couples the honeymoon suite with its jacuzzi.</p>
-                <a href="rooms.html" class="text-link">Browse all rooms →</a>
+                <h2 class="section-title align-left">How booking <em>works</em></h2>
+                <p>Choose a room style and your dates, and your request is saved to your account straight away with a reference code. Our front desk then reviews it and assigns you a specific room, and you can watch the status change from Pending to Confirmed under My Reservations.</p>
+                <p>Rooms range from a single-bed standard room to the presidential suite with its own living area. Families can take the two-bed family room with a balcony; couples, the honeymoon suite with a jacuzzi.</p>
+                <a href="book-direct.html" class="text-link">The booking process, step by step →</a>
             </div>
             <div class="approach-mosaic" aria-hidden="true">
                 <img src="images/room2.jpg" alt="" class="mosaic-tall">
@@ -150,63 +151,42 @@
             </div>
             <div class="direct-actions">
                 <a href="booking.html" class="btn btn-ink">Book Now</a>
-                <a href="login.html?mode=signup" class="btn btn-outline">Create an account</a>
+                <a href="book-direct.html" class="btn btn-outline">Why book direct</a>
             </div>
         </section>
 
         <!-- ============================================================
-             FACILITIES
+             AMENITIES (built from the room catalogue in js/data.js)
              ============================================================ -->
-        <section class="facilities" id="facilities">
-            <h2 class="section-title">Facilities</h2>
-            <div class="facility-grid">
-                <article class="facility">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18c2 0 2-1.5 4.5-1.5S9.5 18 12 18s2.5-1.5 4.5-1.5S19 18 21 18M3 14c2 0 2-1.5 4.5-1.5S9.5 14 12 14s2.5-1.5 4.5-1.5S19 14 21 14M8 10V4M16 10V4M8 6h8"/></svg>
-                    <h3>Pool &amp; Spa</h3>
-                    <p>An outdoor pool, massage rooms and a steam room, open to all in-house guests.</p>
-                </article>
-                <article class="facility">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v8a2 2 0 0 0 2 2v8M5 3v5M9 3v5M17 21V3c-2 1-3 3-3 6s1 4 3 4"/></svg>
-                    <h3>Dining</h3>
-                    <p>Buffet breakfast every morning and an all-day multi-cuisine restaurant.</p>
-                </article>
-                <article class="facility">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
-                    <h3>Meetings &amp; Events</h3>
-                    <p>A banquet hall for up to 120 guests, with projector and sound system.</p>
-                </article>
-                <article class="facility">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M2 9a15 15 0 0 1 20 0"/><circle cx="12" cy="19.5" r="1"/></svg>
-                    <h3>Wi-Fi &amp; Front Desk</h3>
-                    <p>Free Wi-Fi in every room and a front desk that's staffed around the clock.</p>
-                </article>
-            </div>
+        <section class="amenities" id="amenities">
+            <h2 class="section-title">Find a room <em>by amenity</em></h2>
+            <p class="amenities-lead">What each room offers, straight from our room list. Pick one to see the matching rooms.</p>
+            <ul class="amenity-grid" id="amenityGrid"></ul>
+            <p class="section-more"><a href="amenities.html" class="text-link">Compare every room's amenities →</a></p>
         </section>
 
     </main>
 
-    <footer class="site-footer" id="contact">
+    <footer class="site-footer">
         <div class="footer-grid">
             <div>
                 <p class="wordmark-name">Palm Horizon</p>
                 <p class="footer-tag">Resort &amp; Spa</p>
-                <address>
-                    Beach Road, Palm Horizon<br>
-                    <a href="mailto:reservations@palmhorizon.example">reservations@palmhorizon.example</a><br>
-                    <a href="tel:+919876500000">+91 98765 00000</a>
-                </address>
+                <!-- Filled from RESORT_CONTACT in js/data.js; hidden while empty -->
+                <address class="footer-contact" data-contact-list hidden></address>
             </div>
             <div>
                 <h3>Stay</h3>
                 <a href="rooms.html">Rooms &amp; Suites</a>
+                <a href="amenities.html">Amenities</a>
                 <a href="booking.html">Book Now</a>
-                <a href="booking.html#myBookings">Manage booking</a>
+                <a href="reservations.html">My reservations</a>
             </div>
             <div>
                 <h3>Resort</h3>
-                <a href="index.html#about">About Us</a>
-                <a href="index.html#facilities">Facilities</a>
-                <a href="index.html#book-direct">Book Direct</a>
+                <a href="about.html">About Us</a>
+                <a href="book-direct.html">Book Direct</a>
+                <a href="contact.html">Contact Us</a>
             </div>
             <div>
                 <h3>Account</h3>
