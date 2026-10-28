@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Direct | Palm Horizon Resort &amp; Spa</title>
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+    <header class="site-header" id="siteHeader">
+        <div class="header-inner">
+            <a href="index.html" class="wordmark" aria-label="Palm Horizon Resort &amp; Spa, home">
+                <span class="wordmark-name">Palm Horizon</span>
+                <span class="wordmark-sub">Resort &amp; Spa</span>
+            </a>
+
+            <button type="button" class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainNav">
+                <span></span><span></span><span></span>
+                <span class="visually-hidden">Menu</span>
+            </button>
+
+            <nav class="main-nav" id="mainNav" aria-label="Main">
+                <a href="rooms.html">Rooms &amp; Suites</a>
+                <a href="amenities.html">Amenities</a>
+                <a href="book-direct.html" aria-current="page">Book Direct</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact Us</a>
+                <span class="auth-nav" id="authNav"></span>
+                <a href="booking.html" class="btn btn-brass nav-book">Book Now</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-banner" aria-label="Why book direct">
+            <img src="images/room6.jpg" alt="">
+            <div class="page-banner-copy">
+                <p class="eyebrow">Book direct</p>
+                <h1>Why book <em>direct</em></h1>
+                <p>Booking on this website keeps everything in one place: your request, its status, your room and your total.</p>
+            </div>
+        </section>
+
+        <section class="info-section">
+            <div class="value-grid">
+                <article>
+                    <h3>Instant reference</h3>
+                    <p>The moment you send a request you get a booking reference, like RES-4F2A9C. It's saved to your account, so you never need to hunt for an email.</p>
+                </article>
+                <article>
+                    <h3>Track every stay</h3>
+                    <p>My reservations shows each booking's dates, room, total and status. When the front desk assigns your room, the room number appears there.</p>
+                </article>
+                <article>
+                    <h3>Cancel freely</h3>
+                    <p>While a request is still pending you can cancel it yourself with one click. No phone call, no form.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="info-section">
+            <h2 class="section-title align-left">How booking <em>works</em></h2>
+            <ol class="steps">
+                <li>
+                    <h3>Choose a room and dates</h3>
+                    <p>Pick a room style, your check-in and check-out dates and the number of guests. Each room shows how many people it sleeps.</p>
+                </li>
+                <li>
+                    <h3>Sign in or create an account</h3>
+                    <p>An account keeps your bookings together. It takes your name, email and a password, nothing else.</p>
+                </li>
+                <li>
+                    <h3>Send your request</h3>
+                    <p>Your booking is saved straight away with a reference and the status <strong>Pending</strong>. You'll see the full price before you send it.</p>
+                </li>
+                <li>
+                    <h3>The front desk confirms it</h3>
+                    <p>Staff assign a specific room of the style you chose. Your booking changes to <strong>Confirmed</strong> and shows your room number.</p>
+                </li>
+                <li>
+                    <h3>Arrive and check in</h3>
+                    <p>Check-in is from <span data-time="in"></span> on your arrival date and check-out is by <span data-time="out"></span> on your departure date.</p>
+                </li>
+            </ol>
+        </section>
+
+        <section class="info-section split">
+            <div>
+                <h2 class="section-title align-left">How your price is <em>worked out</em></h2>
+                <p>Your total is the room's nightly rate times the number of nights, plus 5% tax. There are no booking fees. The same total is shown on the booking page, on your reservation and to the front desk.</p>
+                <p>Changed your mind about a confirmed booking? <a href="contact.html">Contact us</a> with your booking reference and we'll sort it out.</p>
+            </div>
+            <div class="price-example" id="priceExample"></div>
+        </section>
+
+        <section class="cta-band">
+            <h2>Find your room and book in a few minutes.</h2>
+            <div class="cta-actions">
+                <a href="rooms.html" class="btn btn-outline-light">Browse rooms</a>
+                <a href="booking.html" class="btn btn-brass">Book now</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div>
+                <p class="wordmark-name">Palm Horizon</p>
+                <p class="footer-tag">Resort &amp; Spa</p>
+                <!-- Filled from RESORT_CONTACT in js/data.js; hidden while empty -->
+                <address class="footer-contact" data-contact-list hidden></address>
+            </div>
+            <div>
+                <h3>Stay</h3>
+                <a href="rooms.html">Rooms &amp; Suites</a>
+                <a href="amenities.html">Amenities</a>
+                <a href="booking.html">Book Now</a>
+                <a href="reservations.html">My reservations</a>
+            </div>
+            <div>
+                <h3>Resort</h3>
+                <a href="about.html">About Us</a>
+                <a href="book-direct.html">Book Direct</a>
+                <a href="contact.html">Contact Us</a>
+            </div>
+            <div>
+                <h3>Account</h3>
+                <a href="login.html">Sign in</a>
+                <a href="login.html?mode=signup">Create account</a>
+                <a href="admin.html">Staff dashboard</a>
+            </div>
+        </div>
+        <p class="footer-legal">© <span id="year">2026</span> Palm Horizon Resort &amp; Spa. A student hotel management project.</p>
+    </footer>
+
+    <script type="module" src="js/book-direct.js"></script>
+</body>
+</html>

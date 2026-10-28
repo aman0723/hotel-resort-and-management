@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amenities | Palm Horizon Resort &amp; Spa</title>
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+    <header class="site-header" id="siteHeader">
+        <div class="header-inner">
+            <a href="index.html" class="wordmark" aria-label="Palm Horizon Resort &amp; Spa, home">
+                <span class="wordmark-name">Palm Horizon</span>
+                <span class="wordmark-sub">Resort &amp; Spa</span>
+            </a>
+
+            <button type="button" class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainNav">
+                <span></span><span></span><span></span>
+                <span class="visually-hidden">Menu</span>
+            </button>
+
+            <nav class="main-nav" id="mainNav" aria-label="Main">
+                <a href="rooms.html">Rooms &amp; Suites</a>
+                <a href="amenities.html" aria-current="page">Amenities</a>
+                <a href="book-direct.html">Book Direct</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact Us</a>
+                <span class="auth-nav" id="authNav"></span>
+                <a href="booking.html" class="btn btn-brass nav-book">Book Now</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-banner" aria-label="What's in each room">
+            <img src="images/room7.jpg" alt="">
+            <div class="page-banner-copy">
+                <p class="eyebrow">Amenities</p>
+                <h1>What's in <em>each room</em></h1>
+                <p>Every amenity we offer and exactly which rooms have it, so you can book the one that has what you need.</p>
+            </div>
+        </section>
+
+        <section class="info-section">
+            <p class="section-lead">Amenities differ by room style. Pick an amenity to see the rooms that include it, or compare every room in the table below.</p>
+            <div id="amenityGroups"></div>
+        </section>
+
+        <section class="info-section">
+            <h2 class="section-title align-left">Compare <em>all rooms</em></h2>
+            <div class="table-wrap">
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Room</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Sleeps</th>
+                            <th scope="col">Per night</th>
+                            <th scope="col">Bed and amenities</th>
+                            <th scope="col"><span class="visually-hidden">Book</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="compareBody"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div>
+                <p class="wordmark-name">Palm Horizon</p>
+                <p class="footer-tag">Resort &amp; Spa</p>
+                <!-- Filled from RESORT_CONTACT in js/data.js; hidden while empty -->
+                <address class="footer-contact" data-contact-list hidden></address>
+            </div>
+            <div>
+                <h3>Stay</h3>
+                <a href="rooms.html">Rooms &amp; Suites</a>
+                <a href="amenities.html">Amenities</a>
+                <a href="booking.html">Book Now</a>
+                <a href="reservations.html">My reservations</a>
+            </div>
+            <div>
+                <h3>Resort</h3>
+                <a href="about.html">About Us</a>
+                <a href="book-direct.html">Book Direct</a>
+                <a href="contact.html">Contact Us</a>
+            </div>
+            <div>
+                <h3>Account</h3>
+                <a href="login.html">Sign in</a>
+                <a href="login.html?mode=signup">Create account</a>
+                <a href="admin.html">Staff dashboard</a>
+            </div>
+        </div>
+        <p class="footer-legal">© <span id="year">2026</span> Palm Horizon Resort &amp; Spa. A student hotel management project.</p>
+    </footer>
+
+    <script type="module" src="js/amenities.js"></script>
+</body>
+</html>

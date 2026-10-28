@@ -10,11 +10,16 @@ Built with plain **HTML, CSS and JavaScript** (no framework, no build step) and 
 
 | Page | Who | What it does |
 |---|---|---|
-| `index.html` | Everyone | Home page: hero with quick-booking bar (dates, guests, room → booking page), rooms carousel, facilities, contact. Layout inspired by [TGI Hotels](https://www.tgihotels.com/) |
+| `index.html` | Everyone | Home page: hero with quick-booking bar (dates, guests, room → booking page), live availability, rooms carousel, amenities. Layout inspired by [TGI Hotels](https://www.tgihotels.com/) |
 | `rooms.html` | Everyone | Room catalogue with search, category filter, price sort and live "rooms available now" badges |
 | `login.html` | Everyone | Sign in, create account, reset password (Firebase Authentication) |
-| `booking.html` | Signed-in guests | Book a stay with validation and price estimate (5% tax); see and cancel own reservations live |
-| `admin.html` | Admins only | KPI cards, live room grid, online booking requests, room assignment, walk-in bookings, check-out, housekeeping, reservation search |
+| `amenities.html` | Everyone | Every amenity with the rooms that have it, plus a comparison table of all rooms |
+| `book-direct.html` | Everyone | Benefits of booking direct, the booking process step by step, and how prices are calculated |
+| `about.html` | Everyone | The resort, every room floor by floor, how bookings are handled, and the project team |
+| `contact.html` | Everyone | Contact form (saved to Firestore, answered from the dashboard) and booking FAQs |
+| `booking.html` | Signed-in guests | Book a stay with validation, a live summary card and price estimate (5% tax) |
+| `reservations.html` | Signed-in guests | The guest's bookings with status, room, dates and total; cancel pending requests |
+| `admin.html` | Admins only | Front desk: today's arrivals and departures, requests waiting, occupancy, room grid, room assignment, walk-ins, check-out, housekeeping, reservation search, contact messages |
 
 **Booking lifecycle**
 
@@ -41,11 +46,17 @@ Admin walk-in booking ───────────────────�
 ├── index.html              Home page (public)
 ├── rooms.html              Room catalogue (public)
 ├── login.html              Sign in / create account
+├── amenities.html          Amenities and room comparison (public)
+├── book-direct.html        Booking benefits, process and pricing (public)
+├── about.html              About the resort and team (public)
+├── contact.html            Contact form and FAQs (public)
 ├── booking.html            Guest booking page (sign-in required)
-├── admin.html              Executive operations dashboard (admin role required)
+├── reservations.html       My reservations (sign-in required)
+├── admin.html              Front desk dashboard (admin role required)
 ├── css/
 │   ├── site.css            Shared design system: colours, fonts, header, footer, buttons, fields
 │   ├── home.css
+│   ├── pages.css           Amenities, Book Direct, About, Contact, My reservations
 │   ├── rooms.css
 │   ├── auth.css
 │   ├── booking.css
@@ -55,9 +66,10 @@ Admin walk-in booking ───────────────────�
 │   ├── firebase-config.js  ← your Firebase project keys go here
 │   ├── firebase.js         Firebase initialisation (app, auth, db)
 │   ├── auth.js             Sign in/up/out, user roles, page guards, nav widget
-│   ├── db.js               All Firestore reads/writes (rooms, bookings)
-│   ├── data.js             Shared room catalogue, prices, room inventory, helpers
+│   ├── db.js               All Firestore reads/writes (rooms, bookings, messages)
+│   ├── data.js             Room catalogue, prices, inventory, amenities, contact details, helpers
 │   ├── home.js
+│   ├── amenities.js · book-direct.js · about.js · contact.js · reservations.js
 │   ├── rooms.js
 │   ├── login.js
 │   ├── booking.js
@@ -75,6 +87,7 @@ Admin walk-in booking ───────────────────�
 | `users` | Auth UID | `name`, `email`, `role` (`guest` \| `admin`), `createdAt` |
 | `rooms` | Room number (`"101"`) | `roomNo`, `typeId`, `status` (`available` \| `occupied` \| `cleaning`) |
 | `bookings` | auto ID | `code` (e.g. `RES-4F2A9C`), `uid`, `guestName`, `email`, `phone`, `typeId`, `roomNo`, `checkIn`, `checkOut`, `guests`, `nights`, `rate`, `subtotal`, `tax`, `total`, `status`, `payment`, `source` (`online` \| `walk-in`), `specialRequest`, `createdAt` |
+| `messages` | auto ID | `name`, `email`, `phone`, `topic`, `bookingCode`, `message`, `status` (`New` \| `Handled`), `uid`, `createdAt` |
 
 The `rooms` collection fills itself with 12 default units (from `DEFAULT_INVENTORY` in `js/data.js`) the first time an admin opens the dashboard.
 
@@ -153,6 +166,10 @@ The site will be live at `https://<your-project-id>.web.app`.
 ## Design system
 
 All guest pages (`index`, `rooms`, `booking`, `login`) load **`css/site.css`** first, then their own page stylesheet. It defines the colour and font tokens (Cormorant Garamond for headings, Manrope for text, brass gold `#b8913f`), buttons, form fields, messages, the header and the footer. The header and footer markup is identical on every page, so change it everywhere at once. The admin dashboard keeps its dark staff layout but uses the same fonts and gold.
+
+## Contact details
+
+The phone number, email and address shown on the site come from `RESORT_CONTACT` in **`js/data.js`**. Any value left empty is hidden, so the site never shows placeholder details. Fill them in once and they appear on the home page, the Contact page and every footer.
 
 ## Changing rooms or prices
 

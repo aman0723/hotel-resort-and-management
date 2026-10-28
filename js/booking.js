@@ -1,13 +1,13 @@
 // ==========================================================================
 // GUEST BOOKING PAGE
-// Signed-in guests submit booking requests (saved to Firestore as "Pending")
-// and can follow or cancel their own reservations.
+// Signed-in guests submit booking requests (saved to Firestore as "Pending").
+// Their bookings are listed on reservations.html.
 // ==========================================================================
 
 import { ROOM_TYPES, getRoomType, todayISO, countNights, priceStay, formatINR } from "./data.js";
 import { requireAuth } from "./auth.js";
 import { initSite } from "./site.js";
-import { createBookingRequest, watchMyBookings, cancelBooking } from "./db.js";
+import { createBookingRequest } from "./db.js";
 
 const bookingForm = document.getElementById("bookingForm");
 const bookingMessage = document.getElementById("bookingMessage");
@@ -16,7 +16,6 @@ const summaryImage = document.getElementById("summaryImage");
 const summaryCategory = document.getElementById("summaryCategory");
 const summaryName = document.getElementById("summaryName");
 const summaryFeatures = document.getElementById("summaryFeatures");
-const myBookingsList = document.getElementById("myBookings");
 const submitButton = bookingForm.querySelector("button[type=submit]");
 
 const fullNameInput = document.getElementById("fullName");
@@ -219,65 +218,10 @@ function showBookingConfirmation(booking) {
     status.textContent =
         "Status: Pending confirmation from hotel staff.";
 
-    bookingMessage.append(heading, details, dates, price, status);
+    const link = document.createElement("a");
+    link.href = "reservations.html";
+    link.className = "text-link";
+    link.textContent = "View in My reservations →";
+
+    bookingMessage.append(heading, details, dates, price, status, link);
 }
-
-// --------------------------------------------------------------------------
-// My reservations (live)
-// --------------------------------------------------------------------------
-function renderMyBookings(bookings) {
-    if (!bookings.length) {
-        const empty = document.createElement("li");
-        empty.className = "my-bookings-empty";
-        empty.textContent = "You have no reservations yet.";
-        myBookingsList.replaceChildren(empty);
-        return;
-    }
-
-    myBookingsList.replaceChildren(...bookings.map(b => {
-        const item = document.createElement("li");
-        item.className = "my-booking";
-
-        const info = document.createElement("div");
-        const title = document.createElement("strong");
-        title.textContent = `${b.code} · ${getRoomType(b.typeId)?.name || b.typeId}`;
-        const meta = document.createElement("span");
-        meta.textContent =
-            `${b.checkIn} → ${b.checkOut} · ${formatINR(b.total)}` + (b.roomNo ? ` · Room #${b.roomNo}` : "");
-        info.append(title, meta);
-
-        const status = document.createElement("span");
-        status.className = `status-pill ${b.status.toLowerCase()}`;
-        status.textContent = b.status === "CheckedOut" ? "Checked out" : b.status;
-
-        item.append(info, status);
-
-        if (b.status === "Pending") {
-            const cancel = document.createElement("button");
-            cancel.type = "button";
-            cancel.className = "cancel-btn";
-            cancel.textContent = "Cancel";
-            cancel.addEventListener("click", async () => {
-                cancel.disabled = true;
-                try {
-                    await cancelBooking(b.id);
-                } catch (error) {
-                    console.error(error);
-                    cancel.disabled = false;
-                    showMessage("Could not cancel this booking. Please try again.", "error");
-                }
-            });
-            item.append(cancel);
-        }
-
-        return item;
-    }));
-}
-
-watchMyBookings(user.uid, renderMyBookings, error => {
-    console.error(error);
-    const failed = document.createElement("li");
-    failed.className = "my-bookings-empty";
-    failed.textContent = "Could not load your reservations.";
-    myBookingsList.replaceChildren(failed);
-});
