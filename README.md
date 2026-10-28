@@ -123,7 +123,22 @@ Every new account is a **guest**. To make a staff member an admin:
 
 ---
 
-## Deploying (Firebase Hosting)
+## Deploying on Render (live site)
+
+The site is deployed as a free **Render Static Site** using the Blueprint in [`render.yaml`](render.yaml). The build step copies only the website files (`*.html`, `css/`, `js/`, `images/`) into `dist/`, so README, rules and npm files aren't published.
+
+**First-time setup**
+
+1. Sign in at [dashboard.render.com](https://dashboard.render.com) with GitHub. The repository owner must allow Render's GitHub app to access `hotel-resort-and-management`.
+2. Click **New → Blueprint** and select this repository.
+3. Click **Apply**. Render builds the site and gives it a URL like `https://palm-horizon-resort.onrender.com`.
+4. In the Firebase Console, open **Authentication → Settings → Authorized domains**, click **Add domain** and add your `onrender.com` domain (without `https://`).
+
+After that, every push to `main` redeploys automatically.
+
+> If you restricted the Firebase API key in Google Cloud Console (**APIs & Services → Credentials**), add `https://<your-site>.onrender.com/*` to its allowed websites too.
+
+## Deploying (Firebase Hosting, alternative)
 
 ```bash
 npx firebase-tools login
