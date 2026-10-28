@@ -1,0 +1,152 @@
+/* ==========================================================================
+   PALM HORIZON — SIGN IN / CREATE ACCOUNT PAGE
+   Shared tokens, header, footer, buttons, fields and messages live in
+   site.css.
+   ========================================================================== */
+
+.auth-shell {
+    width: var(--page);
+    margin: 8px auto 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: 32px;
+    align-items: stretch;
+}
+
+/* --- Form card ----------------------------------------------------------- */
+.auth-card {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding: clamp(28px, 4vw, 48px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+}
+
+.auth-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 4px;
+    border-radius: 12px;
+    background: var(--mist);
+}
+
+.auth-tab {
+    padding: 10px;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--ink-soft);
+    font: 700 0.92rem var(--body);
+    cursor: pointer;
+}
+
+.auth-tab.active {
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: 0 2px 8px rgba(19, 25, 26, 0.08);
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.auth-form[hidden] {
+    display: none;
+}
+
+.auth-form h1 {
+    font-family: var(--display);
+    font-size: clamp(2.2rem, 4vw, 2.8rem);
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+.auth-subtitle {
+    margin-top: -8px;
+    color: var(--ink-soft);
+}
+
+.auth-link {
+    align-self: flex-end;
+    margin-top: -6px;
+    border: 0;
+    background: none;
+    color: var(--brass);
+    font: 600 0.85rem var(--body);
+    cursor: pointer;
+}
+
+.auth-link:hover {
+    color: var(--brass-dark);
+    text-decoration: underline;
+}
+
+.auth-card .text-link {
+    align-self: flex-start;
+    margin-top: auto;
+}
+
+/* --- Photo panel --------------------------------------------------------- */
+.auth-hero {
+    position: relative;
+    min-height: 560px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--night);
+}
+
+.auth-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.auth-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(13, 20, 22, 0.05) 35%, rgba(13, 20, 22, 0.8) 100%);
+}
+
+.auth-hero-copy {
+    position: absolute;
+    left: clamp(24px, 4vw, 48px);
+    right: clamp(24px, 4vw, 48px);
+    bottom: clamp(28px, 4vw, 48px);
+    z-index: 1;
+    color: #fff;
+}
+
+.auth-hero-copy .eyebrow {
+    color: var(--brass-light);
+}
+
+.auth-hero-copy h2 {
+    margin: 6px 0 10px;
+    font-family: var(--display);
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 500;
+    line-height: 1.05;
+}
+
+.auth-hero-copy h2 em {
+    display: block;
+    color: var(--brass-light);
+}
+
+.auth-hero-copy p:not(.eyebrow) {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+@media (max-width: 860px) {
+    .auth-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-hero {
+        display: none;
+    }
+}
