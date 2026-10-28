@@ -31,13 +31,20 @@ ROOM_TYPES.forEach(room => {
     roomTypeSelect.append(option);
 });
 
-// Preselect the room chosen on the rooms page (booking.html?type=deluxe).
-const preselected = new URLSearchParams(location.search).get("type");
+// Prefill choices from the rooms page or the home page booking bar
+// (booking.html?type=deluxe&checkIn=2026-11-02&checkOut=2026-11-04&guests=2).
+const params = new URLSearchParams(location.search);
+const preselected = params.get("type");
 if (getRoomType(preselected)) roomTypeSelect.value = preselected;
+
+const isDate = value => /^\d{4}-\d{2}-\d{2}$/.test(value || "");
+if (isDate(params.get("checkIn")) && params.get("checkIn") >= todayISO()) checkInInput.value = params.get("checkIn");
+if (isDate(params.get("checkOut")) && params.get("checkOut") > checkInInput.value) checkOutInput.value = params.get("checkOut");
+if (Number(params.get("guests")) >= 1) guestsInput.value = Math.min(Number(params.get("guests")), 5);
 
 // Earliest permitted dates.
 checkInInput.min = todayISO();
-checkOutInput.min = todayISO(1);
+checkOutInput.min = checkInInput.value || todayISO(1);
 
 checkInInput.addEventListener("change", () => {
     checkOutInput.min = checkInInput.value || todayISO(1);
@@ -54,6 +61,7 @@ roomTypeSelect.addEventListener("change", () => {
 });
 checkOutInput.addEventListener("change", updateEstimate);
 guestsInput.max = getRoomType(roomTypeSelect.value)?.capacity ?? 5;
+updateEstimate();
 
 function updateEstimate() {
     const room = getRoomType(roomTypeSelect.value);

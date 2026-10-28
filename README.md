@@ -10,6 +10,7 @@ Built with plain **HTML, CSS and JavaScript** (no framework, no build step) and 
 
 | Page | Who | What it does |
 |---|---|---|
+| `index.html` | Everyone | Home page: hero with quick-booking bar (dates, guests, room → booking page), rooms carousel, facilities, contact. Layout inspired by [TGI Hotels](https://www.tgihotels.com/) |
 | `rooms.html` | Everyone | Room catalogue with search, category filter, price sort and live "rooms available now" badges |
 | `login.html` | Everyone | Sign in, create account, reset password (Firebase Authentication) |
 | `booking.html` | Signed-in guests | Book a stay with validation and price estimate (5% tax); see and cancel own reservations live |
@@ -37,12 +38,13 @@ Admin walk-in booking ───────────────────�
 ## Project structure
 
 ```
-├── index.html              → redirects to rooms.html
+├── index.html              Home page (public)
 ├── rooms.html              Room catalogue (public)
 ├── login.html              Sign in / create account
 ├── booking.html            Guest booking page (sign-in required)
 ├── admin.html              Executive operations dashboard (admin role required)
 ├── css/
+│   ├── home.css
 │   ├── rooms.css
 │   ├── auth.css
 │   ├── booking.css
@@ -53,6 +55,7 @@ Admin walk-in booking ───────────────────�
 │   ├── auth.js             Sign in/up/out, user roles, page guards, nav widget
 │   ├── db.js               All Firestore reads/writes (rooms, bookings)
 │   ├── data.js             Shared room catalogue, prices, room inventory, helpers
+│   ├── home.js
 │   ├── rooms.js
 │   ├── login.js
 │   ├── booking.js
