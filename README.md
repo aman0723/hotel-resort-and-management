@@ -43,41 +43,34 @@ Admin walk-in booking ───────────────────�
 ## Project structure
 
 ```
-├── index.html              Home page (public)
-├── rooms.html              Room catalogue (public)
-├── login.html              Sign in / create account
-├── amenities.html          Amenities and room comparison (public)
-├── book-direct.html        Booking benefits, process and pricing (public)
-├── about.html              About the resort and team (public)
-├── contact.html            Contact form and FAQs (public)
-├── booking.html            Guest booking page (sign-in required)
-├── reservations.html       My reservations (sign-in required)
-├── admin.html              Front desk dashboard (admin role required)
-├── css/
-│   ├── site.css            Shared design system: colours, fonts, header, footer, buttons, fields
-│   ├── home.css
-│   ├── pages.css           Amenities, Book Direct, About, Contact, My reservations
-│   ├── rooms.css
-│   ├── auth.css
-│   ├── booking.css
-│   └── admin.css
-├── js/
-│   ├── site.js             Shared header/menu/footer behaviour (every guest page)
-│   ├── firebase-config.js  ← your Firebase project keys go here
-│   ├── firebase.js         Firebase initialisation (app, auth, db)
-│   ├── auth.js             Sign in/up/out, user roles, page guards, nav widget
-│   ├── db.js               All Firestore reads/writes (rooms, bookings, messages)
-│   ├── data.js             Room catalogue, prices, inventory, amenities, contact details, helpers
-│   ├── home.js
-│   ├── amenities.js · book-direct.js · about.js · contact.js · reservations.js
-│   ├── rooms.js
-│   ├── login.js
-│   ├── booking.js
-│   └── admin.js
-├── images/                 Room photos
-├── firestore.rules         Database security rules
-├── firebase.json           Firebase Hosting / emulator config
-└── package.json            npm scripts (start, emulators, deploy)
+├── public/                     The website: everything here is published
+│   ├── index.html              Home page
+│   ├── rooms.html              Room catalogue
+│   ├── amenities.html          Amenities and room comparison
+│   ├── book-direct.html        Booking benefits, process and pricing
+│   ├── about.html              About the resort and team
+│   ├── contact.html            Contact form and FAQs
+│   ├── login.html              Sign in / create account
+│   ├── booking.html            Guest booking page (sign-in required)
+│   ├── reservations.html       My reservations (sign-in required)
+│   ├── admin.html              Front desk dashboard (admin role required)
+│   ├── css/
+│   │   ├── site.css            Shared design system: colours, fonts, header, footer, buttons, fields
+│   │   ├── home.css · rooms.css · pages.css · auth.css · booking.css · admin.css
+│   ├── js/
+│   │   ├── firebase-config.js  ← your Firebase project keys go here
+│   │   ├── firebase.js         Firebase initialisation (app, auth, db)
+│   │   ├── auth.js             Sign in/up/out, user roles, page guards, account menu
+│   │   ├── db.js               All Firestore reads/writes (rooms, bookings, messages)
+│   │   ├── data.js             Room catalogue, prices, inventory, amenities, contact details
+│   │   ├── site.js             Shared header/menu/footer behaviour (every guest page)
+│   │   └── one script per page: home.js, rooms.js, booking.js, admin.js, …
+│   └── images/                 Room photos
+├── firestore.rules             Database security rules
+├── firebase.json               Firebase Hosting / emulator config
+├── render.yaml                 Render deployment config
+├── serve.json                  Local dev server setting (used by npm start)
+└── package.json                npm scripts (start, emulators, deploy)
 ```
 
 ### Database (Cloud Firestore)
@@ -89,7 +82,7 @@ Admin walk-in booking ───────────────────�
 | `bookings` | auto ID | `code` (e.g. `RES-4F2A9C`), `uid`, `guestName`, `email`, `phone`, `typeId`, `roomNo`, `checkIn`, `checkOut`, `guests`, `nights`, `rate`, `subtotal`, `tax`, `total`, `status`, `payment`, `source` (`online` \| `walk-in`), `specialRequest`, `createdAt` |
 | `messages` | auto ID | `name`, `email`, `phone`, `topic`, `bookingCode`, `message`, `status` (`New` \| `Handled`), `uid`, `createdAt` |
 
-The `rooms` collection fills itself with 12 default units (from `DEFAULT_INVENTORY` in `js/data.js`) the first time an admin opens the dashboard.
+The `rooms` collection fills itself with 12 default units (from `DEFAULT_INVENTORY` in `public/js/data.js`) the first time an admin opens the dashboard.
 
 ---
 
@@ -108,7 +101,7 @@ The `rooms` collection fills itself with 12 default units (from `DEFAULT_INVENTO
 2. **Turn on login.** Go to **Build → Authentication → Get started → Sign-in method** and enable **Email/Password**.
 3. **Create the database.** Go to **Build → Firestore Database → Create database**, choose a location and start in **production mode**.
 4. **Add the security rules.** In **Firestore → Rules**, replace the contents with [`firestore.rules`](firestore.rules) and click **Publish**.
-5. **Get the web config.** In **Project settings → General → Your apps**, click the **Web (`</>`)** icon, register the app and copy the `firebaseConfig` values into [`js/firebase-config.js`](js/firebase-config.js).
+5. **Get the web config.** In **Project settings → General → Your apps**, click the **Web (`</>`)** icon, register the app and copy the `firebaseConfig` values into [`public/js/firebase-config.js`](public/js/firebase-config.js).
 6. **Run the site:**
    ```bash
    npm start
@@ -119,7 +112,7 @@ The `rooms` collection fills itself with 12 default units (from `DEFAULT_INVENTO
 
 Good for development and demos. All data is local and is wiped when the emulators stop.
 
-1. In `js/firebase-config.js` set `export const useEmulators = true;`
+1. In `public/js/firebase-config.js` set `export const useEmulators = true;`
 2. In one terminal run `npm run emulators` (needs Java 11+). The emulator UI is at <http://localhost:4000>.
 3. In a second terminal run `npm start`, then open <http://localhost:5000>.
 
@@ -138,7 +131,7 @@ Every new account is a **guest**. To make a staff member an admin:
 
 ## Deploying on Render (live site)
 
-The site is deployed as a free **Render Static Site** using the Blueprint in [`render.yaml`](render.yaml). The build step copies only the website files (`*.html`, `css/`, `js/`, `images/`) into `dist/`, so README, rules and npm files aren't published.
+The site is deployed as a free **Render Static Site** using the Blueprint in [`render.yaml`](render.yaml). Render publishes only the `public/` folder, so README, rules and npm files aren't published. There is no build step.
 
 **First-time setup**
 
@@ -165,15 +158,15 @@ The site will be live at `https://<your-project-id>.web.app`.
 
 ## Design system
 
-All guest pages (`index`, `rooms`, `booking`, `login`) load **`css/site.css`** first, then their own page stylesheet. It defines the colour and font tokens (Cormorant Garamond for headings, Manrope for text, brass gold `#b8913f`), buttons, form fields, messages, the header and the footer. The header and footer markup is identical on every page, so change it everywhere at once. The admin dashboard keeps its dark staff layout but uses the same fonts and gold.
+Every guest page loads **`public/css/site.css`** first, then its own page stylesheet. It defines the colour and font tokens (Cormorant Garamond for headings, Manrope for text, brass gold `#b8913f`), buttons, form fields, messages, the header and the footer. The header and footer markup is identical on every page, so change it everywhere at once. The admin dashboard has its own layout (sidebar and panels) but uses the same light colours, fonts and gold.
 
 ## Contact details
 
-The phone number, email and address shown on the site come from `RESORT_CONTACT` in **`js/data.js`**. Any value left empty is hidden, so the site never shows placeholder details. Fill them in once and they appear on the home page, the Contact page and every footer.
+The phone number, email and address shown on the site come from `RESORT_CONTACT` in **`public/js/data.js`**. Any value left empty is hidden, so the site never shows placeholder details. Fill them in once and they appear on the home page, the Contact page and every footer.
 
 ## Changing rooms or prices
 
-Room types, prices, capacities and the room inventory all live in **`js/data.js`**. If you change a price, also update the matching `roomRates()` map in **`firestore.rules`**. The rules check prices on the server, and guest bookings at the new price will be rejected until both files match.
+Room types, prices, capacities and the room inventory all live in **`public/js/data.js`**. If you change a price, also update the matching `roomRates()` map in **`firestore.rules`**. The rules check prices on the server, and guest bookings at the new price will be rejected until both files match.
 
 ---
 
