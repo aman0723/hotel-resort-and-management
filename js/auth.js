@@ -136,8 +136,32 @@ export function friendlyAuthError(error) {
 
 // --------------------------------------------------------------------------
 // Shared navigation widget (guest pages)
-// Fills `container` with either a "Sign in" link or the user's name + logout.
+// Signed out: a "Sign in" link. Signed in: one account button (initials and
+// first name) that opens a menu with My reservations, the staff dashboard
+// for admins, and Log out.
 // --------------------------------------------------------------------------
+let closeOpenMenu = null;
+
+document.addEventListener("click", e => {
+    if (closeOpenMenu && !e.target.closest(".account")) closeOpenMenu();
+});
+document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && closeOpenMenu) closeOpenMenu(true);
+});
+
+function initials(name) {
+    return name.split(/\s+/).filter(Boolean).map(part => part[0]).join("").slice(0, 2).toUpperCase() || "?";
+}
+
+function menuLink(href, label) {
+    const a = document.createElement("a");
+    a.href = href;
+    a.className = "account-item";
+    a.setAttribute("role", "menuitem");
+    a.textContent = label;
+    return a;
+}
+
 export function renderAuthNav(container) {
     watchUser(session => {
         container.replaceChildren();
@@ -151,24 +175,108 @@ export function renderAuthNav(container) {
             return;
         }
 
-        const name = document.createElement("span");
-        name.className = "nav-auth-user";
-        name.textContent = session.profile.name;
-        container.append(name);
+        const { profile, user } = session;
+        const fullName = profile.name || user.email;
+        const menuId = "accountMenu";
 
-        if (session.profile.role === "admin") {
-            const admin = document.createElement("a");
-            admin.href = "admin.html";
-            admin.className = "nav-auth-link";
-            admin.textContent = "Admin";
-            container.append(admin);
+        const wrap = document.createElement("div");
+        wrap.className = "account";
+
+        // Trigger: initials badge + first name
+        const trigger = document.createElement("button");
+        trigger.type = "button";
+        trigger.className = "account-trigger";
+        trigger.setAttribute("aria-haspopup", "menu");
+        trigger.setAttribute("aria-expanded", "false");
+        trigger.setAttribute("aria-controls", menuId);
+
+        const badge = document.createElement("span");
+        badge.className = "account-badge";
+        badge.textContent = initials(fullName);
+        badge.setAttribute("aria-hidden", "true");
+
+        const first = document.createElement("span");
+        first.className = "account-name";
+        first.textContent = fullName.split(/\s+/)[0];
+
+        const caret = document.createElement("span");
+        caret.className = "account-caret";
+        caret.setAttribute("aria-hidden", "true");
+
+        const srLabel = document.createElement("span");
+        srLabel.className = "visually-hidden";
+        srLabel.textContent = "Account menu for";
+
+        trigger.append(srLabel, badge, first, caret);
+
+        // Menu
+        const menu = document.createElement("div");
+        menu.className = "account-menu";
+        menu.id = menuId;
+        menu.setAttribute("role", "menu");
+        menu.hidden = true;
+
+        const head = document.createElement("div");
+        head.className = "account-head";
+        const headName = document.createElement("strong");
+        headName.textContent = fullName;
+        const headEmail = document.createElement("span");
+        headEmail.textContent = user.email;
+        head.append(headName, headEmail);
+
+        if (profile.role === "admin") {
+            const role = document.createElement("span");
+            role.className = "account-role";
+            role.textContent = "Staff";
+            head.append(role);
         }
+
+        menu.append(head, menuLink("reservations.html", "My reservations"));
+        if (profile.role === "admin") menu.append(menuLink("admin.html", "Staff dashboard"));
 
         const out = document.createElement("button");
         out.type = "button";
-        out.className = "nav-auth-link";
+        out.className = "account-item account-logout";
+        out.setAttribute("role", "menuitem");
         out.textContent = "Log out";
         out.addEventListener("click", logout);
-        container.append(out);
+        menu.append(out);
+
+        const items = () => [...menu.querySelectorAll(".account-item")];
+
+        function close(returnFocus = false) {
+            menu.hidden = true;
+            trigger.setAttribute("aria-expanded", "false");
+            closeOpenMenu = null;
+            if (returnFocus) trigger.focus();
+        }
+
+        function open() {
+            if (closeOpenMenu) closeOpenMenu();
+            menu.hidden = false;
+            trigger.setAttribute("aria-expanded", "true");
+            closeOpenMenu = close;
+        }
+
+        trigger.addEventListener("click", () => {
+            if (menu.hidden) {
+                open();
+                items()[0].focus();
+            } else {
+                close();
+            }
+        });
+
+        // Arrow keys move between menu items.
+        menu.addEventListener("keydown", e => {
+            const list = items();
+            const i = list.indexOf(document.activeElement);
+            if (e.key === "ArrowDown") { e.preventDefault(); list[(i + 1) % list.length].focus(); }
+            if (e.key === "ArrowUp") { e.preventDefault(); list[(i - 1 + list.length) % list.length].focus(); }
+            if (e.key === "Tab") close();
+        });
+
+        wrap.append(trigger, menu);
+        container.append(wrap);
     });
 }
