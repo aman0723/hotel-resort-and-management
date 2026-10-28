@@ -6,9 +6,10 @@ services:
     runtime: static
     name: palm-horizon-resort
     branch: main
-    # Publish only the website files, not README, rules or npm config.
-    buildCommand: rm -rf dist && mkdir -p dist && cp -r *.html css js images dist/
-    staticPublishPath: ./dist
+    # The website lives in public/; everything else in the repo is setup
+    # (README, rules, npm config) and is not published. No build step.
+    buildCommand: echo "Static site, no build step"
+    staticPublishPath: ./public
     pullRequestPreviewsEnabled: false
     headers:
       - path: /*

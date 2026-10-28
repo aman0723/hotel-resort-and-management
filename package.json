@@ -4,7 +4,7 @@
   "private": true,
   "description": "Palm Horizon Resort & Spa - hotel and resort management system (HTML/CSS/JS + Firebase)",
   "scripts": {
-    "start": "npx --yes serve@14.2.4 -l 5000 .",
+    "start": "npx --yes serve@14.2.4 -l 5000 -c ../serve.json public",
     "emulators": "npx --yes firebase-tools@13.29.1 emulators:start --project demo-palm-horizon",
     "deploy": "npx --yes firebase-tools@13.29.1 deploy --only hosting,firestore:rules"
   }
