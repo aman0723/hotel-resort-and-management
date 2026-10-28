@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | Palm Horizon Resort & Spa</title>
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+
+    <main class="auth-shell">
+        <section class="auth-card">
+            <a href="rooms.html" class="auth-brand">
+                <span class="auth-emblem">✦</span>
+                <span>
+                    <strong>Palm Horizon</strong>
+                    <small>Resort &amp; Spa</small>
+                </span>
+            </a>
+
+            <div class="auth-tabs" role="tablist">
+                <button type="button" class="auth-tab active" id="signInTab" role="tab" aria-selected="true">Sign In</button>
+                <button type="button" class="auth-tab" id="signUpTab" role="tab" aria-selected="false">Create Account</button>
+            </div>
+
+            <!-- Sign in -->
+            <form id="signInForm" class="auth-form" novalidate>
+                <h1>Welcome back</h1>
+                <p class="auth-subtitle">Sign in to book your stay or manage the resort.</p>
+
+                <label for="signInEmail">Email address</label>
+                <input type="email" id="signInEmail" autocomplete="email" placeholder="you@example.com" required>
+
+                <label for="signInPassword">Password</label>
+                <input type="password" id="signInPassword" autocomplete="current-password" placeholder="Your password" required>
+
+                <button type="button" class="auth-link" id="forgotBtn">Forgot password?</button>
+
+                <button type="submit" class="auth-submit">Sign In</button>
+            </form>
+
+            <!-- Sign up -->
+            <form id="signUpForm" class="auth-form" novalidate hidden>
+                <h1>Create your account</h1>
+                <p class="auth-subtitle">Guests can book rooms and track their reservations.</p>
+
+                <label for="signUpName">Full name</label>
+                <input type="text" id="signUpName" autocomplete="name" placeholder="e.g. Rahul Sharma" required>
+
+                <label for="signUpEmail">Email address</label>
+                <input type="email" id="signUpEmail" autocomplete="email" placeholder="you@example.com" required>
+
+                <label for="signUpPassword">Password</label>
+                <input type="password" id="signUpPassword" autocomplete="new-password" placeholder="At least 6 characters" required>
+
+                <label for="signUpConfirm">Confirm password</label>
+                <input type="password" id="signUpConfirm" autocomplete="new-password" placeholder="Repeat password" required>
+
+                <button type="submit" class="auth-submit">Create Account</button>
+            </form>
+
+            <p class="auth-message" id="authMessage" role="status" aria-live="polite"></p>
+
+            <a href="rooms.html" class="auth-back">← Browse rooms without signing in</a>
+        </section>
+
+        <aside class="auth-hero">
+            <img src="images/room5.jpg" alt="Sea-view luxury room at Palm Horizon Resort">
+            <div class="auth-hero-text">
+                <p>WELCOME TO</p>
+                <h2>Palm Horizon Resort &amp; Spa</h2>
+                <span>COMFORT • LUXURY • HOSPITALITY</span>
+            </div>
+        </aside>
+    </main>
+
+    <script type="module" src="js/login.js"></script>
+</body>
+</html>
