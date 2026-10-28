@@ -14,6 +14,9 @@ import {
     safeNextPage,
     homeFor
 } from "./auth.js";
+import { initSite } from "./site.js";
+
+initSite();
 
 const params = new URLSearchParams(location.search);
 const nextPage = params.get("next");
@@ -42,7 +45,7 @@ const stopWatching = watchUser(session => {
 
 function showMessage(text, type = "error") {
     message.textContent = text;
-    message.className = `auth-message ${type}`;
+    message.className = `message ${type}`;
 }
 
 function setBusy(form, isBusy) {

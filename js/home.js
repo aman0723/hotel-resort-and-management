@@ -1,37 +1,13 @@
 // ==========================================================================
 // HOME PAGE
-// Mobile menu, sticky header, quick-booking bar and the rooms carousel.
+// Quick-booking bar and the rooms carousel (header/footer: site.js).
 // The booking bar hands its choices to booking.html as URL parameters.
 // ==========================================================================
 
 import { ROOM_TYPES, todayISO, formatINR } from "./data.js";
-import { renderAuthNav } from "./auth.js";
+import { initSite } from "./site.js";
 
-renderAuthNav(document.getElementById("authNav"));
-document.getElementById("year").textContent = new Date().getFullYear();
-
-// --------------------------------------------------------------------------
-// Header: solid background once the page scrolls, mobile menu toggle
-// --------------------------------------------------------------------------
-const header = document.getElementById("siteHeader");
-const menuToggle = document.getElementById("menuToggle");
-const mainNav = document.getElementById("mainNav");
-
-const onScroll = () => header.classList.toggle("scrolled", window.scrollY > 10);
-window.addEventListener("scroll", onScroll, { passive: true });
-onScroll();
-
-menuToggle.addEventListener("click", () => {
-    const open = header.classList.toggle("menu-open");
-    menuToggle.setAttribute("aria-expanded", String(open));
-});
-
-mainNav.addEventListener("click", e => {
-    if (e.target.closest("a")) {
-        header.classList.remove("menu-open");
-        menuToggle.setAttribute("aria-expanded", "false");
-    }
-});
+initSite();
 
 // --------------------------------------------------------------------------
 // Quick-booking bar

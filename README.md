@@ -44,12 +44,14 @@ Admin walk-in booking ───────────────────�
 ├── booking.html            Guest booking page (sign-in required)
 ├── admin.html              Executive operations dashboard (admin role required)
 ├── css/
+│   ├── site.css            Shared design system: colours, fonts, header, footer, buttons, fields
 │   ├── home.css
 │   ├── rooms.css
 │   ├── auth.css
 │   ├── booking.css
 │   └── admin.css
 ├── js/
+│   ├── site.js             Shared header/menu/footer behaviour (every guest page)
 │   ├── firebase-config.js  ← your Firebase project keys go here
 │   ├── firebase.js         Firebase initialisation (app, auth, db)
 │   ├── auth.js             Sign in/up/out, user roles, page guards, nav widget
@@ -132,6 +134,10 @@ npm run deploy                    # uploads the site + firestore.rules
 The site will be live at `https://<your-project-id>.web.app`.
 
 ---
+
+## Design system
+
+All guest pages (`index`, `rooms`, `booking`, `login`) load **`css/site.css`** first, then their own page stylesheet. It defines the colour and font tokens (Cormorant Garamond for headings, Manrope for text, brass gold `#b8913f`), buttons, form fields, messages, the header and the footer. The header and footer markup is identical on every page, so change it everywhere at once. The admin dashboard keeps its dark staff layout but uses the same fonts and gold.
 
 ## Changing rooms or prices
 
