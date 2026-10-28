@@ -1,6 +1,6 @@
 # Palm Horizon Resort & Spa — Hotel & Resort Management System
 
-A web-based hotel and resort management system. Guests browse rooms, create an account and request bookings online; front-desk staff manage the live room inventory, confirm requests, take walk-in bookings and check guests out from an admin dashboard.
+A web-based hotel and resort management system. Guests browse rooms, create an account and request bookings online; front-desk staff manage the live room inventory, confirm requests, take walk-in bookings and check guests out from the admin portal.
 
 Built with plain **HTML, CSS and JavaScript** (no framework, no build step) and **Firebase** for authentication and the database.
 
@@ -19,7 +19,11 @@ Built with plain **HTML, CSS and JavaScript** (no framework, no build step) and 
 | `contact.html` | Everyone | Contact form (saved to Firestore, answered from the dashboard) and booking FAQs |
 | `booking.html` | Signed-in guests | Book a stay with validation, a live summary card and price estimate (5% tax) |
 | `reservations.html` | Signed-in guests | The guest's bookings with status, room, dates and total; cancel pending requests |
-| `admin.html` | Admins only | Front desk: today's arrivals and departures, requests waiting, occupancy, room grid, room assignment, walk-ins, check-out, housekeeping, reservation search, contact messages |
+| `admin.html` | Admins only | **Admin portal: Dashboard** with today's arrivals and departures, key numbers, and requests, rooms and messages needing attention |
+| `admin-rooms.html` | Admins only | Live room grid with filters and housekeeping (click to mark ready or book a walk-in), and rooms by type |
+| `admin-bookings.html` | Admins only | Every booking in tabs (requests, in house, history, all), search, assign room, details, check-out, cancel |
+| `admin-messages.html` | Admins only | Contact-form messages: reply by email, mark handled |
+| `admin-account.html` | Admins only | Your profile, change display name, password reset email, log out |
 
 **Booking lifecycle**
 
@@ -53,7 +57,7 @@ Admin walk-in booking ───────────────────�
 │   ├── login.html              Sign in / create account
 │   ├── booking.html            Guest booking page (sign-in required)
 │   ├── reservations.html       My reservations (sign-in required)
-│   ├── admin.html              Front desk dashboard (admin role required)
+│   ├── admin*.html             Admin portal: dashboard, rooms, bookings, messages, account
 │   ├── css/
 │   │   ├── site.css            Shared design system: colours, fonts, header, footer, buttons, fields
 │   │   ├── home.css · rooms.css · pages.css · auth.css · booking.css · admin.css
@@ -64,7 +68,8 @@ Admin walk-in booking ───────────────────�
 │   │   ├── db.js               All Firestore reads/writes (rooms, bookings, messages)
 │   │   ├── data.js             Room catalogue, prices, inventory, amenities, contact details
 │   │   ├── site.js             Shared header/menu/footer behaviour (every guest page)
-│   │   └── one script per page: home.js, rooms.js, booking.js, admin.js, …
+│   │   ├── one script per guest page: home.js, rooms.js, booking.js, …
+│   │   └── admin/              Admin portal: shell.js (shared), modals.js, one script per page
 │   └── images/                 Room photos
 ├── firestore.rules             Database security rules
 ├── firebase.json               Firebase Hosting / emulator config
@@ -125,7 +130,7 @@ Every new account is a **guest**. To make a staff member an admin:
 1. Sign up on `login.html` with the staff email.
 2. In the Firebase Console (or emulator UI at <http://localhost:4000/firestore>), open **Firestore → `users` → that user's document**.
 3. Change the `role` field from `guest` to `admin`.
-4. Sign in again. Admins are sent to `admin.html`.
+4. Sign in again. Admins are sent to the admin portal (`admin.html`). Signed-in admins can also open it from the account menu → **Admin portal**.
 
 ---
 
@@ -158,7 +163,7 @@ The site will be live at `https://<your-project-id>.web.app`.
 
 ## Design system
 
-Every guest page loads **`public/css/site.css`** first, then its own page stylesheet. It defines the colour and font tokens (Cormorant Garamond for headings, Manrope for text, brass gold `#b8913f`), buttons, form fields, messages, the header and the footer. The header and footer markup is identical on every page, so change it everywhere at once. The admin dashboard has its own layout (sidebar and panels) but uses the same light colours, fonts and gold.
+Every guest page loads **`public/css/site.css`** first, then its own page stylesheet. It defines the colour and font tokens (Cormorant Garamond for headings, Manrope for text, brass gold `#b8913f`), buttons, form fields, messages, the header and the footer. The header and footer markup is identical on every page, so change it everywhere at once. The admin portal has its own layout (sidebar and panels, shared by all five admin pages) but uses the same light colours, fonts and gold.
 
 ## Contact details
 

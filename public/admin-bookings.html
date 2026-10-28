@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookings | Admin Portal | Palm Horizon Resort &amp; Spa</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+    <aside class="sidebar" id="adminSidebar">
+        <div class="sidebar-header">
+            <div class="resort-emblem">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 21h18M3 7v14M21 7v14M6 11h4M6 15h4M14 11h4M14 15h4M9 3l3-2 3 2v4H9V3z"/>
+                </svg>
+            </div>
+            <div class="brand-details">
+                <h2>Palm Horizon</h2>
+                <span>Admin portal</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-content" aria-label="Admin portal">
+            <div class="menu-category">Front desk</div>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="admin.html" class="nav-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="admin-rooms.html" class="nav-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9"/></svg>
+                        <span>Rooms</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="admin-bookings.html" class="nav-link active" aria-current="page">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        <span>Bookings</span><span class="nav-count" id="navPendingCount" hidden></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="admin-messages.html" class="nav-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+                        <span>Messages</span><span class="nav-count" id="navMessagesCount" hidden></span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="menu-category">Account</div>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="admin-account.html" class="nav-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+                        <span>Account</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="nav-link nav-button" id="logoutBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+                        <span>Log out</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="index.html" class="btn-open-portal">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="2" y1="12" x2="22" y2="12"/>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+                <span>View guest website</span>
+            </a>
+        </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop" hidden></div>
+
+    <div class="main-wrapper">
+        <header class="topbar">
+            <button type="button" class="sidebar-toggle" id="sidebarToggle" aria-label="Open menu" aria-expanded="false" aria-controls="adminSidebar">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="search-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input type="search" id="searchInput" placeholder="Search bookings by guest, room or booking ID" aria-label="Search bookings">
+            </div>
+
+            <div class="topbar-right">
+                <div class="system-status-pill">
+                    <span class="pulse-dot"></span>
+                    <span id="liveDate">Connecting...</span>
+                </div>
+
+                <a href="admin-account.html" class="admin-chip" aria-label="Your account">
+                    <div class="admin-avatar" id="adminAvatar">–</div>
+                    <div class="admin-meta">
+                        <h4 id="adminName">Loading...</h4>
+                        <p id="adminRole">Administrator</p>
+                    </div>
+                </a>
+            </div>
+        </header>
+
+        <main class="content-canvas">
+            <div class="dashboard-hero">
+                <div class="hero-text">
+                    <div class="hero-tag-badge" id="heroEyebrow">Bookings</div>
+                    <h1>Bookings</h1>
+                    <p id="heroSummary">Every reservation, online and walk-in.</p>
+                </div>
+                <div class="hero-actions">
+                    <button class="btn-luxury-secondary" id="openLookupModalBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                        <span>Find booking</span>
+                    </button>
+                    <button class="btn-luxury-primary" id="openModalBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        <span>New walk-in booking</span>
+                    </button>
+                </div>
+            </div>
+
+            <section class="exclusive-card">
+                <div class="card-topline">
+                    <div class="card-topline-left">
+                        <h2>Bookings</h2>
+                        <p id="bookingCountText">Loading bookings...</p>
+                    </div>
+                    <div class="filter-pill-group" role="group" aria-label="Booking status">
+                        <button class="filter-btn booking-tab active" data-tab="pending">Requests <span class="filter-count" data-tab-count="pending"></span></button>
+                        <button class="filter-btn booking-tab" data-tab="inhouse">In house <span class="filter-count" data-tab-count="inhouse"></span></button>
+                        <button class="filter-btn booking-tab" data-tab="history">History <span class="filter-count" data-tab-count="history"></span></button>
+                        <button class="filter-btn booking-tab" data-tab="all">All <span class="filter-count" data-tab-count="all"></span></button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="exclusive-table">
+                        <thead>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Guest</th>
+                                <th>Room</th>
+                                <th>Check-in</th>
+                                <th>Check-out</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookingsTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Walk-in booking -->
+    <div class="modal-layer" id="bookingModal">
+        <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="walkInTitle">
+            <div class="modal-head">
+                <h3 id="walkInTitle">New walk-in booking</h3>
+                <button class="modal-dismiss" id="closeModalBtn" aria-label="Close">&times;</button>
+            </div>
+            <form id="newBookingForm" novalidate>
+                <div class="modal-content-pad">
+                    <div class="field-group">
+                        <label for="guestName">Guest full name <span class="required-dot">*</span></label>
+                        <input type="text" id="guestName" class="input-box" placeholder="e.g. Rahul Sharma">
+                        <div class="error-alert" id="nameError"></div>
+                    </div>
+                    <div class="field-group">
+                        <label for="guestPhone">Mobile phone (10 digits) <span class="required-dot">*</span></label>
+                        <input type="text" id="guestPhone" class="input-box" placeholder="e.g. 9876543210" maxlength="10" inputmode="numeric">
+                        <div class="error-alert" id="phoneError"></div>
+                    </div>
+                    <div class="field-group">
+                        <label for="roomNumber">Available room <span class="required-dot">*</span></label>
+                        <select id="roomNumber" class="input-box">
+                            <option value="">Select an available room</option>
+                        </select>
+                        <div class="error-alert" id="roomError"></div>
+                    </div>
+                    <div class="field-split">
+                        <div class="field-group">
+                            <label for="checkInDate">Check-in date <span class="required-dot">*</span></label>
+                            <input type="date" id="checkInDate" class="input-box">
+                            <div class="error-alert" id="checkInError"></div>
+                        </div>
+                        <div class="field-group">
+                            <label for="checkOutDate">Check-out date <span class="required-dot">*</span></label>
+                            <input type="date" id="checkOutDate" class="input-box">
+                            <div class="error-alert" id="checkOutError"></div>
+                        </div>
+                    </div>
+                    <div class="field-group">
+                        <label for="paymentStatus">Payment</label>
+                        <select id="paymentStatus" class="input-box">
+                            <option value="Paid">Paid in full</option>
+                            <option value="Advance">Advance paid, balance at check-out</option>
+                        </select>
+                    </div>
+                    <p class="walkin-total" id="walkInTotal"></p>
+                    <div class="modal-foot">
+                        <button type="button" class="btn-luxury-secondary" id="cancelModalBtn">Cancel</button>
+                        <button type="submit" class="btn-luxury-primary">Confirm booking</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Booking details -->
+    <div class="modal-layer" id="viewDetailsModal">
+        <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="detailsTitle">
+            <div class="modal-head">
+                <h3 id="detailsTitle">Booking details</h3>
+                <button class="modal-dismiss" id="closeDetailsModalBtn" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-content-pad" id="receiptContent"></div>
+            <div class="modal-foot" style="padding: 0 28px 24px;">
+                <button type="button" class="btn-luxury-secondary" id="closeDetailsFooterBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Find a booking -->
+    <div class="modal-layer" id="lookupModal">
+        <div class="modal-dialog" style="max-width: 460px;" role="dialog" aria-modal="true" aria-labelledby="lookupTitle">
+            <div class="modal-head">
+                <h3 id="lookupTitle">Find a booking</h3>
+                <button class="modal-dismiss" id="closeLookupBtn" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-content-pad">
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 16px;">
+                    Enter a booking ID (e.g. RES-4F2A9C), guest name or 10-digit phone number.
+                </p>
+                <div class="field-group">
+                    <input type="text" id="lookupInput" class="input-box" placeholder="Booking ID, name or phone" aria-label="Booking ID, name or phone">
+                    <div class="error-alert" id="lookupError"></div>
+                </div>
+                <div class="modal-foot" style="margin-top: 14px;">
+                    <button type="button" class="btn-luxury-primary" id="searchBookingBtn">Find booking</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assign a room to an online request -->
+    <div class="modal-layer" id="assignModal">
+        <div class="modal-dialog" style="max-width: 460px;" role="dialog" aria-modal="true" aria-labelledby="assignTitle">
+            <div class="modal-head">
+                <h3 id="assignTitle">Assign a room</h3>
+                <button class="modal-dismiss" id="closeAssignBtn" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-content-pad">
+                <p id="assignSummary" style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 16px;"></p>
+                <div class="field-group">
+                    <label for="assignRoomSelect">Available room</label>
+                    <select id="assignRoomSelect" class="input-box"></select>
+                    <div class="error-alert" id="assignError"></div>
+                </div>
+                <div class="modal-foot" style="margin-top: 14px;">
+                    <button type="button" class="btn-luxury-secondary" id="cancelAssignBtn">Cancel</button>
+                    <button type="button" class="btn-luxury-primary" id="confirmAssignBtn">Confirm booking</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="floating-toast" id="toastMessage" role="status" aria-live="polite">
+        <span id="toastIcon">✓</span>
+        <span id="toastText"></span>
+    </div>
+
+    <script type="module" src="js/admin/bookings.js"></script>
+</body>
+</html>
