@@ -1,0 +1,479 @@
+
+/* ===========================
+   HOTEL & RESORT BOOKING PAGE
+   =========================== */
+
+:root {
+    --primary: #172b35;
+    --primary-light: #274653;
+    --gold: #c49a52;
+    --gold-light: #e6c98e;
+    --background: #f4f2ed;
+    --white: #ffffff;
+    --text: #29343a;
+    --muted: #7a858b;
+    --border: #e0e4e5;
+    --success: #24764b;
+    --error: #b42318;
+    --shadow: 0 24px 70px rgba(23, 43, 53, 0.12);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    padding: 35px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(circle at top left, #eee4d0 0, transparent 35%),
+        var(--background);
+    color: var(--text);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Main split-screen container */
+
+.booking-container {
+    width: 100%;
+    max-width: 1250px;
+    min-height: 780px;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    overflow: hidden;
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+}
+
+/* Left section */
+
+.booking-section {
+    min-width: 0;
+    padding: 36px 50px 45px;
+    background: var(--white);
+}
+
+/* Brand */
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 42px;
+}
+
+.brand-icon {
+    width: 49px;
+    height: 49px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary);
+    color: var(--gold-light);
+    border-radius: 13px;
+    font-size: 27px;
+}
+
+.brand h2 {
+    margin-bottom: 5px;
+    color: var(--primary);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+.brand p {
+    color: var(--gold);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+}
+
+/* Booking content */
+
+.booking-content {
+    width: 100%;
+    max-width: 470px;
+    margin: 0 auto;
+}
+
+.booking-content h1 {
+    margin-bottom: 11px;
+    color: var(--primary);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(32px, 3vw, 42px);
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.subtitle {
+    margin-bottom: 30px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* Form layout */
+
+form {
+    width: 100%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    margin-bottom: 19px;
+}
+
+.form-group label {
+    margin-bottom: 9px;
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 14px;
+    outline: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fcfcfb;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #a0a7aa;
+}
+
+.form-group select {
+    cursor: pointer;
+}
+
+.form-group textarea {
+    min-height: 85px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+/* Focus effect */
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--gold);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(196, 154, 82, 0.13);
+}
+
+/* Check-in and check-out */
+
+.date-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.date-row .form-group {
+    min-width: 0;
+}
+
+input[type="date"] {
+    min-width: 0;
+    padding-right: 8px;
+}
+
+/* Booking button */
+
+.booking-button {
+    width: 100%;
+    min-height: 52px;
+    margin-top: 2px;
+    padding: 14px 20px;
+    border: 1px solid var(--primary);
+    border-radius: 8px;
+    background: var(--primary);
+    color: var(--white);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    cursor: pointer;
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.booking-button:hover {
+    transform: translateY(-2px);
+    border-color: var(--gold);
+    background: var(--gold);
+    color: #172b35;
+    box-shadow: 0 8px 20px rgba(196, 154, 82, 0.2);
+}
+
+.booking-button:active {
+    transform: translateY(0);
+}
+
+.booking-button:focus-visible {
+    outline: 3px solid var(--gold-light);
+    outline-offset: 3px;
+}
+
+/* Booking status messages */
+
+.booking-message {
+    margin-top: 20px;
+    padding: 16px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.booking-message h3 {
+    margin-bottom: 10px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 20px;
+}
+
+.booking-message p + p {
+    margin-top: 7px;
+}
+
+.booking-message.success {
+    border-color: #b8dfc8;
+    background: #effaf3;
+    color: var(--success);
+}
+
+.booking-message.error {
+    border-color: #f2c4c0;
+    background: #fff2f0;
+    color: var(--error);
+}
+
+/* Right-side hero image */
+
+.hero-section {
+    position: relative;
+    min-width: 0;
+    min-height: 780px;
+    overflow: hidden;
+    background: var(--primary);
+}
+
+.hero-section img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.7s ease;
+}
+
+.hero-section:hover img {
+    transform: scale(1.035);
+}
+
+/* Dark overlay for readable text */
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(12, 29, 36, 0.12) 0%,
+            rgba(12, 29, 36, 0.32) 45%,
+            rgba(12, 29, 36, 0.83) 100%
+        );
+}
+
+/* Text over hero image */
+
+.hero-content {
+    position: absolute;
+    z-index: 1;
+    right: 30px;
+    bottom: 80px;
+    left: 30px;
+    text-align: center;
+    color: var(--white);
+}
+
+.welcome-text {
+    margin-bottom: 17px;
+    color: var(--gold-light);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+}
+
+.hero-content h2 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(35px, 4vw, 55px);
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.gold-line {
+    width: 62px;
+    height: 2px;
+    margin: 24px auto;
+    background: var(--gold-light);
+}
+
+.hero-subtitle {
+    color: #f1e8d6;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    line-height: 1.8;
+}
+
+/* Tablet and smaller screens */
+
+@media (max-width: 1000px) {
+    body {
+        padding: 24px 16px;
+    }
+
+    .booking-container {
+        max-width: 760px;
+        grid-template-columns: 1fr;
+    }
+
+    .booking-section {
+        padding: 35px 45px 45px;
+    }
+
+    .booking-content {
+        max-width: 550px;
+    }
+
+    .brand {
+        margin-bottom: 30px;
+    }
+
+    .hero-section {
+        min-height: 480px;
+    }
+
+    .hero-content {
+        bottom: 55px;
+    }
+}
+
+/* Mobile screens */
+
+@media (max-width: 520px) {
+    body {
+        display: block;
+        padding: 12px;
+    }
+
+    .booking-container {
+        border-radius: 14px;
+    }
+
+    .booking-section {
+        padding: 25px 20px 30px;
+    }
+
+    .brand {
+        gap: 11px;
+        margin-bottom: 30px;
+    }
+
+    .brand-icon {
+        width: 43px;
+        height: 43px;
+    }
+
+    .brand h2 {
+        font-size: 21px;
+    }
+
+    .brand p {
+        font-size: 8px;
+        letter-spacing: 1px;
+    }
+
+    .booking-content h1 {
+        font-size: 33px;
+    }
+
+    .subtitle {
+        margin-bottom: 25px;
+        font-size: 13px;
+    }
+
+    .date-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .form-group {
+        margin-bottom: 17px;
+    }
+
+    .hero-section {
+        min-height: 380px;
+    }
+
+    .hero-content {
+        right: 18px;
+        bottom: 45px;
+        left: 18px;
+    }
+
+    .hero-content h2 {
+        font-size: 36px;
+    }
+
+    .hero-subtitle {
+        font-size: 9px;
+        letter-spacing: 1.5px;
+    }
+}
+
+/* Respect reduced-motion preferences */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}

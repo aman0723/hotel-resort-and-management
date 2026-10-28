@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hotel & Resort - Booking</title>
+
+    <link rel="stylesheet" href="Booking_style.css">
+</head>
+
+<body>
+
+    <div class="booking-container">
+
+        
+        <div class="booking-section">
+
+            
+            <div class="brand">
+                <div class="brand-icon">✦</div>
+
+                <div>
+                    <h2>Hotel & Resort</h2>
+                    <p>LUXURY STAY • BEAUTIFUL MEMORIES</p>
+                </div>
+            </div>
+
+
+            
+            <div class="booking-content">
+
+                <h1>Book Your Stay</h1>
+
+                <p class="subtitle">
+                    Reserve your room and enjoy a comfortable stay with us.
+                </p>
+
+
+                <form>
+
+                    
+                    <div class="form-group">
+                        <label for="guest-name">Guest Name</label>
+
+                        <input
+                            type="text"
+                            id="guest-name"
+                            name="guest-name"
+                            placeholder="Enter your full name"
+                            required
+                        >
+                    </div>
+
+
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="john.watson@example.com"
+                            required
+                        >
+                    </div>
+
+
+                    
+                    <div class="form-group">
+                        <label for="room-type">Room Type</label>
+
+                        <select id="room-type" name="room-type" required>
+
+                            <option value="">
+                                Select Room Type
+                            </option>
+
+                            <option value="deluxe">
+                                Deluxe Room
+                            </option>
+
+                            <option value="premium">
+                                Premium Room
+                            </option>
+
+                            <option value="suite">
+                                Luxury Suite
+                            </option>
+
+                            <option value="family">
+                                Family Room
+                            </option>
+
+                        </select>
+                    </div>
+
+
+                    
+                    <div class="date-row">
+
+                        <div class="form-group">
+                            <label for="check-in">
+                                Check-in
+                            </label>
+
+                            <input
+                                type="date"
+                                id="check-in"
+                                name="check-in"
+                                required
+                            >
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="check-out">
+                                Check-out
+                            </label>
+
+                            <input
+                                type="date"
+                                id="check-out"
+                                name="check-out"
+                                required
+                            >
+                        </div>
+
+                    </div>
+
+
+                    
+                    <div class="form-group">
+                        <label for="guests">
+                            Number of Guests
+                        </label>
+
+                        <input
+                            type="number"
+                            id="guests"
+                            name="guests"
+                            min="1"
+                            max="10"
+                            placeholder="Enter number of guests"
+                            required
+                        >
+                    </div>
+
+
+                    
+                    <div class="form-group">
+                        <label for="request">
+                            Special Request
+                        </label>
+
+                        <textarea
+                            id="request"
+                            name="request"
+                            placeholder="Any special request..."
+                            rows="3"
+                        ></textarea>
+                    </div>
+
+
+                    <!-- Booking Button -->
+                    <button type="submit" class="booking-button">
+                        Confirm Booking
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        <!-- Right Image Section -->
+        <div class="hero-section">
+
+            <img
+                src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRX-9WmDUGrKd9vDawd681rRtzDAVfCj2SCK1WfdDCiK0P6zCt-"
+                alt="Luxury Hotel Resort"
+            >
+
+            <div class="hero-overlay"></div>
+
+
+            <div class="hero-content">
+
+                <p class="welcome-text">
+                    WELCOME TO
+                </p>
+
+                <h2>
+                    Your Perfect Stay
+                </h2>
+
+                <div class="gold-line"></div>
+
+                <p class="hero-subtitle">
+                    COMFORT • LUXURY • HOSPITALITY
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
