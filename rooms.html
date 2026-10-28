@@ -1,52 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rooms & Suites | Palm Horizon Resort & Spa</title>
-  <link rel="stylesheet" href="css/rooms.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rooms &amp; Suites | Palm Horizon Resort &amp; Spa</title>
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="css/rooms.css">
 </head>
 <body>
 
-<nav class="site-nav">
-  <a href="index.html" class="site-brand">✦ Palm Horizon</a>
-  <div class="site-links">
-    <a href="index.html">Home</a>
-    <a href="rooms.html" class="active">Rooms</a>
-    <a href="booking.html">Book a Stay</a>
-    <span id="authNav" class="auth-nav"></span>
-  </div>
-</nav>
+    <header class="site-header" id="siteHeader">
+        <div class="header-inner">
+            <a href="index.html" class="wordmark" aria-label="Palm Horizon Resort &amp; Spa, home">
+                <span class="wordmark-name">Palm Horizon</span>
+                <span class="wordmark-sub">Resort &amp; Spa</span>
+            </a>
 
-<header>
-  <h1>Palm Horizon Resort &amp; Spa</h1>
-  <p>Choose Your Perfect Room</p>
-</header>
+            <button type="button" class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainNav">
+                <span></span><span></span><span></span>
+                <span class="visually-hidden">Menu</span>
+            </button>
 
-<p class="notice" id="notice" hidden></p>
+            <nav class="main-nav" id="mainNav" aria-label="Main">
+                <a href="rooms.html" aria-current="page">Rooms &amp; Suites</a>
+                <a href="index.html#facilities">Facilities</a>
+                <a href="index.html#book-direct">Book Direct</a>
+                <a href="index.html#about">About Us</a>
+                <a href="#contact">Contact Us</a>
+                <span class="auth-nav" id="authNav"></span>
+                <a href="booking.html" class="btn btn-brass nav-book">Book Now</a>
+            </nav>
+        </div>
+    </header>
 
-<section class="toolbar" aria-label="Filter rooms">
-  <input type="search" id="searchInput" placeholder="Search rooms..." aria-label="Search rooms">
-  <select id="categoryFilter" aria-label="Room category">
-    <option value="All">All categories</option>
-    <option value="Standard">Standard</option>
-    <option value="Luxury">Luxury</option>
-    <option value="Family">Family</option>
-  </select>
-  <select id="sortSelect" aria-label="Sort rooms">
-    <option value="">Sort: Default</option>
-    <option value="low">Price: Low to High</option>
-    <option value="high">Price: High to Low</option>
-  </select>
-</section>
+    <main>
+        <section class="page-banner" aria-label="Rooms and suites">
+            <img src="images/room2.jpg" alt="">
+            <div class="page-banner-copy">
+                <p class="eyebrow">Ten room styles · Twelve keys</p>
+                <h1>Rooms &amp; <em>suites</em></h1>
+                <p>From a cosy standard room to a five-guest presidential suite. Rates are per night; 5% tax is added when you book.</p>
+            </div>
+        </section>
 
-<section class="rooms" id="roomList">
-  <!-- Room cards are rendered from js/data.js -->
-</section>
+        <p class="notice" id="notice" role="status" hidden></p>
 
-<p class="empty-state" id="emptyState" hidden>No rooms match your search.</p>
+        <section class="toolbar" aria-label="Filter rooms">
+            <div class="field toolbar-search">
+                <label for="searchInput">Search</label>
+                <input type="search" id="searchInput" placeholder="Sea view, jacuzzi, family...">
+            </div>
+            <div class="field">
+                <label for="categoryFilter">Category</label>
+                <select id="categoryFilter">
+                    <option value="All">All categories</option>
+                    <option value="Standard">Standard</option>
+                    <option value="Family">Family</option>
+                    <option value="Luxury">Luxury</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="sortSelect">Sort by</label>
+                <select id="sortSelect">
+                    <option value="">Recommended</option>
+                    <option value="low">Price: low to high</option>
+                    <option value="high">Price: high to low</option>
+                </select>
+            </div>
+        </section>
 
-<script type="module" src="js/rooms.js"></script>
+        <section class="room-grid" id="roomList" aria-live="polite">
+            <!-- Room cards are rendered from js/data.js -->
+        </section>
 
+        <p class="empty-state" id="emptyState" hidden>No rooms match your search. Try another word or category.</p>
+    </main>
+
+    <footer class="site-footer" id="contact">
+        <div class="footer-grid">
+            <div>
+                <p class="wordmark-name">Palm Horizon</p>
+                <p class="footer-tag">Resort &amp; Spa</p>
+                <address>
+                    Beach Road, Palm Horizon<br>
+                    <a href="mailto:reservations@palmhorizon.example">reservations@palmhorizon.example</a><br>
+                    <a href="tel:+919876500000">+91 98765 00000</a>
+                </address>
+            </div>
+            <div>
+                <h3>Stay</h3>
+                <a href="rooms.html">Rooms &amp; Suites</a>
+                <a href="booking.html">Book Now</a>
+                <a href="booking.html#myBookings">Manage booking</a>
+            </div>
+            <div>
+                <h3>Resort</h3>
+                <a href="index.html#about">About Us</a>
+                <a href="index.html#facilities">Facilities</a>
+                <a href="index.html#book-direct">Book Direct</a>
+            </div>
+            <div>
+                <h3>Account</h3>
+                <a href="login.html">Sign in</a>
+                <a href="login.html?mode=signup">Create account</a>
+                <a href="admin.html">Staff dashboard</a>
+            </div>
+        </div>
+        <p class="footer-legal">© <span id="year">2026</span> Palm Horizon Resort &amp; Spa. A student hotel management project.</p>
+    </footer>
+
+    <script type="module" src="js/rooms.js"></script>
 </body>
 </html>

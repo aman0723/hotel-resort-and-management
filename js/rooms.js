@@ -5,7 +5,7 @@
 // ==========================================================================
 
 import { ROOM_TYPES, formatINR } from "./data.js";
-import { renderAuthNav } from "./auth.js";
+import { initSite } from "./site.js";
 import { watchRooms } from "./db.js";
 
 const roomList = document.getElementById("roomList");
@@ -15,7 +15,7 @@ const sortSelect = document.getElementById("sortSelect");
 const emptyState = document.getElementById("emptyState");
 const notice = document.getElementById("notice");
 
-renderAuthNav(document.getElementById("authNav"));
+initSite();
 
 if (new URLSearchParams(location.search).get("denied")) {
     notice.textContent = "The admin dashboard is only available to staff accounts.";
@@ -27,38 +27,54 @@ let availableByType = null;
 
 function createCard(room) {
     const card = document.createElement("article");
-    card.className = "card";
+    card.className = "room-card";
 
+    const media = document.createElement("div");
+    media.className = "room-card-media";
     const img = document.createElement("img");
     img.src = room.image;
     img.alt = room.name;
     img.loading = "lazy";
+    media.append(img);
+
+    const body = document.createElement("div");
+    body.className = "room-card-body";
+
+    const category = document.createElement("p");
+    category.className = "room-card-category";
+    category.textContent = room.category;
 
     const title = document.createElement("h2");
     title.textContent = room.name;
 
     const features = document.createElement("p");
-    features.textContent = `${room.features} • Up to ${room.capacity} guest${room.capacity > 1 ? "s" : ""}`;
+    features.className = "room-card-features";
+    features.textContent = `${room.features} · Sleeps ${room.capacity}`;
 
-    const price = document.createElement("h3");
-    price.textContent = `${formatINR(room.price)}/Night`;
+    const footer = document.createElement("div");
+    footer.className = "room-card-footer";
 
-    card.append(img, title, features, price);
+    const price = document.createElement("p");
+    price.className = "room-card-price";
+    price.innerHTML = `${formatINR(room.price)} <small>/ night</small>`;
+    footer.append(price);
 
     if (availableByType) {
         const free = availableByType[room.id] || 0;
         const badge = document.createElement("span");
-        badge.className = free ? "availability" : "availability none";
-        badge.textContent = free ? `${free} available now` : "Fully occupied today";
-        card.append(badge);
+        badge.className = free ? "status-pill confirmed" : "status-pill cancelled";
+        badge.textContent = free ? `${free} available now` : "Fully booked today";
+        footer.append(badge);
     }
 
     const book = document.createElement("a");
-    book.className = "book-btn";
+    book.className = "btn btn-ink btn-block";
     book.href = `booking.html?type=${room.id}`;
-    book.textContent = "Book Now";
-    card.append(book);
+    book.textContent = "Book this room";
+    book.setAttribute("aria-label", `Book the ${room.name}`);
 
+    body.append(category, title, features, footer, book);
+    card.append(media, body);
     return card;
 }
 

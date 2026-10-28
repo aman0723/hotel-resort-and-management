@@ -1,222 +1,144 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
+/* ==========================================================================
+   PALM HORIZON — ROOMS & SUITES PAGE
+   Shared tokens, header, footer, buttons and fields live in site.css.
+   ========================================================================== */
+
+.notice {
+    width: var(--page);
+    margin: 24px auto 0;
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    background: var(--pending-bg);
+    color: var(--pending);
+    font-weight: 600;
 }
 
-body{
-    background:#f2f5f7;
+/* --- Search / filter toolbar --------------------------------------------- */
+.toolbar {
+    width: var(--page);
+    margin: 32px auto 0;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 16px;
+    padding: 20px;
+    border-radius: var(--radius-lg);
+    background: var(--mist);
 }
 
-/* Header */
-header{
-    background:#0f4c81;
-    color:white;
-    text-align:center;
-    padding:25px 10px;
+/* --- Room cards ---------------------------------------------------------- */
+.room-grid {
+    width: var(--page);
+    margin: 32px auto 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 28px;
 }
 
-header h1{
-    font-size:36px;
-    margin-bottom:8px;
+.room-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--paper);
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
-header p{
-    font-size:18px;
+.room-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(19, 25, 26, 0.12);
 }
 
-/* Room Section */
-.rooms{
-    width:90%;
-    margin:40px auto;
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:25px;
+.room-card-media {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
 }
 
-/* Room Card */
-.card{
-    background:#fff;
-    border-radius:15px;
-    overflow:hidden;
-    box-shadow:0 5px 15px rgba(0,0,0,0.15);
-    transition:0.3s;
+.room-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
 }
 
-.card:hover{
-    transform:translateY(-8px);
+.room-card:hover .room-card-media img {
+    transform: scale(1.05);
 }
 
-.card img{
-    width:100%;
-    height:200px;
-    object-fit:cover;
+.room-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 22px;
 }
 
-.card h2{
-    padding:15px 15px 8px;
-    color:#0f4c81;
+.room-card-category {
+    color: var(--brass);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
 }
 
-.card p{
-    padding:0 15px;
-    color:#555;
-    font-size:15px;
+.room-card h2 {
+    font-family: var(--display);
+    font-size: 1.9rem;
+    font-weight: 600;
+    line-height: 1.1;
 }
 
-.card h3{
-    padding:12px 15px;
-    color:#14833b;
-    font-size:20px;
+.room-card-features {
+    color: var(--ink-soft);
+    font-size: 0.92rem;
 }
 
-.card{
-    display:flex;
-    flex-direction:column;
+.room-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 10px 0 16px;
 }
 
-.availability{
-    align-self:flex-start;
-    margin:0 15px 12px;
-    padding:4px 10px;
-    border-radius:20px;
-    background:#e3f5e9;
-    color:#14833b;
-    font-size:13px;
-    font-weight:bold;
+.room-card-price {
+    font-size: 1.05rem;
+    font-weight: 700;
 }
 
-.availability.none{
-    background:#fdecec;
-    color:#b42318;
+.room-card-price small {
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+    font-weight: 500;
 }
 
-.book-btn{
-    display:block;
-    margin:auto 15px 15px;
-    padding:12px;
-    background:#0f4c81;
-    color:white;
-    border-radius:8px;
-    font-size:16px;
-    text-align:center;
-    text-decoration:none;
+.room-card .btn {
+    margin-top: auto;
 }
 
-.book-btn:hover{
-    background:#08365d;
+.empty-state {
+    width: var(--page);
+    margin: 32px auto 0;
+    padding: 28px;
+    border-radius: var(--radius-lg);
+    background: var(--mist);
+    color: var(--ink-soft);
+    text-align: center;
 }
 
-.book-btn:focus-visible,
-.site-nav a:focus-visible,
-.auth-nav button:focus-visible{
-    outline:3px solid #f5b942;
-    outline-offset:2px;
-}
-
-/* Top navigation */
-.site-nav{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:10px;
-    padding:12px 5%;
-    background:#08365d;
-}
-
-.site-brand{
-    color:white;
-    font-size:20px;
-    font-weight:bold;
-    text-decoration:none;
-}
-
-.site-links,
-.auth-nav{
-    display:flex;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:14px;
-}
-
-.site-links a,
-.nav-auth-link{
-    color:#d6e6f5;
-    text-decoration:none;
-    font-size:15px;
-}
-
-.site-links a.active,
-.site-links a:hover,
-.nav-auth-link:hover{
-    color:white;
-    text-decoration:underline;
-}
-
-button.nav-auth-link{
-    border:1px solid #d6e6f5;
-    border-radius:6px;
-    padding:5px 12px;
-    background:none;
-    cursor:pointer;
-}
-
-.nav-auth-user{
-    color:#f5b942;
-    font-weight:bold;
-}
-
-/* Search / filter toolbar */
-.toolbar{
-    width:90%;
-    margin:30px auto 0;
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px;
-}
-
-.toolbar input,
-.toolbar select{
-    padding:10px 12px;
-    border:1px solid #c5d3df;
-    border-radius:8px;
-    background:white;
-    font-size:15px;
-}
-
-.toolbar input{
-    flex:1 1 220px;
-}
-
-.notice,
-.empty-state{
-    width:90%;
-    margin:20px auto 0;
-    padding:12px 16px;
-    border-radius:8px;
-    background:#fff4e5;
-    color:#8a4b00;
-}
-
-.empty-state{
-    background:white;
-    color:#555;
-    text-align:center;
-}
-
-/* Mobile */
-@media(max-width:600px){
-    header h1{
-        font-size:28px;
+@media (max-width: 760px) {
+    .toolbar {
+        grid-template-columns: 1fr 1fr;
     }
 
-    header p{
-        font-size:16px;
+    .toolbar-search {
+        grid-column: 1 / -1;
     }
+}
 
-    .card img{
-        height:180px;
+@media (max-width: 420px) {
+    .toolbar {
+        grid-template-columns: 1fr;
     }
 }

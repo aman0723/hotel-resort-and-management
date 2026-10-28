@@ -5,12 +5,17 @@
 // ==========================================================================
 
 import { ROOM_TYPES, getRoomType, todayISO, countNights, priceStay, formatINR } from "./data.js";
-import { requireAuth, renderAuthNav } from "./auth.js";
+import { requireAuth } from "./auth.js";
+import { initSite } from "./site.js";
 import { createBookingRequest, watchMyBookings, cancelBooking } from "./db.js";
 
 const bookingForm = document.getElementById("bookingForm");
 const bookingMessage = document.getElementById("bookingMessage");
 const priceEstimate = document.getElementById("priceEstimate");
+const summaryImage = document.getElementById("summaryImage");
+const summaryCategory = document.getElementById("summaryCategory");
+const summaryName = document.getElementById("summaryName");
+const summaryFeatures = document.getElementById("summaryFeatures");
 const myBookingsList = document.getElementById("myBookings");
 const submitButton = bookingForm.querySelector("button[type=submit]");
 
@@ -65,6 +70,16 @@ updateEstimate();
 
 function updateEstimate() {
     const room = getRoomType(roomTypeSelect.value);
+
+    // Summary card follows the selected room.
+    summaryImage.src = room ? room.image : "images/room5.jpg";
+    summaryImage.alt = room ? room.name : "";
+    summaryCategory.textContent = room ? room.category : "Your stay";
+    summaryName.textContent = room ? room.name : "Choose a room";
+    summaryFeatures.textContent = room
+        ? `${room.features} · Sleeps ${room.capacity} · ${formatINR(room.price)} / night`
+        : "Pick a room and dates to see your total.";
+
     const nights = checkInInput.value && checkOutInput.value
         ? countNights(checkInInput.value, checkOutInput.value)
         : 0;
@@ -75,13 +90,13 @@ function updateEstimate() {
     }
     const { subtotal, tax, total } = priceStay(room.id, nights);
     priceEstimate.textContent =
-        `${nights} night(s) × ${formatINR(room.price)} = ${formatINR(subtotal)} + 5% tax ${formatINR(tax)} → Total ${formatINR(total)}`;
+        `${nights} night(s) × ${formatINR(room.price)} = ${formatINR(subtotal)} · 5% tax ${formatINR(tax)} · Total ${formatINR(total)}`;
 }
 
 // --------------------------------------------------------------------------
 // Signed-in guest required
 // --------------------------------------------------------------------------
-renderAuthNav(document.getElementById("authNav"));
+initSite();
 const { user, profile } = await requireAuth();
 
 if (!fullNameInput.value) fullNameInput.value = profile.name || "";
@@ -160,7 +175,7 @@ bookingForm.addEventListener("submit", async event => {
         fullNameInput.value = fullName;
         emailInput.value = email;
         guestsInput.value = 1;
-        priceEstimate.textContent = "";
+        updateEstimate();
     } catch (error) {
         console.error(error);
         showMessage("Unable to save this booking. Please check your connection and try again.", "error");
@@ -172,12 +187,12 @@ bookingForm.addEventListener("submit", async event => {
 // Display a safe status message.
 function showMessage(message, type) {
     bookingMessage.textContent = message;
-    bookingMessage.className = `booking-message ${type}`;
+    bookingMessage.className = `message ${type}`;
 }
 
 // Display booking confirmation and price breakdown.
 function showBookingConfirmation(booking) {
-    bookingMessage.className = "booking-message success";
+    bookingMessage.className = "message success";
     bookingMessage.replaceChildren();
 
     const heading = document.createElement("h3");
